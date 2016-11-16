@@ -1,8 +1,9 @@
 # WebViewStudy
-> Android webview control study
+> For the most part the android webview functional practice
 
 ##Contains the content
 
+ - 使用MVP模式重构中...
  - 拨打电话、发送短信、发送邮件
  - 上传图片(版本兼容)
  - 进度条设置
