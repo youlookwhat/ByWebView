@@ -19,3 +19,4 @@
  
 ##所遇问题
  - [WebView加载网页不显示图片解决办法](http://blog.csdn.net/u013320868/article/details/52837671)
+ - [http://forum.xda-developers.com/showthread.php?t=2212632](http://forum.xda-developers.com/showthread.php?t=2212632)
