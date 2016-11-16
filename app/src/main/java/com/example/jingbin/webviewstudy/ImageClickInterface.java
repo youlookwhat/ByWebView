@@ -1,6 +1,7 @@
 package com.example.jingbin.webviewstudy;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
@@ -8,11 +9,11 @@ import android.widget.Toast;
  * Created by CZH on 2015/9/14.
  */
 // js通信接口
-class VideoAndImageClickInterface {
-    private String tag = "VideoAndImageClickInterface";
+class ImageClickInterface {
+    private String tag = "ImageClickInterface";
     private Context context;
 
-    VideoAndImageClickInterface(Context context) {
+    ImageClickInterface(Context context) {
         this.context = context;
     }
 
@@ -34,7 +35,9 @@ class VideoAndImageClickInterface {
 
     @JavascriptInterface
     public void textClick(String kaws_type, String kaws_item_pk) {
-        Toast.makeText(AppApplication.getInstance(), "----点击了文字", Toast.LENGTH_SHORT).show();
+        if (!TextUtils.isEmpty(kaws_type) && !TextUtils.isEmpty(kaws_item_pk)) {
+            Toast.makeText(AppApplication.getInstance(), "----点击了文字", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

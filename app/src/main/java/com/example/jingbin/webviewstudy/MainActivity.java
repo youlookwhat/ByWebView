@@ -41,15 +41,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_baidu:// 百度一下
-                String baiduUrl = "http://www.baidu.com";
-                WebViewActivity.loadUrl(this, baiduUrl);
+                String baiDuUrl = "http://www.baidu.com";
+                WebViewActivity.loadUrl(this, baiDuUrl);
                 break;
             case R.id.bt_call:
-                String callUrl = "https://v4-stage-api.kangaiweishi.com/v4/articles/fa1ffcd611934e80bb6e490bed15efb8.html";
+                String callUrl = "file:///android_asset/callsms.html";
+//                String callUrl = "https://v4-stage-api.kangaiweishi.com/v4/articles/fa1ffcd611934e80bb6e490bed15efb8.html";
                 WebViewActivity.loadUrl(this, callUrl);
                 break;
             case R.id.bt_upload_photo:
-                String uploadUrl = "http://taoyanran.duapp.com/kaws/salvation/salvation.html";
+//                String uploadUrl = "http://taoyanran.duapp.com/kaws/salvation/salvation.html";
+                String uploadUrl = "file:///android_asset/upload_photo.html";
                 WebViewActivity.loadUrl(this, uploadUrl);
                 break;
             case R.id.bt_movie:

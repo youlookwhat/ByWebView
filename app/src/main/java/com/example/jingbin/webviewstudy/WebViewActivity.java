@@ -30,9 +30,6 @@ import butterknife.ButterKnife;
  * 网页可以处理:
  * 点击相应控件:拨打电话、发送短信、发送邮件、上传图片、播放视频
  * 进度条、返回网页上一层、显示网页标题
- * <p>
- * WebView加载网页不显示图片解决办法:
- * http://blog.csdn.net/u013320868/article/details/52837671
  */
 public class WebViewActivity extends AppCompatActivity {
 
@@ -48,7 +45,7 @@ public class WebViewActivity extends AppCompatActivity {
     /*进度条是否加载到90%*/
     private boolean progress90;
     /*网页是否加载完成*/
-    private boolean pageFinsh;
+    private boolean pageFinish;
 
     /*点击上传图片相关*/
     public ValueCallback<Uri> mUploadMessage;
@@ -68,14 +65,16 @@ public class WebViewActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setTitle("详情");
         initWebView();
-        viewUrl();
+        viewPage();
     }
 
-    private void viewUrl() {
+    private void viewPage() {
         String url = null;
         if (getIntent() != null) {
             url = getIntent().getStringExtra("url");
-            webView.loadUrl(url.startsWith("http") ? url : "http://" + url);
+//            webView.loadUrl(url.startsWith("http") ? url : "http://" + url);
+
+            webView.loadUrl(url); //加载本地assert目录下网页
         }
     }
 
@@ -84,7 +83,7 @@ public class WebViewActivity extends AppCompatActivity {
 
         WebSettings ws = webView.getSettings();
         // 网页内容的宽度是否可大于WebView控件的宽度
-        ws.setLoadWithOverviewMode(true);
+        ws.setLoadWithOverviewMode(false);
         // 保存表单数据
         ws.setSaveFormData(true);
 
@@ -107,9 +106,10 @@ public class WebViewActivity extends AppCompatActivity {
 
         // 告诉WebView启用JavaScript执行。默认的是false。
         ws.setJavaScriptEnabled(true);
-        // 解决图片不显示
+
+        //  页面加载好以后，再放开图片
         ws.setBlockNetworkImage(false);
-        // 设置是否启用了DOM 存储 API。
+        // 使用localStorage则必须打开
         ws.setDomStorageEnabled(true);
         // 排版适应屏幕
         ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
@@ -129,12 +129,13 @@ public class WebViewActivity extends AppCompatActivity {
         xwebchromeclient = new MyWebChromeClient();
         webView.setWebChromeClient(xwebchromeclient);
         // 与js交互
-        webView.addJavascriptInterface(new VideoAndImageClickInterface(this), "injectedObject");
+        webView.addJavascriptInterface(new ImageClickInterface(this), "injectedObject");
 
         webView.setWebViewClient(new MyWebViewClient());
     }
 
     public class MyWebViewClient extends WebViewClient {
+        @SuppressWarnings("deprecation")
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             // 优酷视频跳转浏览器播放
@@ -171,12 +172,12 @@ public class WebViewActivity extends AppCompatActivity {
             if (progress90) {
                 mProgressBar.setVisibility(View.GONE);
             } else {
-                pageFinsh = true;
+                pageFinish = true;
             }
             if (!CheckNetwork.isNetworkConnected(WebViewActivity.this)) {
                 mProgressBar.setVisibility(View.GONE);
             }
-//            DebugUtil.debug(tag, "onPageFinished:" + pageFinsh);
+//            DebugUtil.debug(tag, "onPageFinished:" + pageFinish);
             addImageClickListener();
             super.onPageFinished(view, url);
         }
@@ -217,7 +218,7 @@ public class WebViewActivity extends AppCompatActivity {
                     mProgressBar.setProgress(progress);
                     if (progress == 900) {
                         progress90 = true;
-                        if (pageFinsh) {
+                        if (pageFinish) {
                             startProgress90to100();
                         }
                     }
@@ -409,10 +410,10 @@ public class WebViewActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (inCustomView()) {
+            if (inCustomView()) {//全屏播放退出全屏
                 hideCustomView();
                 return true;
-            } else if (webView.canGoBack()) {
+            } else if (webView.canGoBack()) {//返回上一页面
                 webView.goBack();
                 return true;
             } else {
