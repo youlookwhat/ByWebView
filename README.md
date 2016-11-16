@@ -12,6 +12,9 @@
  - 播放网络视频
  - **与JS交互**（优化中..）
 
+ 
+ <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/view_00.png"></img>
+
 ##推荐阅读
  - [https://developer.android.com/reference/android/webkit/WebSettings.html](https://developer.android.com/reference/android/webkit/WebSettings.html)
  - [http://www.jianshu.com/p/32d48ca7d0e0](http://www.jianshu.com/p/32d48ca7d0e0)
