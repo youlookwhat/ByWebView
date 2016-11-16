@@ -6,9 +6,10 @@
  - 拨打电话、发送短信、发送邮件
  - 上传图片(版本兼容)
  - 进度条设置
+ - 字体大小设置（完善中...）
  - 返回网页上一层、显示网页标题
- - 播放网络视频（完善中..）
- - **与JS交互**（完善中..）
+ - 播放网络视频
+ - **与JS交互**（优化中..）
 
 ##推荐阅读
  - [https://developer.android.com/reference/android/webkit/WebSettings.html](https://developer.android.com/reference/android/webkit/WebSettings.html)
@@ -23,3 +24,6 @@
  - [Failed to init browser shader disk cache.](https://chromium.googlesource.com/chromium/src/+/dc26192a317d9511ce983fd4b26b1130fe25761a)
  - [EGL_BAD_DISPLAY](http://forum.xda-developers.com/showthread.php?t=2212632)
  - [Unknown frame routing id: 3](https://chromium.googlesource.com/chromium/src.git/+/46.0.2478.0/content/browser/android/java/gin_java_bridge_message_filter.cc)
+ - 找不到assets目录下资源：注意assets在哪层文件夹下！与AndroidManifest.xml同级
+ - 视频播放宽度比webview设置的宽度大，超过屏幕：设置ws.setLoadWithOverviewMode(false);
+ - onDestroy时的清除资源操作
