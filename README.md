@@ -2,6 +2,7 @@
 > Android webview control study
 
 ##Contains the content
+
  - 拨打电话、发送短信、发送邮件
  - 上传图片(版本兼容)
  - 进度条设置
@@ -19,4 +20,6 @@
  
 ##所遇问题
  - [WebView加载网页不显示图片解决办法](http://blog.csdn.net/u013320868/article/details/52837671)
- - [http://forum.xda-developers.com/showthread.php?t=2212632](http://forum.xda-developers.com/showthread.php?t=2212632)
+ - [Failed to init browser shader disk cache.](https://chromium.googlesource.com/chromium/src/+/dc26192a317d9511ce983fd4b26b1130fe25761a)
+ - [EGL_BAD_DISPLAY](http://forum.xda-developers.com/showthread.php?t=2212632)
+ - [Unknown frame routing id: 3](https://chromium.googlesource.com/chromium/src.git/+/46.0.2478.0/content/browser/android/java/gin_java_bridge_message_filter.cc)
