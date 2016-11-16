@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -40,6 +41,9 @@ public class WebViewActivity extends AppCompatActivity {
     ProgressBar mProgressBar;
     @BindView(R.id.webview_detail)
     WebView webView;
+    // 全屏时视频加载view
+    @BindView(R.id.video_fullView)
+    FrameLayout video_fullView;
 
     /*进度条是否加载到90%*/
     private boolean progress90;
@@ -53,7 +57,6 @@ public class WebViewActivity extends AppCompatActivity {
     public final static int FILECHOOSER_RESULTCODE_FOR_ANDROID_5 = 2;
     /*加载视频相关*/
     private MyWebChromeClient xwebchromeclient;
-    private FrameLayout video_fullView;// 全屏时视频加载view
     private View xCustomView;
     private WebChromeClient.CustomViewCallback xCustomViewCallback;
 
@@ -72,15 +75,7 @@ public class WebViewActivity extends AppCompatActivity {
         String url = null;
         if (getIntent() != null) {
             url = getIntent().getStringExtra("url");
-//            Map<String, String> extraHeaders = new HashMap<String, String>();
-//            String a = "d=622e4aa4dad5641f588ff8059c543bdff0b30d26629752abf13bd4880ba82199;de=MI3W;u=ffffffff-b7ba-8e4f-7cb6-92704802550b;t=0;v=4.3.0;k=0;ts=1479230980";
-//            String token = "SppLYqMN1fpdYDga2Mpn";
-//            extraHeaders.put("a", a);
-//            extraHeaders.put("token", token);
-//            extraHeaders.put("userkey", null);
-//            webView.loadUrl(url, extraHeaders);
             webView.loadUrl(url.startsWith("http") ? url : "http://" + url);
-//            webView.loadUrl(url);
         }
     }
 
@@ -88,7 +83,7 @@ public class WebViewActivity extends AppCompatActivity {
         mProgressBar.setVisibility(View.VISIBLE);
 
         WebSettings ws = webView.getSettings();
-        // 网页内容的宽度大于WebView控件的宽度
+        // 网页内容的宽度是否可大于WebView控件的宽度
         ws.setLoadWithOverviewMode(true);
         // 保存表单数据
         ws.setSaveFormData(true);
@@ -105,7 +100,6 @@ public class WebViewActivity extends AppCompatActivity {
 
 //        setDefaultZoom
         // This method was deprecated in API level 19. api19被弃用
-
         // 设置此属性，可任意比例缩放。
         ws.setUseWideViewPort(true);
         //缩放比例 1
@@ -134,6 +128,7 @@ public class WebViewActivity extends AppCompatActivity {
 
         xwebchromeclient = new MyWebChromeClient();
         webView.setWebChromeClient(xwebchromeclient);
+        // 与js交互
         webView.addJavascriptInterface(new VideoAndImageClickInterface(this), "injectedObject");
 
         webView.setWebViewClient(new MyWebViewClient());
@@ -142,6 +137,7 @@ public class WebViewActivity extends AppCompatActivity {
     public class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            // 优酷视频跳转浏览器播放
             if (url.startsWith("http://v.youku.com/")) {
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
@@ -151,6 +147,8 @@ public class WebViewActivity extends AppCompatActivity {
                 intent.setData(content_url);
                 startActivity(intent);
                 return true;
+
+                // 电话、短信、邮箱
             } else if (url.startsWith(WebView.SCHEME_TEL) || url.startsWith("sms:") || url.startsWith(WebView.SCHEME_MAILTO)) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -399,10 +397,22 @@ public class WebViewActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 全屏时按返加键执行退出全屏方法
+     */
+    public void hideCustomView() {
+        xwebchromeclient.onHideCustomView();
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (webView.canGoBack()) {
+            if (inCustomView()) {
+                hideCustomView();
+                return true;
+            } else if (webView.canGoBack()) {
                 webView.goBack();
                 return true;
             } else {
@@ -411,6 +421,52 @@ public class WebViewActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    /**
+     * 判断是否是全屏
+     */
+    public boolean inCustomView() {
+        return (xCustomView != null);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        webView.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        webView.onResume();
+        /** 支付宝网页版在打开文章详情之后,无法点击按钮下一步  xia 20160506*/
+        webView.resumeTimers();
+        /**
+         * 设置为横屏
+         */
+        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        video_fullView.removeAllViews();
+        if (webView != null) {
+            ViewGroup parent = (ViewGroup) webView.getParent();
+            if (parent != null) {
+                parent.removeView(webView);
+            }
+            webView.removeAllViews();
+            webView.loadUrl("about:blank");
+            webView.stopLoading();
+            webView.setWebChromeClient(null);
+            webView.setWebViewClient(null);
+            webView.destroy();
+            webView = null;
+        }
     }
 
     /**
