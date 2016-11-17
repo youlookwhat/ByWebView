@@ -19,10 +19,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btUploadPhoto;
     @BindView(R.id.bt_movie)
     Button btMovie;
-    @BindView(R.id.bt_js)
-    Button btJs;
     @BindView(R.id.activity_main)
     LinearLayout activityMain;
+    @BindView(R.id.bt_movie_full)
+    Button btMovieFull;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btCall.setOnClickListener(this);
         btUploadPhoto.setOnClickListener(this);
         btMovie.setOnClickListener(this);
-        btJs.setOnClickListener(this);
+        btMovieFull.setOnClickListener(this);
     }
 
     @Override
@@ -42,31 +42,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.bt_baidu:// 百度一下
                 String baiDuUrl = "http://www.baidu.com";
-                WebViewActivity.loadUrl(this, baiDuUrl);
+                WebViewActivity.loadUrl(this, baiDuUrl, false);
                 break;
-            case R.id.bt_call:
-                String callUrl = "file:///android_asset/callsms.html";
-//                String callUrl = "https://v4-stage-api.kangaiweishi.com/v4/articles/fa1ffcd611934e80bb6e490bed15efb8.html";
-                WebViewActivity.loadUrl(this, callUrl);
-                break;
-            case R.id.bt_upload_photo:
-//                String uploadUrl = "http://taoyanran.duapp.com/kaws/salvation/salvation.html";
+            case R.id.bt_upload_photo:// 上传图片
                 String uploadUrl = "file:///android_asset/upload_photo.html";
-                WebViewActivity.loadUrl(this, uploadUrl);
+                WebViewActivity.loadUrl(this, uploadUrl, false);
                 break;
-            case R.id.bt_movie:
-                // 优酷链接跳到浏览器
+            case R.id.bt_movie:// 网络视频(优酷链接跳到浏览器)
 //                String movieUrl = "http://v.youku.com/v_show/id_XNzMxNzUyNzQ0.html?beta&#paction";
-                // 费玉清呜呜呜
-//                String movieUrl = "http://www.tudou.com/albumplay/eu0K8vLTD48/aHeFLTBfzU0.html";
-                // 可全屏
-                String movieUrl = "http://player.youku.com/embed/XMTMxOTk1ODI4OA";
-                WebViewActivity.loadUrl(this, movieUrl);
+                String movieUrl = "http://www.tudou.com/albumplay/eu0K8vLTD48/aHeFLTBfzU0.html";
+                WebViewActivity.loadUrl(this, movieUrl, false);
                 break;
-            case R.id.bt_js:
-                String jsUrl = "https://v4-stage-api.kangaiweishi.com/v4/articles/ca73922b2aca433f8541698e71bb95c0.html";
-                WebViewActivity.loadUrl(this, jsUrl);
-
+            case R.id.bt_movie_full:// 网络视频(全屏)
+                String movieFullUrl = "http://player.youku.com/embed/XMTMxOTk1ODI4OA";
+                WebViewActivity.loadUrl(this, movieFullUrl, true);
+                break;
+            case R.id.bt_call:// 打电话、发短信、发邮件、JS
+                String callUrl = "file:///android_asset/callsms.html";
+                WebViewActivity.loadUrl(this, callUrl, false);
                 break;
             default:
                 break;

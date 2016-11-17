@@ -18,12 +18,6 @@
         android:text="百度一下" />
 
     <Button
-        android:id="@+id/bt_call"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="电话、短信、邮件" />
-
-    <Button
         android:id="@+id/bt_upload_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,8 +30,16 @@
         android:text="视频播放" />
 
     <Button
-        android:id="@+id/bt_js"
+        android:id="@+id/bt_movie_full"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="JS交互" />
+        android:text="视频播放(全屏)" />
+
+    <Button
+        android:id="@+id/bt_call"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="电话、短信、邮件、JS交互" />
+
+
 </LinearLayout>

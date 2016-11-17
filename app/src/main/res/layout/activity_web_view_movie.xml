@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f1"
+    android:orientation="vertical"
+    tools:context="com.example.jingbin.webviewstudy.WebViewActivity">
+
+    <!--播放全屏视频时用-->
+    <FrameLayout
+        android:id="@+id/video_fullView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone" />
+
+    <WebView
+        android:id="@+id/webview_detail"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true"
+        android:scrollbarSize="3dp"
+        android:scrollbarThumbVertical="@color/colorAccent" />
+
+    <ProgressBar
+        android:id="@+id/pb_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_alignParentTop="true"
+        android:max="1000"
+        android:progress="0"
+        android:progressDrawable="@drawable/process_bg"
+        android:visibility="gone" />
+
+</RelativeLayout>
