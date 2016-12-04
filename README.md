@@ -11,11 +11,12 @@
  - 全屏播放网络视频
  - **与JS交互**
 
+具体说明地址:
  
  <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/view_00.png"></img>
  <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/电话短信邮件测试.png"></img>
  <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/上传图片.png"></img>
-<img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/百度一下.png"></img>
+ 
 
 ## 推荐阅读
  - [https://developer.android.com/reference/android/webkit/WebSettings.html](https://developer.android.com/reference/android/webkit/WebSettings.html)
