@@ -75,8 +75,6 @@ public class WebViewActivity extends AppCompatActivity {
         String url = null;
         if (getIntent() != null) {
             url = getIntent().getStringExtra("url");
-//            webView.loadUrl(url.startsWith("http") ? url : "http://" + url);
-
             webView.loadUrl(url); //加载本地assert目录下网页
         }
     }
@@ -180,7 +178,7 @@ public class WebViewActivity extends AppCompatActivity {
             if (!CheckNetwork.isNetworkConnected(WebViewActivity.this)) {
                 mProgressBar.setVisibility(View.GONE);
             }
-//            DebugUtil.debug(tag, "onPageFinished:" + pageFinish);
+//            DebugUtil.debug(tag, "onPageFinished:" + mPageFinish);
             addImageClickListener();
             super.onPageFinished(view, url);
         }

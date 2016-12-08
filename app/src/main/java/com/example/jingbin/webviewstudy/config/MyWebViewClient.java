@@ -17,15 +17,14 @@ import com.example.jingbin.webviewstudy.utils.CheckNetwork;
  * - 进度条的显示
  * - 添加javascript监听
  */
-
 public class MyWebViewClient extends WebViewClient {
 
-    private IWebPageView iWebPageView;
-    private WebViewActivity activity;
+    private IWebPageView mIWebPageView;
+    private WebViewActivity mActivity;
 
-    public MyWebViewClient(IWebPageView iWebPageView) {
-        this.iWebPageView = iWebPageView;
-        activity = (WebViewActivity) iWebPageView;
+    public MyWebViewClient(IWebPageView mIWebPageView) {
+        this.mIWebPageView = mIWebPageView;
+        mActivity = (WebViewActivity) mIWebPageView;
 
     }
 
@@ -40,7 +39,7 @@ public class MyWebViewClient extends WebViewClient {
             intent.addCategory("android.intent.category.BROWSABLE");
             Uri content_url = Uri.parse(url);
             intent.setData(content_url);
-            activity.startActivity(intent);
+            mActivity.startActivity(intent);
             return true;
 
             // 电话、短信、邮箱
@@ -48,29 +47,28 @@ public class MyWebViewClient extends WebViewClient {
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(url));
-                activity.startActivity(intent);
+                mActivity.startActivity(intent);
             } catch (ActivityNotFoundException ignored) {
             }
             return true;
         }
-        iWebPageView.startProgress();
+        mIWebPageView.startProgress();
         view.loadUrl(url);
         return false;
     }
 
-
     @Override
     public void onPageFinished(WebView view, String url) {
-        if (activity.progress90) {
-            iWebPageView.hindProgressBar();
+        if (mActivity.mProgress90) {
+            mIWebPageView.hindProgressBar();
         } else {
-            activity.pageFinish = true;
+            mActivity.mPageFinish = true;
         }
-        if (!CheckNetwork.isNetworkConnected(activity)) {
-            iWebPageView.hindProgressBar();
+        if (!CheckNetwork.isNetworkConnected(mActivity)) {
+            mIWebPageView.hindProgressBar();
         }
         // html加载完成之后，添加监听图片的点击js函数
-        iWebPageView.addImageClickListener();
+        mIWebPageView.addImageClickListener();
         super.onPageFinished(view, url);
     }
 
@@ -78,8 +76,8 @@ public class MyWebViewClient extends WebViewClient {
     @Override
     public void onScaleChanged(WebView view, float oldScale, float newScale) {
         super.onScaleChanged(view, oldScale, newScale);
-        if(newScale - oldScale > 7) {
-            view.setInitialScale((int)(oldScale / newScale * 100)); //异常放大，缩回去。
+        if (newScale - oldScale > 7) {
+            view.setInitialScale((int) (oldScale / newScale * 100)); //异常放大，缩回去。
         }
     }
 }

@@ -22,7 +22,6 @@ public class ImageClickInterface {
         Toast.makeText(context, "----点击了图片", Toast.LENGTH_SHORT).show();
         // 查看大图
 //        Intent intent = new Intent(context, ViewBigImageActivity.class);
-//        intent.putStringArrayListExtra("imgUrl",imgUrl);
 //        context.startActivity(intent);
         Log.e("----点击了图片 url: ", "" + imgUrl);
     }

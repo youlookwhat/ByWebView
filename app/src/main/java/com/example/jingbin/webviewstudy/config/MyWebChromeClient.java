@@ -21,7 +21,6 @@ import static android.app.Activity.RESULT_OK;
  * - 上传图片(兼容)
  * 点击空白区域的左边,因是公司图片,自己编辑过,所以显示不全,见谅
  */
-
 public class MyWebChromeClient extends WebChromeClient {
 
     private ValueCallback<Uri> mUploadMessage;
@@ -29,79 +28,79 @@ public class MyWebChromeClient extends WebChromeClient {
     public static int FILECHOOSER_RESULTCODE = 1;
     public static int FILECHOOSER_RESULTCODE_FOR_ANDROID_5 = 2;
 
-    private View xProgressVideo;
-    private WebViewActivity activity;
-    private IWebPageView iWebPageView;
-    private View xCustomView;
-    private CustomViewCallback xCustomViewCallback;
+    private View mXProgressVideo;
+    private WebViewActivity mActivity;
+    private IWebPageView mIWebPageView;
+    private View mXCustomView;
+    private CustomViewCallback mXCustomViewCallback;
 
-    public MyWebChromeClient(IWebPageView iWebPageView) {
-        this.iWebPageView = iWebPageView;
-        this.activity = (WebViewActivity) iWebPageView;
+    public MyWebChromeClient(IWebPageView mIWebPageView) {
+        this.mIWebPageView = mIWebPageView;
+        this.mActivity = (WebViewActivity) mIWebPageView;
     }
 
     // 播放网络视频时全屏会被调用的方法
     @Override
     public void onShowCustomView(View view, CustomViewCallback callback) {
-        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        iWebPageView.hindWebView();
+        mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        mIWebPageView.hindWebView();
         // 如果一个视图已经存在，那么立刻终止并新建一个
-        if (xCustomView != null) {
+        if (mXCustomView != null) {
             callback.onCustomViewHidden();
             return;
         }
 
-        activity.fullViewAddView(view);
-        xCustomView = view;
-        xCustomViewCallback = callback;
-        iWebPageView.showVideoFullView();
+        mActivity.fullViewAddView(view);
+        mXCustomView = view;
+        mXCustomViewCallback = callback;
+        mIWebPageView.showVideoFullView();
     }
 
     // 视频播放退出全屏会被调用的
     @Override
     public void onHideCustomView() {
-        if (xCustomView == null)// 不是全屏播放状态
+        if (mXCustomView == null)// 不是全屏播放状态
             return;
-        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        xCustomView.setVisibility(View.GONE);
-        if (activity.getVideoFullView() != null) {
-            activity.getVideoFullView().removeView(xCustomView);
+        mXCustomView.setVisibility(View.GONE);
+        if (mActivity.getVideoFullView() != null) {
+            mActivity.getVideoFullView().removeView(mXCustomView);
         }
-        xCustomView = null;
-        iWebPageView.hindVideoFullView();
-        xCustomViewCallback.onCustomViewHidden();
-        iWebPageView.showWebView();
+        mXCustomView = null;
+        mIWebPageView.hindVideoFullView();
+        mXCustomViewCallback.onCustomViewHidden();
+        mIWebPageView.showWebView();
     }
 
     // 视频加载时进程loading
     @Override
     public View getVideoLoadingProgressView() {
-        if (xProgressVideo == null) {
-            LayoutInflater inflater = LayoutInflater.from(activity);
-            xProgressVideo = inflater.inflate(R.layout.video_loading_progress, null);
+        if (mXProgressVideo == null) {
+            LayoutInflater inflater = LayoutInflater.from(mActivity);
+            mXProgressVideo = inflater.inflate(R.layout.video_loading_progress, null);
         }
-        return xProgressVideo;
+        return mXProgressVideo;
     }
 
     @Override
     public void onProgressChanged(WebView view, int newProgress) {
         super.onProgressChanged(view, newProgress);
-        iWebPageView.progressChanged(newProgress);
+        mIWebPageView.progressChanged(newProgress);
     }
 
     /**
      * 判断是否是全屏
      */
     public boolean inCustomView() {
-        return (xCustomView != null);
+        return (mXCustomView != null);
     }
 
     @Override
     public void onReceivedTitle(WebView view, String title) {
         super.onReceivedTitle(view, title);
         // 设置title
-        activity.setTitle(title);
+        mActivity.setTitle(title);
     }
 
     //扩展浏览器上传文件
@@ -131,7 +130,7 @@ public class MyWebChromeClient extends WebChromeClient {
         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
         i.addCategory(Intent.CATEGORY_OPENABLE);
         i.setType("image/*");
-        activity.startActivityForResult(Intent.createChooser(i, "文件选择"), FILECHOOSER_RESULTCODE);
+        mActivity.startActivityForResult(Intent.createChooser(i, "文件选择"), FILECHOOSER_RESULTCODE);
     }
 
     private void openFileChooserImplForAndroid5(ValueCallback<Uri[]> uploadMsg) {
@@ -144,7 +143,7 @@ public class MyWebChromeClient extends WebChromeClient {
         chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
         chooserIntent.putExtra(Intent.EXTRA_TITLE, "图片选择");
 
-        activity.startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE_FOR_ANDROID_5);
+        mActivity.startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE_FOR_ANDROID_5);
     }
 
     /**

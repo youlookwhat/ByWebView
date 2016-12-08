@@ -8,7 +8,10 @@ import android.widget.LinearLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
+/**
+ * Thanks to: https://github.com/youlookwhat/WebViewStudy
+ * contact me: http://www.jianshu.com/users/e43c6e979831/latest_articles
+ * */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.bt_baidu)

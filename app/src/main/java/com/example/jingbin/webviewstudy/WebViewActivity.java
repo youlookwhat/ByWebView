@@ -41,32 +41,31 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     @BindView(video_fullView)
     FrameLayout videoFullView;
     // 进度条是否加载到90%
-    public boolean progress90;
+    public boolean mProgress90;
     // 网页是否加载完成
-    public boolean pageFinish;
+    public boolean mPageFinish;
     // 加载视频相关
-    private MyWebChromeClient webChromeClient;
-
+    private MyWebChromeClient mWebChromeClient;
     // 是否是全屏视频链接
-    private boolean isMovie;
+    private boolean mIsMovie;
     // 网页链接
-    private String url;
+    private String mUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getIntentData();
-        setContentView(isMovie ? R.layout.activity_web_view_movie : R.layout.activity_web_view);
+        setContentView(mIsMovie ? R.layout.activity_web_view_movie : R.layout.activity_web_view);
         ButterKnife.bind(this);
         setTitle("详情");
         initWebView();
-        webView.loadUrl(url);
+        webView.loadUrl(mUrl);
     }
 
     private void getIntentData() {
         if (getIntent() != null) {
-            isMovie = getIntent().getBooleanExtra("isMovie", false);
-            url = getIntent().getStringExtra("url");
+            mIsMovie = getIntent().getBooleanExtra("mIsMovie", false);
+            mUrl = getIntent().getStringExtra("mUrl");
         }
     }
 
@@ -108,8 +107,8 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         /** 设置字体默认缩放大小(改变网页字体大小,setTextSize  api14被弃用)*/
         ws.setTextZoom(100);
 
-        webChromeClient = new MyWebChromeClient(this);
-        webView.setWebChromeClient(webChromeClient);
+        mWebChromeClient = new MyWebChromeClient(this);
+        webView.setWebChromeClient(mWebChromeClient);
         // 与js交互
         webView.addJavascriptInterface(new ImageClickInterface(this), "injectedObject");
         webView.setWebViewClient(new MyWebViewClient(this));
@@ -155,7 +154,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     @Override
     public void progressChanged(int newProgress) {
-        if (progress90) {
+        if (mProgress90) {
             int progress = newProgress * 100;
             if (progress > 900) {
                 mProgressBar.setProgress(progress);
@@ -201,8 +200,8 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
                 public void run() {
                     mProgressBar.setProgress(progress);
                     if (progress == 900) {
-                        progress90 = true;
-                        if (pageFinish) {
+                        mProgress90 = true;
+                        if (mPageFinish) {
                             startProgress90to100();
                         }
                     }
@@ -238,7 +237,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
      * 全屏时按返加键执行退出全屏方法
      */
     public void hideCustomView() {
-        webChromeClient.onHideCustomView();
+        mWebChromeClient.onHideCustomView();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
@@ -248,9 +247,9 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == MyWebChromeClient.FILECHOOSER_RESULTCODE) {
-            webChromeClient.mUploadMessage(intent, resultCode);
+            mWebChromeClient.mUploadMessage(intent, resultCode);
         } else if (requestCode == MyWebChromeClient.FILECHOOSER_RESULTCODE_FOR_ANDROID_5) {
-            webChromeClient.mUploadMessageForAndroid5(intent, resultCode);
+            mWebChromeClient.mUploadMessageForAndroid5(intent, resultCode);
         }
     }
 
@@ -258,7 +257,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             //全屏播放退出全屏
-            if (webChromeClient.inCustomView()) {
+            if (mWebChromeClient.inCustomView()) {
                 hideCustomView();
                 return true;
 
@@ -317,13 +316,13 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
      * 打开网页:
      *
      * @param mContext 上下文
-     * @param url      要加载的网页url
-     * @param isMovie  是否是视频链接(视频链接布局不一致)
+     * @param mUrl      要加载的网页url
+     * @param mIsMovie  是否是视频链接(视频链接布局不一致)
      */
-    public static void loadUrl(Context mContext, String url, boolean isMovie) {
+    public static void loadUrl(Context mContext, String mUrl, boolean mIsMovie) {
         Intent intent = new Intent(mContext, WebViewActivity.class);
-        intent.putExtra("url", url);
-        intent.putExtra("isMovie", isMovie);
+        intent.putExtra("mUrl", mUrl);
+        intent.putExtra("mIsMovie", mIsMovie);
         mContext.startActivity(intent);
     }
 }
