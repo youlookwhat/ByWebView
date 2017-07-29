@@ -45,4 +45,3 @@
       @android.webkit.JavascriptInterface <methods>;
    }
   ```
-
