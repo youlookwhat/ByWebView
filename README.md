@@ -40,7 +40,7 @@
    ```java
    -keepattributes *Annotation*
    -keepattributes *JavascriptInterface*
-  // 通过JS向网页传值，如不加有时候会传值失败
+   # 通过JS向网页传值，如不加有时候会传值失败
   -keepclassmembers class * {
       @android.webkit.JavascriptInterface <methods>;
    }
