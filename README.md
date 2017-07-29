@@ -35,13 +35,12 @@
  - 找不到assets目录下资源：注意assets在哪层文件夹下！与AndroidManifest.xml同级
  - 视频播放宽度比webview设置的宽度大，超过屏幕：设置ws.setLoadWithOverviewMode(false);
  - onDestroy时的清除资源操作
- - 混淆时应加上：
+ - 混淆时应加上（[通过JS向网页传值，如不加有时候会传值失败](http://www.jianshu.com/p/f3b3e91575ee)）：
  
    ```java
    -keepattributes *Annotation*
    -keepattributes *JavascriptInterface*
-   # 通过JS向网页传值，如不加有时候会传值失败
-  -keepclassmembers class * {
+   -keepclassmembers class * {
       @android.webkit.JavascriptInterface <methods>;
    }
   ```
