@@ -40,10 +40,10 @@
    ```java
    -keepattributes *Annotation*
    -keepattributes *JavascriptInterface*
-   -keepclassmembers class * {
+   -keepclassmembers class * {
       @android.webkit.JavascriptInterface <methods>;
    }
   ```
-  
- ## Todo
+
+## Todo
   - 通过js向网页内传值
