@@ -36,14 +36,15 @@
  - 视频播放宽度比webview设置的宽度大，超过屏幕：设置ws.setLoadWithOverviewMode(false);
  - onDestroy时的清除资源操作
  - 混淆时应加上：
+ 
    ```java
    -keepattributes *Annotation*
-  -keepattributes *JavascriptInterface*
+   -keepattributes *JavascriptInterface*
   // 通过JS向网页传值，如不加有时候会传值失败
   -keepclassmembers class * {
       @android.webkit.JavascriptInterface <methods>;
-}
-   ```
+   }
+  ```
   
  ## Todo
   - 通过js向网页内传值
