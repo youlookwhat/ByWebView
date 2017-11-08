@@ -20,10 +20,12 @@
 
 ## 推荐阅读
  - [https://developer.android.com/reference/android/webkit/WebSettings.html](https://developer.android.com/reference/android/webkit/WebSettings.html)
- - [http://www.jianshu.com/p/32d48ca7d0e0](http://www.jianshu.com/p/32d48ca7d0e0)
- - [http://www.apkfuns.com/android-webview%E4%B8%8Ejavascript%E4%BA%A4%E4%BA%92.html](http://www.apkfuns.com/android-webview%E4%B8%8Ejavascript%E4%BA%A4%E4%BA%92.html)
- - [http://www.jianshu.com/p/dbf9b7c04be5](http://www.jianshu.com/p/dbf9b7c04be5)
- - [http://www.jianshu.com/p/32d48ca7d0e0](http://www.jianshu.com/p/32d48ca7d0e0)
+ - [Android WebView总结](http://www.jianshu.com/p/32d48ca7d0e0)
+ - [WebView的使用及实战](http://www.jianshu.com/p/dbf9b7c04be5)
+ - [WebView性能、体验分析与优化](https://tech.meituan.com/WebViewPerf.html)
+ - [Android WebView开发问题及优化汇总](http://www.cnblogs.com/spring87/p/4532687.html)
+ - [Android WebView与JavaScript交互(注入js)](http://www.apkfuns.com/android-webview%E4%B8%8Ejavascript%E4%BA%A4%E4%BA%92.html)
+ - [android WebView js调用android原生代码](http://blog.csdn.net/wangtingshuai/article/details/8631835)
 
  
 ## 所遇问题
