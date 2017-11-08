@@ -2,7 +2,6 @@ package com.example.jingbin.webviewstudy.config;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
@@ -20,10 +19,6 @@ public class ImageClickInterface {
     @JavascriptInterface
     public void imageClick(String imgUrl, String hasLink) {
         Toast.makeText(context, "----点击了图片", Toast.LENGTH_SHORT).show();
-        // 查看大图
-//        Intent intent = new Intent(context, ViewBigImageActivity.class);
-//        context.startActivity(intent);
-        Log.e("----点击了图片 url: ", "" + imgUrl);
     }
 
     @JavascriptInterface
