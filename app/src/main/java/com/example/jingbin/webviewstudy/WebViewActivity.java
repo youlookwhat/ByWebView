@@ -191,22 +191,26 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     /**
      * 进度条 假装加载到90%
+     * 只有进度为0时显示进度条，不然重定向时会显示多个进度条
      */
     public void startProgress90() {
-        for (int i = 0; i < 900; i++) {
-            final int progress = i + 1;
-            mProgressBar.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mProgressBar.setProgress(progress);
-                    if (progress == 900) {
-                        mProgress90 = true;
-                        if (mPageFinish) {
-                            startProgress90to100();
+        int oldProgress = mProgressBar.getProgress();
+        if (oldProgress == 0) {
+            for (int i = 0; i < 900; i++) {
+                final int progress = i + 1;
+                mProgressBar.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mProgressBar.setProgress(progress);
+                        if (progress == 900) {
+                            mProgress90 = true;
+                            if (mPageFinish) {
+                                startProgress90to100();
+                            }
                         }
                     }
-                }
-            }, (i + 1) * 2);
+                }, (i + 1) * 2);
+            }
         }
     }
 
@@ -316,8 +320,8 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
      * 打开网页:
      *
      * @param mContext 上下文
-     * @param mUrl      要加载的网页url
-     * @param mIsMovie  是否是视频链接(视频链接布局不一致)
+     * @param mUrl     要加载的网页url
+     * @param mIsMovie 是否是视频链接(视频链接布局不一致)
      */
     public static void loadUrl(Context mContext, String mUrl, boolean mIsMovie) {
         Intent intent = new Intent(mContext, WebViewActivity.class);
