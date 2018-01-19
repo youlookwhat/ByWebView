@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -34,12 +35,18 @@ public class MyWebViewClient extends WebViewClient {
     @SuppressWarnings("deprecation")
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//        Log.e("jing", "----url:" + url);
         mIWebPageView.startProgress();
         if (TextUtils.isEmpty(url)) {
             return false;
         }
 
         if (url.startsWith("http:") || url.startsWith("https:")) {
+            // 可能有提示下载Apk文件
+            if (url.contains(".apk")) {
+                handleOtherwise(mActivity, url);
+                return true;
+            }
             return false;
         }
 
