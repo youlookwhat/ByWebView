@@ -40,10 +40,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     // 全屏时视频加载view
     @BindView(video_fullView)
     FrameLayout videoFullView;
-    // 进度条是否加载到90%
-    public boolean mProgress90;
-    // 网页是否加载完成
-    public boolean mPageFinish;
     // 加载视频相关
     private MyWebChromeClient mWebChromeClient;
     // 是否是全屏视频链接
