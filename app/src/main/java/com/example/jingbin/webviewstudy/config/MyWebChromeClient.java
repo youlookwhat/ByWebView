@@ -19,7 +19,6 @@ import static android.app.Activity.RESULT_OK;
  * Created by jingbin on 2016/11/17.
  * - 播放网络视频配置
  * - 上传图片(兼容)
- * 点击空白区域的左边,因是公司图片,自己编辑过,所以显示不全,见谅
  */
 public class MyWebChromeClient extends WebChromeClient {
 
