@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -36,7 +35,6 @@ public class MyWebViewClient extends WebViewClient {
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
 //        Log.e("jing", "----url:" + url);
-        mIWebPageView.startProgress();
         if (TextUtils.isEmpty(url)) {
             return false;
         }
@@ -57,11 +55,6 @@ public class MyWebViewClient extends WebViewClient {
 
     @Override
     public void onPageFinished(WebView view, String url) {
-        if (mActivity.mProgress90) {
-            mIWebPageView.hindProgressBar();
-        } else {
-            mActivity.mPageFinish = true;
-        }
         if (!CheckNetwork.isNetworkConnected(mActivity)) {
             mIWebPageView.hindProgressBar();
         }

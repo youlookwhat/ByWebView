@@ -120,11 +120,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     }
 
     @Override
-    public void startProgress() {
-        startProgress90();
-    }
-
-    @Override
     public void showWebView() {
         webView.setVisibility(View.VISIBLE);
     }
@@ -153,15 +148,11 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     }
 
     @Override
-    public void progressChanged(int newProgress) {
-        if (mProgress90) {
-            int progress = newProgress * 100;
-            if (progress > 900) {
-                mProgressBar.setProgress(progress);
-                if (progress == 1000) {
-                    mProgressBar.setVisibility(View.GONE);
-                }
-            }
+    public void startProgress(int newProgress) {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setProgress(newProgress);
+        if (newProgress == 100) {
+            mProgressBar.setVisibility(View.GONE);
         }
     }
 
@@ -188,50 +179,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
                 "}" +
                 "})()");
     }
-
-    /**
-     * 进度条 假装加载到90%
-     * 只有进度为0时显示进度条，不然重定向时会显示多个进度条
-     */
-    public void startProgress90() {
-        int oldProgress = mProgressBar.getProgress();
-        if (oldProgress == 0) {
-            for (int i = 0; i < 900; i++) {
-                final int progress = i + 1;
-                mProgressBar.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mProgressBar.setProgress(progress);
-                        if (progress == 900) {
-                            mProgress90 = true;
-                            if (mPageFinish) {
-                                startProgress90to100();
-                            }
-                        }
-                    }
-                }, (i + 1) * 2);
-            }
-        }
-    }
-
-    /**
-     * 进度条 加载到100%
-     */
-    public void startProgress90to100() {
-        for (int i = 900; i <= 1000; i++) {
-            final int progress = i + 1;
-            mProgressBar.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mProgressBar.setProgress(progress);
-                    if (progress == 1000) {
-                        mProgressBar.setVisibility(View.GONE);
-                    }
-                }
-            }, (i + 1) * 2);
-        }
-    }
-
 
     public FrameLayout getVideoFullView() {
         return videoFullView;
@@ -272,7 +219,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
                 //退出网页
             } else {
-                webView.loadUrl("about:blank");
                 finish();
             }
         }
@@ -307,7 +253,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
                 parent.removeView(webView);
             }
             webView.removeAllViews();
-            webView.loadUrl("about:blank");
             webView.stopLoading();
             webView.setWebChromeClient(null);
             webView.setWebViewClient(null);
