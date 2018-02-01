@@ -31,6 +31,8 @@
  - 修复显示多个进度条问题
  - 修复net::ERR_UNKNOWN+URL+SCHEME的问题
  - 可根据SCHEME跳京东，支付宝，微信原生App,用户可根据包名自行添加
+ - 修复显示进度条问题
+ - 修复上传图片页面没有显示“添加图片”的问题
  
 ## 所遇问题
  - [WebView加载网页不显示图片解决办法](http://blog.csdn.net/u013320868/article/details/52837671)
