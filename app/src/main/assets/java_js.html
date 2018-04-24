@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>js调用android原生代码</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+    <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,minimal-ui">
+    <script type="text/javascript">
+        function javacalljs(){
+             document.getElementById("content").innerHTML +=
+                 "<br\>java调用了js函数，无参";
+        }
+
+        <!--这里取到的是 android端传过来的数据-->
+        function javacalljswithargs(data){
+             document.getElementById("content").innerHTML +=
+                 ("<br\>"+data);
+        }
+
+    </script>
+</head>
+<body>
+    <br/><br/>
+    <li><a onClick="window.injectedObject.startFunction()">点击调用java代码</a></li>
+    <!--可以将android端传过来的数据，处理后,放在这里再传给android端-->
+    <li><a onClick="window.injectedObject.startFunction('我是网页传出来的数据')">点击调用java代码并传递参数</a></li><br/>
+<div id="content">内容显示</div>
+</body>
+</html>

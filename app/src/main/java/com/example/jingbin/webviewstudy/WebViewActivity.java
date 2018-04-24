@@ -161,6 +161,10 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         }
     }
 
+    /**
+     * android与js交互：
+     * 前端嵌入js代码：不能加重复的节点，不然会覆盖
+     */
     @Override
     public void addImageClickListener() {
         // 这段js函数的功能就是，遍历所有的img节点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
@@ -183,6 +187,13 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
                 "window.injectedObject.textClick(this.getAttribute(\"type\"),this.getAttribute(\"item_pk\"));}" +
                 "}" +
                 "})()");
+
+        /**可以放在点击事件里，点击一次传一次参数给html*/
+        // 无参数调用
+        webView.loadUrl("javascript:javacalljs()");
+        // 传递参数调用
+        webView.loadUrl("javascript:javacalljswithargs('" + "android传入到网页里的数据，有参" + "')");
+
     }
 
     public FrameLayout getVideoFullView() {

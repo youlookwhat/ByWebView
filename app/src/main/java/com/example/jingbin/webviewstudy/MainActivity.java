@@ -27,6 +27,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout activityMain;
     @BindView(R.id.bt_movie_full)
     Button btMovieFull;
+    @BindView(R.id.bt_java_js)
+    Button btJavaJs;
+    @BindView(R.id.bt_deeplink)
+    Button btDeepLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btUploadPhoto.setOnClickListener(this);
         btMovie.setOnClickListener(this);
         btMovieFull.setOnClickListener(this);
+        btJavaJs.setOnClickListener(this);
+        btDeepLink.setOnClickListener(this);
     }
 
     @Override
@@ -65,8 +71,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String callUrl = "file:///android_asset/callsms.html";
                 WebViewActivity.loadUrl(this, callUrl, false);
                 break;
+            case R.id.bt_java_js://  js调用android原生代码
+                String javaJs = "file:///android_asset/java_js.html";
+                WebViewActivity.loadUrl(this, javaJs, false);
+                break;
+            case R.id.bt_deeplink:// DeepLink通过网页跳入App
+                String deepLinkUrl = "file:///android_asset/deeplink.html";
+                WebViewActivity.loadUrl(this, deepLinkUrl, false);
+                break;
             default:
                 break;
         }
     }
+
+    //  针对指定的scheme跳转页面
+//     web_main.setWebViewClient(new WebViewClient() {
+//        @Override
+//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//
+//            if (url.startsWith("will://")) {
+//                Uri uri = Uri.parse(url);
+//                Log.e("---------scheme: ", uri.getScheme() + "host: " + uri.getHost() + "Id: " + uri.getPathSegments().get(0));
+//                Toast.makeText(MainActivity.this, "打开新的页面", Toast.LENGTH_LONG).show();
+//                return true; //返回true，代表要拦截这个url
+//            }
+//            return super.shouldOverrideUrlLoading(view, url);
+//        }
+//    });
 }

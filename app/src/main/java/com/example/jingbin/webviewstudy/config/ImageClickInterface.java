@@ -26,7 +26,7 @@ public class ImageClickInterface {
      */
     @JavascriptInterface
     public void imageClick(String src, String has_link) {
-        Toast.makeText(context, "----点击了图片", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "----点击了图片", Toast.LENGTH_LONG).show();
         Log.e("src", src);
         Log.e("hasLink", has_link);
     }
@@ -43,7 +43,25 @@ public class ImageClickInterface {
         Log.e("type", type);
         Log.e("item_pk", item_pk);
         if (!TextUtils.isEmpty(type) && !TextUtils.isEmpty(item_pk)) {
-            Toast.makeText(context, "----点击了文字", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "----点击了文字", Toast.LENGTH_LONG).show();
         }
+    }
+
+    /**
+     * 网页使用的js，方法无参数
+     */
+    @JavascriptInterface
+    public void startFunction() {
+        Toast.makeText(context, "--无参", Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * 网页使用的js，方法有参数，且参数名为data
+     *
+     * @param data 网页js里的参数名
+     */
+    @JavascriptInterface
+    public void startFunction(String data) {
+        Toast.makeText(context, "----有参：" + data, Toast.LENGTH_LONG).show();
     }
 }
