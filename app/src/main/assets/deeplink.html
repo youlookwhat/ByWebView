@@ -12,7 +12,7 @@
     <body>
         <div>
             <a id="J-call-app" href="javascript:;" class="label">立即打开&gt;&gt;</a>
-            <input id="J-download-app" type="hidden" name="storeurl" value="http://istatic.bevol.cn/static/download/init/5">
+            <input id="J-download-app" type="hidden" name="storeurl" value="https://github.com/youlookwhat/MaterialDesign/raw/master/app/release/app-release.apk">
         </div>
 
         <script>
@@ -22,9 +22,9 @@
                 var config = {
                     /*scheme:必须*/
                     scheme_IOS: 'will://',
-                    scheme_Adr: 'will://share/testid',
+                    scheme_Adr: 'will://share/传过来的数据',
                     download_url: document.getElementById('J-download-app').value,
-                    timeout: 600
+                    timeout: 300
                 };
                 function openclient() {
                     var startTime = Date.now();
