@@ -1,5 +1,6 @@
 package com.example.jingbin.webviewstudy;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -27,8 +28,15 @@ import static com.example.jingbin.webviewstudy.R.id.video_fullView;
 
 /**
  * 网页可以处理:
- * 点击相应控件:拨打电话、发送短信、发送邮件、上传图片、播放视频
- * 进度条、返回网页上一层、显示网页标题
+ * 点击相应控件:
+ * - 拨打电话、发送短信、发送邮件
+ * - 上传图片(版本兼容)
+ * - 全屏播放网络视频
+ * - 进度条显示
+ * - 返回网页上一层、显示网页标题
+ * JS交互部分：
+ * - 前端代码嵌入js(缺乏灵活性)
+ * - 网页自带js跳转
  */
 public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
@@ -65,6 +73,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         }
     }
 
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     private void initWebView() {
         mProgressBar.setVisibility(View.VISIBLE);
         WebSettings ws = webView.getSettings();
@@ -165,9 +174,9 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
                 "}" +
                 "})()");
 
-        // 遍历所有的a节点,将节点里的属性传递过去(属性自定义,用于页面跳转)
+        // 遍历所有的<li>节点,将节点里的属性传递过去(属性自定义,用于页面跳转)
         webView.loadUrl("javascript:(function(){" +
-                "var objs =document.getElementsByTagName(\"a\");" +
+                "var objs =document.getElementsByTagName(\"li\");" +
                 "for(var i=0;i<objs.length;i++)" +
                 "{" +
                 "objs[i].onclick=function(){" +

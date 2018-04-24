@@ -38,7 +38,9 @@ public class MyWebChromeClient extends WebChromeClient {
         this.mActivity = (WebViewActivity) mIWebPageView;
     }
 
-    // 播放网络视频时全屏会被调用的方法
+    /**
+     * 播放网络视频时全屏会被调用的方法
+     */
     @Override
     public void onShowCustomView(View view, CustomViewCallback callback) {
         mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -55,7 +57,9 @@ public class MyWebChromeClient extends WebChromeClient {
         mIWebPageView.showVideoFullView();
     }
 
-    // 视频播放退出全屏会被调用的
+    /**
+     * 视频播放退出全屏会被调用的
+     */
     @Override
     public void onHideCustomView() {
         if (mXCustomView == null)// 不是全屏播放状态
@@ -72,7 +76,9 @@ public class MyWebChromeClient extends WebChromeClient {
         mIWebPageView.showWebView();
     }
 
-    // 视频加载时进程loading
+    /**
+     * 视频加载时进程loading
+     */
     @Override
     public View getVideoLoadingProgressView() {
         if (mXProgressVideo == null) {

@@ -7,18 +7,26 @@ import android.view.View;
  */
 public interface IWebPageView {
 
-    // 隐藏进度条
+    /**
+     * 隐藏进度条
+     */
     void hindProgressBar();
 
-    // 显示webview
+    /**
+     * 显示webview
+     */
     void showWebView();
 
-    // 隐藏webview
+    /**
+     * 隐藏webview
+     */
     void hindWebView();
 
 
     /**
      * 进度条变化时调用
+     *
+     * @param newProgress 进度0-100
      */
     void startProgress(int newProgress);
 
