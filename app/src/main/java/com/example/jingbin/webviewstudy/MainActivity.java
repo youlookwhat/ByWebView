@@ -83,19 +83,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
-    //  针对指定的scheme跳转页面
-//     web_main.setWebViewClient(new WebViewClient() {
-//        @Override
-//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//
-//            if (url.startsWith("will://")) {
-//                Uri uri = Uri.parse(url);
-//                Log.e("---------scheme: ", uri.getScheme() + "host: " + uri.getHost() + "Id: " + uri.getPathSegments().get(0));
-//                Toast.makeText(MainActivity.this, "打开新的页面", Toast.LENGTH_LONG).show();
-//                return true; //返回true，代表要拦截这个url
-//            }
-//            return super.shouldOverrideUrlLoading(view, url);
-//        }
-//    });
 }

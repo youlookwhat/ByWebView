@@ -188,7 +188,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
                 "}" +
                 "})()");
 
-        /**可以放在点击事件里，点击一次传一次参数给html*/
+        /**传应用内的数据给html，方便html处理*/
         // 无参数调用
         webView.loadUrl("javascript:javacalljs()");
         // 传递参数调用

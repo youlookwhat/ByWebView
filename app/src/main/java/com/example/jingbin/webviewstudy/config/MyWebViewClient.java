@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -98,6 +99,13 @@ public class MyWebViewClient extends WebViewClient {
 
     private void startActivity(String url) {
         try {
+
+            // 用于DeepLink测试
+            if (url.startsWith("will://")) {
+                Uri uri = Uri.parse(url);
+                Log.e("---------scheme", uri.getScheme() + "；host: " + uri.getHost() + "；Id: " + uri.getPathSegments().get(0));
+            }
+
             Intent intent1 = new Intent();
             intent1.setAction("android.intent.action.VIEW");
             Uri uri = Uri.parse(url);
