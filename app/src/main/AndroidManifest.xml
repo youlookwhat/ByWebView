@@ -40,7 +40,7 @@
 
                 <data
                     android:host="share"
-                    android:scheme="will" />
+                    android:scheme="bevol" />
             </intent-filter>
 
         </activity>

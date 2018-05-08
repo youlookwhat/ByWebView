@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
 
@@ -11,10 +11,16 @@
     </head>
     <body>
         <div>
-            <a id="J-call-app" href="javascript:;" class="label">立即打开&gt;&gt;</a>
+            <a id="J-call-app" href="javascript:;" class="label">立即打开（没有应用下载应用）&gt;&gt;</a>
             <input id="J-download-app" type="hidden" name="storeurl" value="https://github.com/youlookwhat/MaterialDesign/raw/master/app/release/app-release.apk">
         </div>
 
+        <div>
+            <br/><br/>
+            <a href="bevol://share/testId" class="label">立即打开（直接打开）&gt;&gt;</a>
+        </div>
+
+        <!--没有应用下载应用-->
         <script>
             (function(){
                 var ua = navigator.userAgent.toLowerCase();

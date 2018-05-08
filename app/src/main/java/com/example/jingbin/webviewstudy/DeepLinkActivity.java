@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+/**
+ * 测试DeepLink打开页面
+ */
 public class DeepLinkActivity extends AppCompatActivity {
 
     @Override
