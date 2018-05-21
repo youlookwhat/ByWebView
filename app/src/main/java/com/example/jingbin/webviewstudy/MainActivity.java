@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String callUrl = "file:///android_asset/callsms.html";
                 WebViewActivity.loadUrl(this, callUrl, false);
                 break;
-            case R.id.bt_java_js://  js调用android原生代码
+            case R.id.bt_java_js://  js与android原生代码互调
                 String javaJs = "file:///android_asset/java_js.html";
                 WebViewActivity.loadUrl(this, javaJs, false);
                 break;

@@ -52,7 +52,7 @@ public class ImageClickInterface {
      */
     @JavascriptInterface
     public void startFunction() {
-        Toast.makeText(context, "--无参", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "----无参", Toast.LENGTH_LONG).show();
     }
 
     /**

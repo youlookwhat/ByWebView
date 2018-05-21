@@ -45,7 +45,7 @@
         android:id="@+id/bt_java_js"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="js调用android原生代码"
+        android:text="js与android原生代码互调"
         android:textAllCaps="false" />
 
     <Button
