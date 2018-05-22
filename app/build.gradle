@@ -17,6 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    // 其他 webview
     signingConfigs {
         release {
             storeFile file("./webview")
@@ -34,15 +35,15 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.4.0'
-    testCompile 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    testImplementation 'junit:junit:4.12'
     //增加这二句
     api 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor "com.jakewharton:butterknife-compiler:8.8.1"
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }
