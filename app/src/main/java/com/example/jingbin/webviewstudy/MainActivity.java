@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 WebViewActivity.loadUrl(this, uploadUrl, false);
                 break;
             case R.id.bt_movie:// 网络视频(优酷链接跳到浏览器)
-//                String movieUrl = "http://v.youku.com/v_show/id_XNzMxNzUyNzQ0.html?beta&#paction";
                 String movieUrl = "http://www.tudou.com/albumplay/eu0K8vLTD48/aHeFLTBfzU0.html";
                 WebViewActivity.loadUrl(this, movieUrl, false);
                 break;

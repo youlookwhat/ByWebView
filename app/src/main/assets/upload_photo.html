@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <!-- saved from url=(0056)http://taoyanran.duapp.com/kaws/salvation/salvation.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
     <title>上传图片测试</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
     <link rel="stylesheet" href="./upload_photo_files/salvation_style.css">
     <script src="./upload_photo_files/jquery-1.9.1.min.js"></script>
 </head>
@@ -19,11 +22,9 @@
         <div class="page1">
             <p class="brief"><span>不走错路，少走弯路</span></p>
 
-           
         </div>
 
         <div class="page2">
-            
 
             <div class="upload_pic" id="upload_pic">
                 <!--添加图片按钮-->
@@ -55,7 +56,8 @@
             <h2 class="page3_title">基本信息登记表</h2>
 
             <dl class="page3_form basicinfo">
-                <dt><h3>受助人基本信息</h3></dt>
+                <dt>
+                <h3>受助人基本信息</h3></dt>
                 <dd>
                     <input class="text notnull name" type="text" placeholder="姓名：">
                 </dd>
@@ -68,7 +70,7 @@
                 <dd>
                     <input class="text notnull place" type="text" placeholder="籍贯：">
                 </dd>
-               
+
                 <dd>
                     <input class="text notnull stage" type="text" placeholder="型号与分期：">
                 </dd>
@@ -87,7 +89,8 @@
             </dl>
 
             <dl class="page3_form">
-                <dt><h3>家人与受助人基本状况</h3></dt>
+                <dt>
+                <h3>家人与受助人基本状况</h3></dt>
             </dl>
 
             <dl class="page3_form family family0">
@@ -113,21 +116,22 @@
             </dl>
 
 
-
             <dl class="page3_form situation_brief">
-                <dt><h3>受助人现状简介</h3></dt>
+                <dt>
+                <h3>受助人现状简介</h3></dt>
                 <dd>
-                    <textarea class="textarea notnull patient_brief" placeholder="受助人基本情况简介："></textarea>
+                    <textarea class="textarea notnull patient_brief"
+                              placeholder="受助人基本情况简介："></textarea>
                 </dd>
                 <dd>
-                    <textarea class="textarea notnull purpose_brief" placeholder="申请捐助用途："></textarea>
+                    <textarea class="textarea notnull purpose_brief"
+                              placeholder="申请捐助用途："></textarea>
                 </dd>
             </dl>
 
             <div class="submit_btn">
                 <button class="apply_end">提交</button>
             </div>
-
 
         </div>
     </div>
@@ -150,11 +154,8 @@
 </div>
 
 
-
-
 <script src="./upload_photo_files/jweixin-1.0.0.js"></script>
 <script src="./upload_photo_files/salvation_wx_share.js"></script>
-
 
 
 <script>
@@ -202,16 +203,22 @@
     /*提交照片*/
     $('.submit_picture').click(function(){
         if($('.pic_model').length < 6){   // 6
-            $('.under_five').show();
-            $('.fixed').show();
-            return false
+            <!--$('.under_five').show();-->
+            <!--$('.fixed').show();-->
+            <!--return false-->
+
+            alert('上传成功，js处理相关逻辑')
         }else if($('.pic_model').length > 11){
-            $('.more_ten').show();
-            $('.fixed').show();
+            <!--$('.more_ten').show();-->
+            <!--$('.fixed').show();-->
+
+            alert('上传成功，js处理相关逻辑')
         }else{
-            $('.page2').hide();
-            $('.page3_form_remind').show();
-            $('.page3').show();
+            alert('上传成功，js处理相关逻辑')
+
+            <!--$('.page2').hide();-->
+            <!--$('.page3_form_remind').show();-->
+            <!--$('.page3').show();-->
         }
     });
     /*添加家庭成员*/
@@ -352,6 +359,8 @@
         });
 
     })
+
 </script>
 
-</body></html>
+</body>
+</html>
