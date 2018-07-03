@@ -10,6 +10,7 @@
  - 返回网页上一层、显示网页标题
  - 全屏播放网络视频
  - **与JS交互**
+ - [DeepLink的基本使用](https://jingbin.me/2018/07/02/deeplink-intro-use/)
 
 具体说明地址:[Android 关于WebView全方面的使用（项目应用篇）](http://www.jianshu.com/p/163d39e562f0)
  
