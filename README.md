@@ -19,7 +19,7 @@
  <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/上传图片.png"></img>
 
 ### 下载 
- - [下载链接](https://fir.im/webviewstudy)
+ - [https://fir.im/webviewstudy](https://fir.im/webviewstudy)
 
 <img width="300" height=“300” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/download.png"></img>
 
