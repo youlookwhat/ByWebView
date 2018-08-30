@@ -11,48 +11,84 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.jingbin.webviewstudy.MainActivity">
 
-    <Button
-        android:id="@+id/bt_baidu"
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/et_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:hint="github.com/youlookwhat/WebViewStudy"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:textSize="15sp" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/bt_openUrl"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:text="打开网页" />
+
+    <TextView
+        android:id="@+id/bt_baidu"
+        style="@style/textStyle"
         android:text="百度一下" />
 
-    <Button
-        android:id="@+id/bt_upload_photo"
+    <View
+        style="@style/lineStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="上传图片" />
+        android:layout_height="1px" />
 
-    <Button
+    <TextView
         android:id="@+id/bt_movie"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/textStyle"
         android:text="视频播放" />
 
-    <Button
-        android:id="@+id/bt_movie_full"
+    <View
+        style="@style/lineStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="视频播放(全屏)" />
+        android:layout_height="1px" />
 
-    <Button
-        android:id="@+id/bt_call"
+    <TextView
+        android:id="@+id/bt_upload_photo"
+        style="@style/textStyle"
+        android:text="上传图片测试" />
+
+    <View
+        style="@style/lineStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="1px" />
+
+    <TextView
+        android:id="@+id/bt_call"
+        style="@style/textStyle"
         android:text="电话、短信、邮件、注入js" />
 
-    <Button
-        android:id="@+id/bt_java_js"
+    <View
+        style="@style/lineStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="1px" />
+
+    <TextView
+        android:id="@+id/bt_java_js"
+        style="@style/textStyle"
         android:text="js与android原生代码互调"
         android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/bt_deeplink"
+    <View
+        style="@style/lineStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="DeepLink"
-        android:textAllCaps="false" />
+        android:layout_height="1px" />
 
+    <TextView
+        android:id="@+id/bt_deeplink"
+        style="@style/textStyle"
+        android:text="DeepLink 测试" />
+
+    <View
+        style="@style/lineStyle"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
 </LinearLayout>

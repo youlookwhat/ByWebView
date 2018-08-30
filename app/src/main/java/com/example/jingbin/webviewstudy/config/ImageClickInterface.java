@@ -40,10 +40,10 @@ public class ImageClickInterface {
      */
     @JavascriptInterface
     public void textClick(String type, String item_pk) {
-        Log.e("type", type);
-        Log.e("item_pk", item_pk);
         if (!TextUtils.isEmpty(type) && !TextUtils.isEmpty(item_pk)) {
             Toast.makeText(context, "----点击了文字", Toast.LENGTH_LONG).show();
+            Log.e("type", type);
+            Log.e("item_pk", item_pk);
         }
     }
 

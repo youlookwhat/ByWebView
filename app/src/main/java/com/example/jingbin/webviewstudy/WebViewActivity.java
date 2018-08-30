@@ -6,25 +6,29 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jingbin.webviewstudy.config.FullscreenHolder;
 import com.example.jingbin.webviewstudy.config.IWebPageView;
 import com.example.jingbin.webviewstudy.config.ImageClickInterface;
 import com.example.jingbin.webviewstudy.config.MyWebChromeClient;
 import com.example.jingbin.webviewstudy.config.MyWebViewClient;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-import static com.example.jingbin.webviewstudy.R.id.video_fullView;
+import com.example.jingbin.webviewstudy.utils.BaseTools;
+import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 
 /**
  * 网页可以处理:
@@ -41,36 +45,97 @@ import static com.example.jingbin.webviewstudy.R.id.video_fullView;
 public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     // 进度条
-    @BindView(R.id.pb_progress)
     ProgressBar mProgressBar;
-    @BindView(R.id.webview_detail)
     WebView webView;
     // 全屏时视频加载view
-    @BindView(video_fullView)
     FrameLayout videoFullView;
     // 加载视频相关
     private MyWebChromeClient mWebChromeClient;
-    // 是否是全屏视频链接
-    private boolean mIsMovie;
     // 网页链接
     private String mUrl;
+    private Toolbar mTitleToolBar;
+    // 可滚动的title 使用简单 没有渐变效果，文字两旁有阴影
+    private TextView tvGunTitle;
+    private String mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_web_view);
         getIntentData();
-        setContentView(mIsMovie ? R.layout.activity_web_view_movie : R.layout.activity_web_view);
-        ButterKnife.bind(this);
-        setTitle("详情");
+        initTitle();
         initWebView();
         webView.loadUrl(mUrl);
     }
 
     private void getIntentData() {
-        if (getIntent() != null) {
-            mIsMovie = getIntent().getBooleanExtra("mIsMovie", false);
-            mUrl = getIntent().getStringExtra("mUrl");
+        mUrl = getIntent().getStringExtra("mUrl");
+        mTitle = getIntent().getStringExtra("mTitle");
+    }
+
+    private void initTitle() {
+        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimary), 0);
+        mProgressBar = findViewById(R.id.pb_progress);
+        webView = findViewById(R.id.webview_detail);
+        videoFullView = findViewById(R.id.video_fullView);
+        mTitleToolBar = findViewById(R.id.title_tool_bar);
+        tvGunTitle = findViewById(R.id.tv_gun_title);
+        initToolBar();
+    }
+
+    private void initToolBar() {
+        setSupportActionBar(mTitleToolBar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            //去除默认Title显示
+            actionBar.setDisplayShowTitleEnabled(false);
         }
+        mTitleToolBar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.actionbar_more));
+        tvGunTitle.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                tvGunTitle.setSelected(true);
+            }
+        }, 1900);
+        setTitle(mTitle);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.webview_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:// 返回键
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    finishAfterTransition();
+                } else {
+                    finish();
+                }
+                break;
+            case R.id.actionbar_share:// 分享到
+                String shareText = webView.getTitle() + webView.getUrl();
+                BaseTools.share(WebViewActivity.this, shareText);
+                break;
+            case R.id.actionbar_cope:// 复制链接
+                BaseTools.copy(webView.getUrl());
+                Toast.makeText(this, "复制成功", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.actionbar_open:// 打开链接
+                BaseTools.openLink(WebViewActivity.this, webView.getUrl());
+                break;
+            case R.id.actionbar_webview_refresh:// 刷新页面
+                if (webView != null) {
+                    webView.reload();
+                }
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
@@ -103,7 +168,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         // 排版适应屏幕
         ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         // WebView是否新窗口打开(加了后可能打不开网页)
-//        ws.setSupportMultipleWindows(true);
+        ws.setSupportMultipleWindows(true);
 
         // webview从5.0开始默认不允许混合模式,https中不能加载http资源,需要设置开启。
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -159,6 +224,10 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         if (newProgress == 100) {
             mProgressBar.setVisibility(View.GONE);
         }
+    }
+
+    public void setTitle(String mTitle) {
+        tvGunTitle.setText(mTitle);
     }
 
     /**
@@ -235,7 +304,11 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
                 //退出网页
             } else {
-                finish();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    finishAfterTransition();
+                } else {
+                    finish();
+                }
             }
         }
         return false;
@@ -261,7 +334,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         videoFullView.removeAllViews();
         if (webView != null) {
             ViewGroup parent = (ViewGroup) webView.getParent();
@@ -269,12 +341,14 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
                 parent.removeView(webView);
             }
             webView.removeAllViews();
+            webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
             webView.stopLoading();
             webView.setWebChromeClient(null);
             webView.setWebViewClient(null);
             webView.destroy();
             webView = null;
         }
+        super.onDestroy();
     }
 
     /**
@@ -282,12 +356,19 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
      *
      * @param mContext 上下文
      * @param mUrl     要加载的网页url
-     * @param mIsMovie 是否是视频链接(视频链接布局不一致)
+     * @param mTitle   标题
      */
-    public static void loadUrl(Context mContext, String mUrl, boolean mIsMovie) {
+    public static void loadUrl(Context mContext, String mUrl, String mTitle) {
         Intent intent = new Intent(mContext, WebViewActivity.class);
         intent.putExtra("mUrl", mUrl);
-        intent.putExtra("mIsMovie", mIsMovie);
+        intent.putExtra("mTitle", mTitle == null ? "详情" : mTitle);
+        mContext.startActivity(intent);
+    }
+
+    public static void loadUrl(Context mContext, String mUrl) {
+        Intent intent = new Intent(mContext, WebViewActivity.class);
+        intent.putExtra("mUrl", mUrl);
+        intent.putExtra("mTitle", "详情");
         mContext.startActivity(intent);
     }
 }

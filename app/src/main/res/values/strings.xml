@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">WebViewStudy</string>
+    <string name="app_name">浏览器</string>
+
+    <string name="action_share">分享</string>
+    <string name="actionbar_search">搜索</string>
+    <string name="actionbar_more">更多信息</string>
+    <string name="actionbar_webview_share">分享到</string>
+    <string name="actionbar_webview_cope">复制链接</string>
+    <string name="actionbar_webview_open">打开链接</string>
+    <string name="actionbar_webview_refresh">刷新页面</string>
+    <string name="actionbar_share">分享给朋友\(^o^)/~</string>
 </resources>

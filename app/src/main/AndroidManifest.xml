@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- 选择照片所需权限 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -27,7 +26,8 @@
             android:name=".WebViewActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/WebViewTheme" />
 
         <!--用于DeepLink，html跳到此页面  scheme_Adr: 'will://link/testid',-->
         <activity android:name=".DeepLinkActivity">
