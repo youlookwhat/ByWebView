@@ -102,7 +102,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.webview_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_webview, menu);
         return true;
     }
 

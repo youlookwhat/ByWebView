@@ -1,12 +1,16 @@
 package com.example.jingbin.webviewstudy;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
@@ -42,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     AppCompatButton btOpenUrl;
     @BindView(R.id.bt_java_js)
     TextView btJavaJs;
+    @BindView(R.id.tv_version)
+    TextView tvVersion;
 
 
     @Override
@@ -51,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ButterKnife.bind(this);
 
         StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimary), 0);
+        tvVersion.setText(String.format("版本：v%s", BuildConfig.VERSION_NAME));
         btBaidu.setOnClickListener(this);
         btCall.setOnClickListener(this);
         btUploadPhoto.setOnClickListener(this);
@@ -58,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btJavaJs.setOnClickListener(this);
         btDeepLink.setOnClickListener(this);
         btOpenUrl.setOnClickListener(this);
+        tvVersion.setOnClickListener(this);
         /** 处理键盘搜索键 */
         etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -100,6 +108,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String deepLinkUrl = "file:///android_asset/deeplink.html";
                 WebViewActivity.loadUrl(this, deepLinkUrl, "DeepLink测试");
                 break;
+            case R.id.tv_version:
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setTitle("感谢");
+                builder.setMessage("开源不易，给作者一个star好吗？😊");
+                builder.setCancelable(false);
+                builder.setNegativeButton("已给", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(MainActivity.this, "感谢老铁~", Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder.setPositiveButton("去star", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        WebViewActivity.loadUrl(MainActivity.this, "https://github.com/youlookwhat/WebViewStudy", "WebViewStudy");
+                    }
+                });
+                builder.show();
+                break;
             default:
                 break;
         }
@@ -123,5 +150,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
         WebViewActivity.loadUrl(this, url);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.actionbar_update:
+                WebViewActivity.loadUrl(this, "https://fir.im/webviewstudy", "网页浏览器 - fir.im");
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

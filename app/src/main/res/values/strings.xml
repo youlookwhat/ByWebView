@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">浏览器</string>
+    <string name="app_name">网页浏览器</string>
 
+    <string name="action_update">更新</string>
     <string name="action_share">分享</string>
     <string name="actionbar_search">搜索</string>
     <string name="actionbar_more">更多信息</string>
