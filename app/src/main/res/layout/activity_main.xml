@@ -108,6 +108,10 @@
         android:layout_marginBottom="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="20dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="3dp"
         android:textSize="11sp"
         tools:ignore="SmallSp"
         tools:text="版本：v2.0" />

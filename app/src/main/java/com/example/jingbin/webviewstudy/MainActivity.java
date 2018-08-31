@@ -138,16 +138,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void openUrl() {
         String url = etSearch.getText().toString().trim();
         if (TextUtils.isEmpty(url)) {
+            // 空url
             url = "https://github.com/youlookwhat/WebViewStudy";
+
         } else if (!url.startsWith("http") && url.contains("http")) {
+            // 有http且不再头部
             url = url.substring(url.indexOf("http"), url.length());
+
         } else if (url.startsWith("www")) {
+            // 以"www"开头
             url = "http://" + url;
-        } else if (url.contains(".me") || url.contains(".com") || url.contains(".cn")) {
+
+        } else if (!url.startsWith("http") && (url.contains(".me") || url.contains(".com") || url.contains(".cn"))) {
+            // 不以"http"开头且有后缀
             url = "http://www." + url;
+
         } else if (!url.startsWith("http") && !url.contains("www")) {
-            Toast.makeText(this, "您输入的链接有误", Toast.LENGTH_LONG).show();
-            return;
+            // 输入纯文字 或 汉字的情况
+            url = "http://m5.baidu.com/s?from=124n&word=" + url;
         }
         WebViewActivity.loadUrl(this, url);
     }
