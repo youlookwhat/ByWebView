@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:hint="github.com/youlookwhat/WebViewStudy"
+            android:hint="@string/string_hit"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:textSize="15sp" />
@@ -33,12 +33,12 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp"
-            android:text="打开网页" />
+            android:text="@string/bt_open_url" />
 
         <TextView
             android:id="@+id/bt_baidu"
             style="@style/textStyle"
-            android:text="百度一下" />
+            android:text="@string/text_baidu" />
 
         <View
             style="@style/lineStyle"
@@ -48,7 +48,7 @@
         <TextView
             android:id="@+id/bt_movie"
             style="@style/textStyle"
-            android:text="视频播放" />
+            android:text="@string/text_movie" />
 
         <View
             style="@style/lineStyle"
@@ -58,7 +58,7 @@
         <TextView
             android:id="@+id/bt_upload_photo"
             style="@style/textStyle"
-            android:text="上传图片测试" />
+            android:text="@string/text_upload_photo" />
 
         <View
             style="@style/lineStyle"
@@ -68,7 +68,7 @@
         <TextView
             android:id="@+id/bt_call"
             style="@style/textStyle"
-            android:text="电话、短信、邮件、注入js" />
+            android:text="@string/text_js" />
 
         <View
             style="@style/lineStyle"
@@ -78,7 +78,7 @@
         <TextView
             android:id="@+id/bt_java_js"
             style="@style/textStyle"
-            android:text="js与android原生代码互调"
+            android:text="@string/js_android"
             android:textAllCaps="false" />
 
         <View
@@ -89,7 +89,7 @@
         <TextView
             android:id="@+id/bt_deeplink"
             style="@style/textStyle"
-            android:text="DeepLink 测试" />
+            android:text="@string/deeplink" />
 
         <View
             style="@style/lineStyle"

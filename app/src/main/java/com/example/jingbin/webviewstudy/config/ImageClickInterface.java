@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
-import android.widget.Toast;
 
 /**
  * Created by jingbin on 2016/11/17.
@@ -26,7 +25,7 @@ public class ImageClickInterface {
      */
     @JavascriptInterface
     public void imageClick(String src, String has_link) {
-        Toast.makeText(context, "----点击了图片", Toast.LENGTH_LONG).show();
+        Log.e("imageClick", "----点击了图片");
         Log.e("src", src);
         Log.e("hasLink", has_link);
     }
@@ -41,7 +40,7 @@ public class ImageClickInterface {
     @JavascriptInterface
     public void textClick(String type, String item_pk) {
         if (!TextUtils.isEmpty(type) && !TextUtils.isEmpty(item_pk)) {
-            Toast.makeText(context, "----点击了文字", Toast.LENGTH_LONG).show();
+            Log.e("textClick", "----点击了文字");
             Log.e("type", type);
             Log.e("item_pk", item_pk);
         }
@@ -52,7 +51,7 @@ public class ImageClickInterface {
      */
     @JavascriptInterface
     public void startFunction() {
-        Toast.makeText(context, "----无参", Toast.LENGTH_LONG).show();
+        Log.e("startFunction", "----无参");
     }
 
     /**
@@ -62,6 +61,6 @@ public class ImageClickInterface {
      */
     @JavascriptInterface
     public void startFunction(String data) {
-        Toast.makeText(context, "----有参：" + data, Toast.LENGTH_LONG).show();
+        Log.e("startFunction", "----有参" + data);
     }
 }

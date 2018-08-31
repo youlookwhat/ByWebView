@@ -10,4 +10,12 @@
     <string name="actionbar_webview_open">浏览器打开</string>
     <string name="actionbar_webview_refresh">刷新页面</string>
     <string name="actionbar_share">分享给朋友\(^o^)/~</string>
+    <string name="string_hit">搜索或输入网址</string>
+    <string name="bt_open_url">打开网页</string>
+    <string name="text_baidu">百度一下</string>
+    <string name="text_movie">视频播放</string>
+    <string name="text_upload_photo">上传图片测试</string>
+    <string name="text_js">电话、短信、邮件、注入js</string>
+    <string name="js_android">js与android原生代码互调</string>
+    <string name="deeplink">DeepLink 测试</string>
 </resources>
