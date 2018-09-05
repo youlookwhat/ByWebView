@@ -58,4 +58,4 @@
    }
    
 [1]:https://img.shields.io/badge/download-fir.im-brightgreen.svg?style=flat-square
-[2]:https://fir.im/cloudreader
+[2]:https://fir.im/webviewstudy
