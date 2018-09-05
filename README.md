@@ -1,5 +1,5 @@
 # WebViewStudy
-> For the most part the android webview functional practice
+[![fir.im][1]][2] ![](https://img.shields.io/github/stars/youlookwhat/WebViewStudy.svg?style=flat-square) ![](https://img.shields.io/github/forks/youlookwhat/WebViewStudy.svg?style=flat-square) ![GitHub watchers](https://img.shields.io/github/watchers/youlookwhat/WebViewStudy.svg?style=flat-square&label=Watch)
 
 ## Contains the content
 
@@ -56,3 +56,6 @@
    -keepclassmembers class * {
       @android.webkit.JavascriptInterface <methods>;
    }
+   
+[1]:https://img.shields.io/badge/download-fir.im-brightgreen.svg?style=flat-square
+[2]:https://fir.im/cloudreader
