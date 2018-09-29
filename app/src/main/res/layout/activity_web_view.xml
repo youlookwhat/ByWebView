@@ -66,21 +66,4 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <!--<WebView-->
-    <!--android:id="@+id/webview_detail"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:scrollbarSize="3dp" />-->
-
-    <!--<ProgressBar-->
-    <!--android:id="@+id/pb_progress"-->
-    <!--style="?android:attr/progressBarStyleHorizontal"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="3dp"-->
-    <!--android:layout_alignParentTop="true"-->
-    <!--android:max="100"-->
-    <!--android:progress="0"-->
-    <!--android:progressDrawable="@drawable/process_bg"-->
-    <!--android:visibility="gone" />-->
-
 </RelativeLayout>

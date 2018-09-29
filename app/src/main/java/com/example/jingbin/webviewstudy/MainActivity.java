@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             url = "https://github.com/youlookwhat/WebViewStudy";
 
         } else if (!url.startsWith("http") && url.contains("http")) {
-            // 有http且不再头部
+            // 有http且不在头部
             url = url.substring(url.indexOf("http"), url.length());
 
         } else if (url.startsWith("www")) {

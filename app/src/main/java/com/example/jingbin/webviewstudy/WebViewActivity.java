@@ -45,10 +45,10 @@ import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     // 进度条
-    ProgressBar mProgressBar;
-    WebView webView;
+    private ProgressBar mProgressBar;
+    private WebView webView;
     // 全屏时视频加载view
-    FrameLayout videoFullView;
+    private FrameLayout videoFullView;
     // 加载视频相关
     private MyWebChromeClient mWebChromeClient;
     // 网页链接
@@ -361,7 +361,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     public static void loadUrl(Context mContext, String mUrl, String mTitle) {
         Intent intent = new Intent(mContext, WebViewActivity.class);
         intent.putExtra("mUrl", mUrl);
-        intent.putExtra("mTitle", mTitle == null ? "详情" : mTitle);
+        intent.putExtra("mTitle", mTitle == null ? "加载中..." : mTitle);
         mContext.startActivity(intent);
     }
 
