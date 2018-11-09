@@ -2,14 +2,18 @@ package com.example.jingbin.webviewstudy;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DebugUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -182,6 +186,40 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         // 与js交互
         webView.addJavascriptInterface(new ImageClickInterface(this), "injectedObject");
         webView.setWebViewClient(new MyWebViewClient(this));
+
+
+        webView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                final WebView.HitTestResult hitTestResult = webView.getHitTestResult();
+                // 如果是图片类型或者是带有图片链接的类型
+                if (hitTestResult.getType() == WebView.HitTestResult.IMAGE_TYPE ||
+                        hitTestResult.getType() == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
+                    // 弹出保存图片的对话框
+                    new AlertDialog.Builder(WebViewActivity.this)
+                            .setItems(new String[]{"查看大图", "保存图片到相册"}, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String picUrl = hitTestResult.getExtra();
+                                    //获取图片
+                                    Log.e("picUrl", picUrl);
+                                    switch (which) {
+                                        case 0:
+                                            break;
+                                        case 1:
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            })
+                            .show();
+                    return true;
+                }
+                return false;
+            }
+        });
+
     }
 
     @Override
