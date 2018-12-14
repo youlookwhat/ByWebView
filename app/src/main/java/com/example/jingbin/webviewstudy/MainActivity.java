@@ -19,52 +19,35 @@ import android.widget.Toast;
 
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Link to: https://github.com/youlookwhat/WebViewStudy
- * contact me: http://www.jianshu.com/users/e43c6e979831/latest_articles
+ * contact me: https://www.jianshu.com/u/e43c6e979831
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.bt_baidu)
-    TextView btBaidu;
-    @BindView(R.id.bt_call)
-    TextView btCall;
-    @BindView(R.id.bt_upload_photo)
-    TextView btUploadPhoto;
-    @BindView(R.id.bt_movie)
-    TextView btMovie;
-    @BindView(R.id.activity_main)
-    LinearLayout activityMain;
-    @BindView(R.id.bt_deeplink)
-    TextView btDeepLink;
-    @BindView(R.id.et_search)
-    AppCompatEditText etSearch;
-    @BindView(R.id.bt_openUrl)
-    AppCompatButton btOpenUrl;
-    @BindView(R.id.bt_java_js)
-    TextView btJavaJs;
-    @BindView(R.id.tv_version)
-    TextView tvVersion;
-
+    private AppCompatEditText etSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
 
         StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimary), 0);
+        initView();
+    }
+
+    private void initView() {
+        findViewById(R.id.bt_deeplink).setOnClickListener(this);
+        findViewById(R.id.bt_openUrl).setOnClickListener(this);
+        findViewById(R.id.bt_baidu).setOnClickListener(this);
+        findViewById(R.id.bt_movie).setOnClickListener(this);
+        findViewById(R.id.bt_upload_photo).setOnClickListener(this);
+        findViewById(R.id.bt_call).setOnClickListener(this);
+        findViewById(R.id.bt_java_js).setOnClickListener(this);
+
+        etSearch = findViewById(R.id.et_search);
+        TextView tvVersion = findViewById(R.id.tv_version);
         tvVersion.setText(String.format("版本：v%s", BuildConfig.VERSION_NAME));
-        btBaidu.setOnClickListener(this);
-        btCall.setOnClickListener(this);
-        btUploadPhoto.setOnClickListener(this);
-        btMovie.setOnClickListener(this);
-        btJavaJs.setOnClickListener(this);
-        btDeepLink.setOnClickListener(this);
-        btOpenUrl.setOnClickListener(this);
         tvVersion.setOnClickListener(this);
         /** 处理键盘搜索键 */
         etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -177,4 +160,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

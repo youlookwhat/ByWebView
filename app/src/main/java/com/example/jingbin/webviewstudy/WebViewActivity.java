@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -12,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.DebugUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -34,9 +36,11 @@ import com.example.jingbin.webviewstudy.config.MyWebViewClient;
 import com.example.jingbin.webviewstudy.utils.BaseTools;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 
+import java.util.List;
+
 /**
  * 网页可以处理:
- * 点击相应控件:
+ * 点击相应控件：
  * - 拨打电话、发送短信、发送邮件
  * - 上传图片(版本兼容)
  * - 全屏播放网络视频
@@ -45,6 +49,7 @@ import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
  * JS交互部分：
  * - 前端代码嵌入js(缺乏灵活性)
  * - 网页自带js跳转
+ * 被作为第三方浏览器打开
  */
 public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
@@ -70,12 +75,14 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         initTitle();
         initWebView();
         webView.loadUrl(mUrl);
+        getDataFromBrowser(getIntent());
     }
 
     private void getIntentData() {
         mUrl = getIntent().getStringExtra("mUrl");
         mTitle = getIntent().getStringExtra("mTitle");
     }
+
 
     private void initTitle() {
         StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimary), 0);
@@ -125,8 +132,10 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
                 BaseTools.share(WebViewActivity.this, shareText);
                 break;
             case R.id.actionbar_cope:// 复制链接
-                BaseTools.copy(webView.getUrl());
-                Toast.makeText(this, "复制成功", Toast.LENGTH_LONG).show();
+                if (!TextUtils.isEmpty(webView.getUrl())) {
+                    BaseTools.copy(webView.getUrl());
+                    Toast.makeText(this, "复制成功", Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.actionbar_open:// 打开链接
                 BaseTools.openLink(WebViewActivity.this, webView.getUrl());
@@ -324,6 +333,42 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
             mWebChromeClient.mUploadMessage(intent, resultCode);
         } else if (requestCode == MyWebChromeClient.FILECHOOSER_RESULTCODE_FOR_ANDROID_5) {
             mWebChromeClient.mUploadMessageForAndroid5(intent, resultCode);
+        }
+    }
+
+
+    /**
+     * 使用singleTask启动模式的Activity在系统中只会存在一个实例。
+     * 如果这个实例已经存在，intent就会通过onNewIntent传递到这个Activity。
+     * 否则新的Activity实例被创建。
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        getDataFromBrowser(intent);
+    }
+
+    /**
+     * 作为三方浏览器打开
+     * Scheme: https
+     * host: www.jianshu.com
+     * path: /p/1cbaf784c29c
+     * url = scheme + "://" + host + path;
+     */
+    private void getDataFromBrowser(Intent intent) {
+        Uri data = intent.getData();
+        if (data != null) {
+            try {
+                String scheme = data.getScheme();
+                String host = data.getHost();
+                String path = data.getPath();
+                String text = "Scheme: " + scheme + "\n" + "host: " + host + "\n" + "path: " + path;
+                Log.e("data", text);
+                String url = scheme + "://" + host + path;
+                webView.loadUrl(url);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

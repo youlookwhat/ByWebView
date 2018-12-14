@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.jingbin.webviewstudy">
 
     <!-- 网络 -->
@@ -16,7 +17,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -26,8 +29,20 @@
             android:name=".WebViewActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/WebViewTheme" />
+            android:theme="@style/WebViewTheme">
+
+            <intent-filter tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!--使用http，则只能打开http开头的网页-->
+                <data android:scheme="https" />
+            </intent-filter>
+
+        </activity>
 
         <!--用于DeepLink，html跳到此页面  scheme_Adr: 'will://link/testid',-->
         <activity android:name=".DeepLinkActivity">
