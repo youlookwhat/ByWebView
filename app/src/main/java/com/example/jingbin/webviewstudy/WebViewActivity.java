@@ -342,7 +342,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     }
 
     /**
-     * 作为三方浏览器打开
+     * 作为三方浏览器打开传过来的值
      * Scheme: https
      * host: www.jianshu.com
      * path: /p/1cbaf784c29c
