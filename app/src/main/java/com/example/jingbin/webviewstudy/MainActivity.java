@@ -1,11 +1,12 @@
 package com.example.jingbin.webviewstudy;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -13,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +25,8 @@ import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // 是否开启了主页，没有开启则会返回主页
+    public static boolean isLaunch = false;
     private AppCompatEditText etSearch;
 
     @Override
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimary), 0);
         initView();
+        isLaunch = true;
     }
 
     private void initView() {
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         etSearch = findViewById(R.id.et_search);
         TextView tvVersion = findViewById(R.id.tv_version);
-        tvVersion.setText(String.format("版本：v%s", BuildConfig.VERSION_NAME));
+        tvVersion.setText(String.format("❤版本：v%s", BuildConfig.VERSION_NAME));
         tvVersion.setOnClickListener(this);
         /** 处理键盘搜索键 */
         etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -161,5 +164,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
+    public static void start(Context context) {
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isLaunch = false;
+    }
 }

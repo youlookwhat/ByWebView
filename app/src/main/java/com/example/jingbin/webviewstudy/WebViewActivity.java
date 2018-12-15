@@ -14,7 +14,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.DebugUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -35,8 +34,6 @@ import com.example.jingbin.webviewstudy.config.MyWebChromeClient;
 import com.example.jingbin.webviewstudy.config.MyWebViewClient;
 import com.example.jingbin.webviewstudy.utils.BaseTools;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
-
-import java.util.List;
 
 /**
  * 网页可以处理:
@@ -121,11 +118,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:// 返回键
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    finishAfterTransition();
-                } else {
-                    finish();
-                }
+                handleFinish();
                 break;
             case R.id.actionbar_share:// 分享到
                 String shareText = webView.getTitle() + webView.getUrl();
@@ -372,6 +365,20 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         }
     }
 
+    /**
+     * 直接通过三方浏览器打开时，回退到首页
+     */
+    public void handleFinish() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+        } else {
+            finish();
+        }
+        if (!MainActivity.isLaunch) {
+            MainActivity.start(this);
+        }
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -387,11 +394,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
                 //退出网页
             } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    finishAfterTransition();
-                } else {
-                    finish();
-                }
+                handleFinish();
             }
         }
         return false;

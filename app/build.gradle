@@ -7,8 +7,8 @@ android {
         applicationId "com.example.jingbin.webviewstudy"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 4
-        versionName "2.2"
+        versionCode 5
+        versionName "2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
