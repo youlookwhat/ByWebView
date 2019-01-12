@@ -8,7 +8,7 @@
  - 进度条、字体大小设置
  - 返回网页上一层、显示网页标题
  - 全屏播放网络视频
- - **与JS交互**
+ - [与JS交互实例](https://www.jianshu.com/p/97f52819a19d)
  - [DeepLink的基本使用](https://jingbin.me/2018/07/02/deeplink-intro-use/)
  - [被作为第三方浏览器打开](https://www.jianshu.com/p/272bfb6c0779)
 
@@ -22,17 +22,6 @@
  - [https://fir.im/webviewstudy](https://fir.im/webviewstudy)
 
 <img width="300" height=“300” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/download.png"></img>
-
-<!--
-## 推荐阅读
- - [https://developer.android.com/reference/android/webkit/WebSettings.html](https://developer.android.com/reference/android/webkit/WebSettings.html)
- - [Android WebView总结](http://www.jianshu.com/p/32d48ca7d0e0)
- - [WebView的使用及实战](http://www.jianshu.com/p/dbf9b7c04be5)
- - [WebView性能、体验分析与优化](https://tech.meituan.com/WebViewPerf.html)
- - [Android WebView开发问题及优化汇总](http://www.cnblogs.com/spring87/p/4532687.html)
- - [Android WebView与JavaScript交互(注入js)](http://www.apkfuns.com/android-webview%E4%B8%8Ejavascript%E4%BA%A4%E4%BA%92.html)
- - [android WebView js调用android原生代码](http://blog.csdn.net/wangtingshuai/article/details/8631835)
-  -->
 
 ### 修复
  - 修复显示多个进度条问题
@@ -61,8 +50,6 @@
  - [WebView的使用及实战](http://www.jianshu.com/p/dbf9b7c04be5)
  - [WebView性能、体验分析与优化](https://tech.meituan.com/WebViewPerf.html)
  - [Android WebView开发问题及优化汇总](http://www.cnblogs.com/spring87/p/4532687.html)
- - [Android WebView与JavaScript交互(注入js)](http://www.apkfuns.com/android-webview%E4%B8%8Ejavascript%E4%BA%A4%E4%BA%92.html)
- - [android WebView js调用android原生代码](http://blog.csdn.net/wangtingshuai/article/details/8631835)
  - [https://developer.android.com/reference/android/webkit/WebSettings.html](https://developer.android.com/reference/android/webkit/WebSettings.html)
    
 [1]:https://img.shields.io/badge/download-fir.im-brightgreen.svg?style=flat-square
