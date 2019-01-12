@@ -9,10 +9,10 @@ import android.webkit.JavascriptInterface;
  * Created by jingbin on 2016/11/17.
  * js通信接口
  */
-public class ImageClickInterface {
+public class MyJavascriptInterface {
     private Context context;
 
-    public ImageClickInterface(Context context) {
+    public MyJavascriptInterface(Context context) {
         this.context = context;
     }
 
@@ -20,14 +20,12 @@ public class ImageClickInterface {
      * 前端代码嵌入js：
      * imageClick 名应和js函数方法名一致
      *
-     * @param src      图片的链接
-     * @param has_link img 节点下的has_link属性值(一般是没有的)
+     * @param src 图片的链接
      */
     @JavascriptInterface
-    public void imageClick(String src, String has_link) {
+    public void imageClick(String src) {
         Log.e("imageClick", "----点击了图片");
         Log.e("src", src);
-        Log.e("hasLink", has_link);
     }
 
     /**

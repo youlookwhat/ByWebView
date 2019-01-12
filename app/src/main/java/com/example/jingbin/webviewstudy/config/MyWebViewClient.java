@@ -64,6 +64,18 @@ public class MyWebViewClient extends WebViewClient {
         super.onPageFinished(view, url);
     }
 
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onReceivedError(WebView view, int errorCode, String description, String
+            failingUrl) {
+        super.onReceivedError(view, errorCode, description, failingUrl);
+        if (errorCode == 404) {
+            //用javascript隐藏系统定义的404页面信息
+            String data = "Page NO FOUND！";
+            view.loadUrl("javascript:document.body.innerHTML=\"" + data + "\"");
+        }
+    }
+
     // 视频全屏播放按返回页面被放大的问题
     @Override
     public void onScaleChanged(WebView view, float oldScale, float newScale) {
