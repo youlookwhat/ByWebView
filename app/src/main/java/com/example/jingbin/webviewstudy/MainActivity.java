@@ -14,9 +14,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jingbin.webviewstudy.tencentx5.X5WebViewActivity;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 
 /**
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // 是否开启了主页，没有开启则会返回主页
     public static boolean isLaunch = false;
     private AppCompatEditText etSearch;
+    private RadioButton rbSystem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.bt_call).setOnClickListener(this);
         findViewById(R.id.bt_java_js).setOnClickListener(this);
 
+        rbSystem = findViewById(R.id.rb_system);
         etSearch = findViewById(R.id.et_search);
+        rbSystem.setChecked(true);
         TextView tvVersion = findViewById(R.id.tv_version);
         tvVersion.setText(String.format("❤版本：v%s", BuildConfig.VERSION_NAME));
         tvVersion.setOnClickListener(this);
@@ -72,27 +77,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.bt_baidu:// 百度一下
                 String baiDuUrl = "http://www.baidu.com";
-                WebViewActivity.loadUrl(this, baiDuUrl, "百度一下");
+                loadUrl(baiDuUrl, "百度一下");
                 break;
             case R.id.bt_movie:// 网络视频
                 String movieUrl = "https://sv.baidu.com/videoui/page/videoland?context=%7B%22nid%22%3A%22sv_5861863042579737844%22%7D&pd=feedtab_h5";
-                WebViewActivity.loadUrl(this, movieUrl, "网络视频");
+                loadUrl(movieUrl, "网络视频");
                 break;
             case R.id.bt_upload_photo:// 上传图片
                 String uploadUrl = "file:///android_asset/upload_photo.html";
-                WebViewActivity.loadUrl(this, uploadUrl, "上传图片测试");
+                loadUrl(uploadUrl, "上传图片测试");
                 break;
             case R.id.bt_call:// 打电话、发短信、发邮件、JS
                 String callUrl = "file:///android_asset/callsms.html";
-                WebViewActivity.loadUrl(this, callUrl, "电话短信邮件测试");
+                loadUrl(callUrl, "电话短信邮件测试");
                 break;
             case R.id.bt_java_js://  js与android原生代码互调
                 String javaJs = "file:///android_asset/java_js.html";
-                WebViewActivity.loadUrl(this, javaJs, "js与android原生代码互调");
+                loadUrl(javaJs, "js与android原生代码互调");
                 break;
             case R.id.bt_deeplink:// DeepLink通过网页跳入App
                 String deepLinkUrl = "file:///android_asset/deeplink.html";
-                WebViewActivity.loadUrl(this, deepLinkUrl, "DeepLink测试");
+                loadUrl(deepLinkUrl, "DeepLink测试");
                 break;
             case R.id.tv_version:
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
@@ -108,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 builder.setPositiveButton("去star", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        WebViewActivity.loadUrl(MainActivity.this, "https://github.com/youlookwhat/WebViewStudy", "WebViewStudy");
+                        loadUrl("https://github.com/youlookwhat/WebViewStudy", "WebViewStudy");
                     }
                 });
                 builder.show();
@@ -143,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // 输入纯文字 或 汉字的情况
             url = "http://m5.baidu.com/s?from=124n&word=" + url;
         }
-        WebViewActivity.loadUrl(this, url);
+        loadUrl(url, "详情");
     }
 
     @Override
@@ -156,12 +161,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionbar_update:
-                WebViewActivity.loadUrl(this, "https://fir.im/webviewstudy", "网页浏览器 - fir.im");
+                loadUrl("https://fir.im/webviewstudy", "网页浏览器 - fir.im");
                 break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadUrl(String mUrl, String mTitle) {
+        if (rbSystem.isChecked()) {
+            WebViewActivity.loadUrl(this, mUrl, mTitle);
+        } else {
+            X5WebViewActivity.loadUrl(this, mUrl, mTitle);
+        }
     }
 
     public static void start(Context context) {

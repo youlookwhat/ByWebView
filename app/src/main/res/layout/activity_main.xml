@@ -15,6 +15,30 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="com.example.jingbin.webviewstudy.MainActivity">
 
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="内核选择：" />
+
+            <RadioButton
+                android:id="@+id/rb_system"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="系统原生" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="腾讯x5" />
+        </RadioGroup>
+
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/et_search"
             android:layout_width="match_parent"

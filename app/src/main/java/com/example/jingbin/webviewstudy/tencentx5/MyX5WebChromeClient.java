@@ -1,4 +1,4 @@
-package com.example.jingbin.webviewstudy.config;
+package com.example.jingbin.webviewstudy.tencentx5;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -6,21 +6,21 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
 
 import com.example.jingbin.webviewstudy.R;
 import com.example.jingbin.webviewstudy.WebViewActivity;
+import com.example.jingbin.webviewstudy.config.IWebPageView;
+import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
 
 import static android.app.Activity.RESULT_OK;
 
 
 /**
- * Created by jingbin on 2016/11/17.
+ * Created by jingbin on 2019/1/15.
  * - 播放网络视频配置
  * - 上传图片(兼容)
  */
-public class MyWebChromeClient extends WebChromeClient {
+public class MyX5WebChromeClient extends com.tencent.smtt.sdk.WebChromeClient {
 
     private ValueCallback<Uri> mUploadMessage;
     private ValueCallback<Uri[]> mUploadMessageForAndroid5;
@@ -28,21 +28,21 @@ public class MyWebChromeClient extends WebChromeClient {
     public static int FILECHOOSER_RESULTCODE_FOR_ANDROID_5 = 2;
 
     private View mXProgressVideo;
-    private WebViewActivity mActivity;
+    private X5WebViewActivity mActivity;
     private IWebPageView mIWebPageView;
     private View mXCustomView;
-    private CustomViewCallback mXCustomViewCallback;
+    private IX5WebChromeClient.CustomViewCallback mXCustomViewCallback;
 
-    public MyWebChromeClient(IWebPageView mIWebPageView) {
+    public MyX5WebChromeClient(IWebPageView mIWebPageView) {
         this.mIWebPageView = mIWebPageView;
-        this.mActivity = (WebViewActivity) mIWebPageView;
+        this.mActivity = (X5WebViewActivity) mIWebPageView;
     }
 
     /**
      * 播放网络视频时全屏会被调用的方法
      */
     @Override
-    public void onShowCustomView(View view, CustomViewCallback callback) {
+    public void onShowCustomView(View view, IX5WebChromeClient.CustomViewCallback callback) {
         mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         mIWebPageView.hindWebView();
         // 如果一个视图已经存在，那么立刻终止并新建一个
@@ -89,7 +89,7 @@ public class MyWebChromeClient extends WebChromeClient {
     }
 
     @Override
-    public void onProgressChanged(WebView view, int newProgress) {
+    public void onProgressChanged(com.tencent.smtt.sdk.WebView view, int newProgress) {
         super.onProgressChanged(view, newProgress);
         mIWebPageView.startProgress(newProgress);
     }
@@ -102,7 +102,7 @@ public class MyWebChromeClient extends WebChromeClient {
     }
 
     @Override
-    public void onReceivedTitle(WebView view, String title) {
+    public void onReceivedTitle(com.tencent.smtt.sdk.WebView view, String title) {
         super.onReceivedTitle(view, title);
         // 设置title
         mActivity.setTitle(title);
@@ -125,7 +125,7 @@ public class MyWebChromeClient extends WebChromeClient {
 
     // For Android > 5.0
     @Override
-    public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> uploadMsg, FileChooserParams fileChooserParams) {
+    public boolean onShowFileChooser(com.tencent.smtt.sdk.WebView webView, com.tencent.smtt.sdk.ValueCallback<Uri[]> uploadMsg, FileChooserParams fileChooserParams) {
         openFileChooserImplForAndroid5(uploadMsg);
         return true;
     }

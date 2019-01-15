@@ -10,6 +10,10 @@ android {
         versionCode 5
         versionName "2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        // tencent x5
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+        }
     }
     buildTypes {
         release {
@@ -35,7 +39,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -43,4 +47,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
+    implementation files('libs/tbs_sdk_thirdapp_v3.1.0.1034_43100_sharewithdownload_obfs_20170301_182143.jar')
 }

@@ -5,10 +5,17 @@
 
     <!-- 网络 -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- 选择照片所需权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!--tencent x5添加-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 硬件加速对X5视频播放非常重要，建议开启 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
 
     <application
         android:name=".App"
@@ -61,6 +68,15 @@
             </intent-filter>
 
         </activity>
+
+        <!--tencent x5 页面-->
+        <activity
+            android:name=".tencentx5.X5WebViewActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/WebViewTheme" />
     </application>
 
 </manifest>
