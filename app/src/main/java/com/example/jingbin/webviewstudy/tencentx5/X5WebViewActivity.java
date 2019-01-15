@@ -15,14 +15,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.DebugUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -33,8 +31,6 @@ import com.example.jingbin.webviewstudy.R;
 import com.example.jingbin.webviewstudy.config.FullscreenHolder;
 import com.example.jingbin.webviewstudy.config.IWebPageView;
 import com.example.jingbin.webviewstudy.config.MyJavascriptInterface;
-import com.example.jingbin.webviewstudy.config.MyWebChromeClient;
-import com.example.jingbin.webviewstudy.config.MyWebViewClient;
 import com.example.jingbin.webviewstudy.utils.BaseTools;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 
@@ -159,7 +155,7 @@ public class X5WebViewActivity extends AppCompatActivity implements IWebPageView
         // 启动应用缓存
         ws.setAppCacheEnabled(true);
         // 设置缓存模式
-        ws.setCacheMode(WebSettings.LOAD_DEFAULT);
+        ws.setCacheMode(com.tencent.smtt.sdk.WebSettings.LOAD_DEFAULT);
         // setDefaultZoom  api19被弃用
         // 设置此属性，可任意比例缩放。
         ws.setUseWideViewPort(true);
@@ -176,9 +172,9 @@ public class X5WebViewActivity extends AppCompatActivity implements IWebPageView
         // WebView是否新窗口打开(加了后可能打不开网页)
         ws.setSupportMultipleWindows(true);
 
-        // webview从5.0开始默认不允许混合模式,https中不能加载http资源,需要设置开启。
+        // webview从5.0开始默认不允许混合模式,https中不能加载http资源,需要设置开启。MIXED_CONTENT_ALWAYS_ALLOW
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+            ws.setMixedContentMode(com.tencent.smtt.sdk.WebSettings.LOAD_NORMAL);
         }
         /** 设置字体默认缩放大小(改变网页字体大小,setTextSize  api14被弃用)*/
         ws.setTextZoom(100);
@@ -293,9 +289,9 @@ public class X5WebViewActivity extends AppCompatActivity implements IWebPageView
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == MyWebChromeClient.FILECHOOSER_RESULTCODE) {
+        if (requestCode == MyX5WebChromeClient.FILECHOOSER_RESULTCODE) {
             mWebChromeClient.mUploadMessage(intent, resultCode);
-        } else if (requestCode == MyWebChromeClient.FILECHOOSER_RESULTCODE_FOR_ANDROID_5) {
+        } else if (requestCode == MyX5WebChromeClient.FILECHOOSER_RESULTCODE_FOR_ANDROID_5) {
             mWebChromeClient.mUploadMessageForAndroid5(intent, resultCode);
         }
     }
@@ -427,9 +423,11 @@ public class X5WebViewActivity extends AppCompatActivity implements IWebPageView
             videoFullView.removeAllViews();
             if (webView != null) {
                 webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+                webView.stopLoading();
                 webView.setWebChromeClient(null);
                 webView.setWebViewClient(null);
                 webView.destroy();
+                webView = null;
             }
         } catch (Exception e) {
             Log.e("X5WebViewActivity", e.getMessage());

@@ -15,7 +15,6 @@ import com.example.jingbin.webviewstudy.utils.Tools;
 /**
  * Created by jingbin on 2016/11/17.
  * 监听网页链接:
- * - 优酷视频直接跳到自带浏览器
  * - 根据标识:打电话、发短信、发邮件
  * - 进度条的显示
  * - 添加javascript监听
