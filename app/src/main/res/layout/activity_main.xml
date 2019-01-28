@@ -30,7 +30,7 @@
                 android:id="@+id/rb_system"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="系统原生" />
+                android:text="系统WebView" />
 
             <RadioButton
                 android:layout_width="wrap_content"
