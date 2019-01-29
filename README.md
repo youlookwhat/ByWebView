@@ -8,11 +8,15 @@
  - 进度条、字体大小设置
  - 返回网页上一层、显示网页标题
  - 全屏播放网络视频
- - [与JS交互实例](https://www.jianshu.com/p/97f52819a19d)
- - [DeepLink的基本使用](https://jingbin.me/2018/07/02/deeplink-intro-use/)
- - [被作为第三方浏览器打开](https://www.jianshu.com/p/272bfb6c0779)
+ - **与JS交互实例**
+ - DeepLink的基本使用
+ - 被作为第三方浏览器打开
 
-具体说明地址:[Android 关于WebView全方面的使用（项目应用篇）](http://www.jianshu.com/p/163d39e562f0)
+### 文档
+ - [Android 关于WebView全方面的使用（项目应用篇）](http://www.jianshu.com/p/163d39e562f0)
+ - [Android DeepLink介绍与使用](https://jingbin.me/2018/07/02/deeplink-intro-use/)
+ - [Android 应用被作为第三方浏览器打开](https://www.jianshu.com/p/272bfb6c0779)
+ - [Android WebView与JS交互实例](https://www.jianshu.com/p/97f52819a19d)
  
  <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/view_00.png"></img>
  <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/电话短信邮件测试.png"></img>
@@ -46,7 +50,6 @@
    }
    
 ### 资料
- - [Android WebView总结](http://www.jianshu.com/p/32d48ca7d0e0)
  - [WebView的使用及实战](http://www.jianshu.com/p/dbf9b7c04be5)
  - [WebView性能、体验分析与优化](https://tech.meituan.com/WebViewPerf.html)
  - [Android WebView开发问题及优化汇总](http://www.cnblogs.com/spring87/p/4532687.html)
