@@ -174,7 +174,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         // 排版适应屏幕
         ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         // WebView是否新窗口打开(加了后可能打不开网页)
-        ws.setSupportMultipleWindows(true);
+//        ws.setSupportMultipleWindows(true);
 
         // webview从5.0开始默认不允许混合模式,https中不能加载http资源,需要设置开启。
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
