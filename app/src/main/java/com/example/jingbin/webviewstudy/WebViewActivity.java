@@ -245,11 +245,21 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     /**
      * android与js交互：
-     * 前端嵌入js代码：不能加重复的节点，不然会覆盖
+     * 前端注入js代码：不能加重复的节点，不然会覆盖
+     * 前端调用js代码
      */
     @Override
     public void addImageClickListener() {
-        // 这段js函数的功能就是，遍历所有的img节点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
+        loadImageClickJS();
+        loadTextClickJS();
+        loadCallJS();
+    }
+
+    /**
+     * 前端注入JS：
+     * 这段js函数的功能就是，遍历所有的img节点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
+     */
+    private void loadImageClickJS() {
         webView.loadUrl("javascript:(function(){" +
                 "var objs = document.getElementsByTagName(\"img\");" +
                 "for(var i=0;i<objs.length;i++)" +
@@ -257,8 +267,13 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
                 "objs[i].onclick=function(){window.injectedObject.imageClick(this.getAttribute(\"src\"));}" +
                 "}" +
                 "})()");
+    }
 
-        // 遍历所有的<li>节点,将节点里的属性传递过去(属性自定义,用于页面跳转)
+    /**
+     * 前端注入JS：
+     * 遍历所有的<li>节点,将节点里的属性传递过去(属性自定义,用于页面跳转)
+     */
+    private void loadTextClickJS() {
         webView.loadUrl("javascript:(function(){" +
                 "var objs =document.getElementsByTagName(\"li\");" +
                 "for(var i=0;i<objs.length;i++)" +
@@ -267,13 +282,16 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
                 "window.injectedObject.textClick(this.getAttribute(\"type\"),this.getAttribute(\"item_pk\"));}" +
                 "}" +
                 "})()");
+    }
 
-        /**传应用内的数据给html，方便html处理*/
+    /**
+     * 传应用内的数据给html，方便html处理
+     */
+    private void loadCallJS() {
         // 无参数调用
         webView.loadUrl("javascript:javacalljs()");
         // 传递参数调用
         webView.loadUrl("javascript:javacalljswithargs('" + "android传入到网页里的数据，有参" + "')");
-
     }
 
     public FrameLayout getVideoFullView() {
