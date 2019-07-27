@@ -8,9 +8,7 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.example.jingbin.webviewstudy.WebViewActivity;
-import com.example.jingbin.webviewstudy.utils.CheckNetwork;
-import com.example.jingbin.webviewstudy.utils.Tools;
+import com.example.jingbin.webviewstudy.utils.WebTools;
 
 /**
  * Created by jingbin on 2016/11/17.
@@ -23,50 +21,41 @@ import com.example.jingbin.webviewstudy.utils.Tools;
 public class MyWebViewClient extends WebViewClient {
 
     private IWebPageView mIWebPageView;
-    private WebViewActivity mActivity;
+//    private WebViewActivity mActivity;
 
     public MyWebViewClient(IWebPageView mIWebPageView) {
         this.mIWebPageView = mIWebPageView;
-        mActivity = (WebViewActivity) mIWebPageView;
+//        mActivity = (WebViewActivity) mIWebPageView;
 
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//        Log.e("jing", "----url:" + url);
+        Log.e("jing", "----url:" + url);
         if (TextUtils.isEmpty(url)) {
             return false;
         }
 
-        if (url.startsWith("http:") || url.startsWith("https:")) {
-            // 可能有提示下载Apk文件
-            if (url.contains(".apk")) {
-                handleOtherwise(mActivity, url);
-                return true;
-            }
-            return false;
-        }
-
-        handleOtherwise(mActivity, url);
-        return true;
+        /** 如果url不是http开头 或 是http且包含.apk(可能有提示下载Apk文件) 则打开三方应用*/
+//        if (!url.startsWith("http") || url.contains(".apk")) {
+//            handleOtherwise(mActivity, url);
+//            return true;
+//        }
+        return mIWebPageView.isOpenThirdApp(url);
     }
 
 
     @Override
     public void onPageFinished(WebView view, String url) {
-        if (!CheckNetwork.isNetworkConnected(mActivity)) {
-            mIWebPageView.hindProgressBar();
-        }
         // html加载完成之后，添加监听图片的点击js函数
-        mIWebPageView.addImageClickListener();
+        mIWebPageView.onPageFinished(view, url);
         super.onPageFinished(view, url);
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onReceivedError(WebView view, int errorCode, String description, String
-            failingUrl) {
+    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         super.onReceivedError(view, errorCode, description, failingUrl);
         if (errorCode == 404) {
             //用javascript隐藏系统定义的404页面信息
@@ -100,10 +89,12 @@ public class MyWebViewClient extends WebViewClient {
             // 京东产品详情
         } else if (url.contains("openapp.jdmobile")) {
             appPackageName = "com.jingdong.app.mall";
+
+            // 都不是则打开
         } else {
             startActivity(url);
         }
-        if (Tools.isApplicationAvilible(activity, appPackageName)) {
+        if (WebTools.hasPackage(activity, appPackageName)) {
             startActivity(url);
         }
     }
@@ -122,7 +113,7 @@ public class MyWebViewClient extends WebViewClient {
             Uri uri = Uri.parse(url);
             intent1.setData(uri);
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mActivity.startActivity(intent1);
+//            mActivity.startActivity(intent1);
         } catch (Exception e) {
             e.printStackTrace();
         }

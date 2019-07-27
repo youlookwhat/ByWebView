@@ -6,8 +6,8 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.jingbin.webviewstudy.utils.WebTools;
 import com.example.jingbin.webviewstudy.utils.CheckNetwork;
-import com.example.jingbin.webviewstudy.utils.Tools;
 
 /**
  * Created by jingbin on 2019/01/15.
@@ -22,13 +22,12 @@ public class MyX5WebViewClient extends com.tencent.smtt.sdk.WebViewClient {
     private IX5WebPageView mIWebPageView;
     private X5WebViewActivity mActivity;
 
-    public MyX5WebViewClient(IX5WebPageView mIWebPageView) {
+    MyX5WebViewClient(IX5WebPageView mIWebPageView) {
         this.mIWebPageView = mIWebPageView;
         mActivity = (X5WebViewActivity) mIWebPageView;
 
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean shouldOverrideUrlLoading(com.tencent.smtt.sdk.WebView view, String url) {
 //        Log.e("jing", "----url:" + url);
@@ -100,7 +99,7 @@ public class MyX5WebViewClient extends com.tencent.smtt.sdk.WebViewClient {
         } else {
             startActivity(url);
         }
-        if (Tools.isApplicationAvilible(activity, appPackageName)) {
+        if (WebTools.hasPackage(activity, appPackageName)) {
             startActivity(url);
         }
     }

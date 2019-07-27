@@ -13,7 +13,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -33,8 +32,9 @@ import com.example.jingbin.webviewstudy.config.IWebPageView;
 import com.example.jingbin.webviewstudy.config.MyJavascriptInterface;
 import com.example.jingbin.webviewstudy.config.MyWebChromeClient;
 import com.example.jingbin.webviewstudy.config.MyWebViewClient;
-import com.example.jingbin.webviewstudy.utils.BaseTools;
+import com.example.jingbin.webviewstudy.utils.CheckNetwork;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
+import com.example.jingbin.webviewstudy.utils.WebTools;
 
 /**
  * 网页可以处理:
@@ -86,7 +86,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimary), 0);
         mProgressBar = findViewById(R.id.pb_progress);
         webView = findViewById(R.id.webview_detail);
-//        videoFullView = findViewById(R.id.video_fullView);
         mTitleToolBar = findViewById(R.id.title_tool_bar);
         tvGunTitle = findViewById(R.id.tv_gun_title);
         initToolBar();
@@ -123,21 +122,17 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
                 break;
             case R.id.actionbar_share:// 分享到
                 String shareText = webView.getTitle() + webView.getUrl();
-                BaseTools.share(WebViewActivity.this, shareText);
+                WebTools.share(WebViewActivity.this, shareText);
                 break;
             case R.id.actionbar_cope:// 复制链接
-                if (!TextUtils.isEmpty(webView.getUrl())) {
-                    BaseTools.copy(webView.getUrl());
-                    Toast.makeText(this, "复制成功", Toast.LENGTH_LONG).show();
-                }
+                WebTools.copy(webView.getUrl());
+                Toast.makeText(this, "复制成功", Toast.LENGTH_LONG).show();
                 break;
             case R.id.actionbar_open:// 打开链接
-                BaseTools.openLink(WebViewActivity.this, webView.getUrl());
+                WebTools.openLink(WebViewActivity.this, webView.getUrl());
                 break;
             case R.id.actionbar_webview_refresh:// 刷新页面
-                if (webView != null) {
-                    webView.reload();
-                }
+                webView.reload();
                 break;
             default:
                 break;
@@ -199,11 +194,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     }
 
     @Override
-    public void hindProgressBar() {
-        mProgressBar.setVisibility(View.GONE);
-    }
-
-    @Override
     public void showWebView() {
         webView.setVisibility(View.VISIBLE);
     }
@@ -250,10 +240,27 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
      * 前端调用js代码
      */
     @Override
-    public void addImageClickListener() {
+    public void onPageFinished(WebView view, String url) {
+        if (!CheckNetwork.isNetworkConnected(this)) {
+            mProgressBar.setVisibility(View.GONE);
+        }
         loadImageClickJS();
         loadTextClickJS();
         loadCallJS();
+    }
+
+    /**
+     * 处理是否唤起三方app
+     */
+    @Override
+    public boolean isOpenThirdApp(String url) {
+        /** 如果url不是http开头 或 是http且包含.apk(可能有提示下载Apk文件) 则打开三方应用*/
+        if (!url.startsWith("http") || url.contains(".apk")) {
+            WebTools.handleThirdApp(this, url);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

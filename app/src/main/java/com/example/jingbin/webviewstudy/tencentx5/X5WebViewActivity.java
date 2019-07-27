@@ -29,7 +29,7 @@ import com.example.jingbin.webviewstudy.MainActivity;
 import com.example.jingbin.webviewstudy.R;
 import com.example.jingbin.webviewstudy.config.FullscreenHolder;
 import com.example.jingbin.webviewstudy.config.MyJavascriptInterface;
-import com.example.jingbin.webviewstudy.utils.BaseTools;
+import com.example.jingbin.webviewstudy.utils.WebTools;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 
 /**
@@ -116,16 +116,16 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
                 break;
             case R.id.actionbar_share:// 分享到
                 String shareText = webView.getTitle() + webView.getUrl();
-                BaseTools.share(X5WebViewActivity.this, shareText);
+                WebTools.share(X5WebViewActivity.this, shareText);
                 break;
             case R.id.actionbar_cope:// 复制链接
                 if (!TextUtils.isEmpty(webView.getUrl())) {
-                    BaseTools.copy(webView.getUrl());
+                    WebTools.copy(webView.getUrl());
                     Toast.makeText(this, "复制成功", Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.actionbar_open:// 打开链接
-                BaseTools.openLink(X5WebViewActivity.this, webView.getUrl());
+                WebTools.openLink(X5WebViewActivity.this, webView.getUrl());
                 break;
             case R.id.actionbar_webview_refresh:// 刷新页面
                 if (webView != null) {

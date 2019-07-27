@@ -11,11 +11,6 @@ import android.widget.FrameLayout;
 public interface IWebPageView {
 
     /**
-     * 隐藏进度条
-     */
-    void hindProgressBar();
-
-    /**
      * 显示webview
      */
     void showWebView();
@@ -25,18 +20,12 @@ public interface IWebPageView {
      */
     void hindWebView();
 
-
     /**
      * 进度条变化时调用
      *
      * @param newProgress 进度0-100
      */
     void startProgress(int newProgress);
-
-    /**
-     * 添加js监听
-     */
-    void addImageClickListener();
 
     /**
      * 添加视频全屏view
@@ -78,4 +67,14 @@ public interface IWebPageView {
      */
     void startFileChooserForResult(Intent intent, int requestCode);
 
+    /**
+     * 页面加载结束，添加js监听等
+     */
+    void onPageFinished(WebView view, String url);
+
+    /**
+     * 是否处理打开三方app
+     * @param url
+     */
+    boolean isOpenThirdApp(String url);
 }
