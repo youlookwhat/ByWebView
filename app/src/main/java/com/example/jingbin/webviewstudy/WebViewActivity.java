@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -85,7 +86,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimary), 0);
         mProgressBar = findViewById(R.id.pb_progress);
         webView = findViewById(R.id.webview_detail);
-        videoFullView = findViewById(R.id.video_fullView);
+//        videoFullView = findViewById(R.id.video_fullView);
         mTitleToolBar = findViewById(R.id.title_tool_bar);
         tvGunTitle = findViewById(R.id.tv_gun_title);
         initToolBar();
@@ -294,16 +295,32 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         webView.loadUrl("javascript:javacalljswithargs('" + "android传入到网页里的数据，有参" + "')");
     }
 
-    public FrameLayout getVideoFullView() {
-        return videoFullView;
-    }
-
     /**
      * 全屏时按返加键执行退出全屏方法
      */
     public void hideCustomView() {
         mWebChromeClient.onHideCustomView();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    @Override
+    public FrameLayout getVideoFullView() {
+        return videoFullView;
+    }
+
+    @Override
+    public View getVideoLoadingProgressView() {
+        return LayoutInflater.from(this).inflate(R.layout.video_loading_progress, null);
+    }
+
+    @Override
+    public void onReceivedTitle(WebView view, String title) {
+        setTitle(title);
+    }
+
+    @Override
+    public void startFileChooserForResult(Intent intent, int requestCode) {
+        startActivityForResult(intent, requestCode);
     }
 
     /**
@@ -441,7 +458,9 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     @Override
     protected void onDestroy() {
-        videoFullView.removeAllViews();
+        if (videoFullView != null) {
+            videoFullView.removeAllViews();
+        }
         if (webView != null) {
             ViewGroup parent = (ViewGroup) webView.getParent();
             if (parent != null) {
@@ -469,13 +488,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         Intent intent = new Intent(mContext, WebViewActivity.class);
         intent.putExtra("mUrl", mUrl);
         intent.putExtra("mTitle", mTitle == null ? "加载中..." : mTitle);
-        mContext.startActivity(intent);
-    }
-
-    public static void loadUrl(Context mContext, String mUrl) {
-        Intent intent = new Intent(mContext, WebViewActivity.class);
-        intent.putExtra("mUrl", mUrl);
-        intent.putExtra("mTitle", "详情");
         mContext.startActivity(intent);
     }
 }

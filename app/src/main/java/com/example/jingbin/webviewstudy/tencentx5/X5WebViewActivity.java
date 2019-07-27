@@ -20,7 +20,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,7 +28,6 @@ import android.widget.Toast;
 import com.example.jingbin.webviewstudy.MainActivity;
 import com.example.jingbin.webviewstudy.R;
 import com.example.jingbin.webviewstudy.config.FullscreenHolder;
-import com.example.jingbin.webviewstudy.config.IWebPageView;
 import com.example.jingbin.webviewstudy.config.MyJavascriptInterface;
 import com.example.jingbin.webviewstudy.utils.BaseTools;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
@@ -43,7 +41,7 @@ import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
  * 5、添加权限 READ_PHONE_STATE
  * 6、getWindow().setFormat(PixelFormat.TRANSLUCENT);
  */
-public class X5WebViewActivity extends AppCompatActivity implements IWebPageView {
+public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageView {
 
     // 进度条
     private ProgressBar mProgressBar;

@@ -1,69 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.jingbin.webviewstudy.WebViewActivity">
 
-    <!--播放全屏视频时用-->
-    <FrameLayout
-        android:id="@+id/video_fullView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:visibility="gone" />
-
-    <LinearLayout
+    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/title_tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:contentInsetStartWithNavigation="0dp"
+        app:navigationContentDescription="返回"
+        app:navigationIcon="@drawable/icon_back"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ToolbarStyle">
 
-        <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/title_tool_bar"
+        <TextView
+            android:id="@+id/tv_gun_title"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:contentInsetStartWithNavigation="0dp"
-            app:navigationContentDescription="返回"
-            app:navigationIcon="@drawable/icon_back"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ToolbarStyle">
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/tv_gun_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:singleLine="true"
-                android:textColor="@color/colorWhite"
-                android:textSize="18sp"
-                android:visibility="visible" />
+    </android.support.v7.widget.Toolbar>
 
-        </android.support.v7.widget.Toolbar>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <WebView
+            android:id="@+id/webview_detail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbarSize="3dp" />
 
-            <WebView
-                android:id="@+id/webview_detail"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbarSize="3dp"
-                />
+        <ProgressBar
+            android:id="@+id/pb_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_alignParentTop="true"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/process_bg"
+            android:visibility="gone" />
 
-            <ProgressBar
-                android:id="@+id/pb_progress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_alignParentTop="true"
-                android:max="100"
-                android:progress="0"
-                android:progressDrawable="@drawable/process_bg"
-                android:visibility="gone" />
+    </RelativeLayout>
 
-        </RelativeLayout>
-    </LinearLayout>
+</LinearLayout>
 
-</RelativeLayout>

@@ -6,8 +6,6 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.jingbin.webviewstudy.WebViewActivity;
-import com.example.jingbin.webviewstudy.config.IWebPageView;
 import com.example.jingbin.webviewstudy.utils.CheckNetwork;
 import com.example.jingbin.webviewstudy.utils.Tools;
 
@@ -21,10 +19,10 @@ import com.example.jingbin.webviewstudy.utils.Tools;
  */
 public class MyX5WebViewClient extends com.tencent.smtt.sdk.WebViewClient {
 
-    private IWebPageView mIWebPageView;
+    private IX5WebPageView mIWebPageView;
     private X5WebViewActivity mActivity;
 
-    public MyX5WebViewClient(IWebPageView mIWebPageView) {
+    public MyX5WebViewClient(IX5WebPageView mIWebPageView) {
         this.mIWebPageView = mIWebPageView;
         mActivity = (X5WebViewActivity) mIWebPageView;
 

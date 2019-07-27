@@ -8,8 +8,6 @@ import android.view.View;
 import android.webkit.ValueCallback;
 
 import com.example.jingbin.webviewstudy.R;
-import com.example.jingbin.webviewstudy.WebViewActivity;
-import com.example.jingbin.webviewstudy.config.IWebPageView;
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
 
 import static android.app.Activity.RESULT_OK;
@@ -29,11 +27,11 @@ public class MyX5WebChromeClient extends com.tencent.smtt.sdk.WebChromeClient {
 
     private View mXProgressVideo;
     private X5WebViewActivity mActivity;
-    private IWebPageView mIWebPageView;
+    private IX5WebPageView mIWebPageView;
     private View mXCustomView;
     private IX5WebChromeClient.CustomViewCallback mXCustomViewCallback;
 
-    public MyX5WebChromeClient(IWebPageView mIWebPageView) {
+    public MyX5WebChromeClient(IX5WebPageView mIWebPageView) {
         this.mIWebPageView = mIWebPageView;
         this.mActivity = (X5WebViewActivity) mIWebPageView;
     }
