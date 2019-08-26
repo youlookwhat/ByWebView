@@ -1,7 +1,9 @@
 package com.example.jingbin.webviewstudy.config;
 
+import android.net.http.SslError;
 import android.text.TextUtils;
 import android.util.Log;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -46,6 +48,12 @@ public class MyWebViewClient extends WebViewClient {
             String data = "Page NO FOUND！";
             view.loadUrl("javascript:document.body.innerHTML=\"" + data + "\"");
         }
+    }
+
+    // SSL Error. Failed to validate the certificate chain,error: java.security.cert.CertPathValidatorExcept
+    @Override
+    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        handler.proceed(); //解决方案, 不要调用super.xxxx
     }
 
     // 视频全屏播放按返回页面被放大的问题

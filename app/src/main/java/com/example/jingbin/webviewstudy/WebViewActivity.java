@@ -48,6 +48,9 @@ import com.example.jingbin.webviewstudy.utils.WebTools;
  * - 前端代码嵌入js(缺乏灵活性)
  * - 网页自带js跳转
  * 被作为第三方浏览器打开
+ *
+ * @author jingbin
+ * link to https://github.com/youlookwhat/WebViewStudy
  */
 public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
