@@ -14,7 +14,7 @@
 
 ### 文档
  - [Android 关于WebView全方面的使用（项目应用篇）](http://www.jianshu.com/p/163d39e562f0)
- - [Android DeepLink介绍与使用](https://jingbin.me/2018/07/02/deeplink-intro-use/)
+ - [Android DeepLink介绍与使用](https://www.jianshu.com/p/127c80f62655)
  - [Android 应用被作为第三方浏览器打开](https://www.jianshu.com/p/272bfb6c0779)
  - [Android WebView与JS交互实例](https://www.jianshu.com/p/97f52819a19d)
  

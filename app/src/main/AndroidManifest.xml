@@ -19,6 +19,8 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <!-- 硬件加速对X5视频播放非常重要，建议开启 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <!--android 9.0上使用前台服务，需要添加权限 原生WebView未用到，可能x5需要-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
 
     <application
