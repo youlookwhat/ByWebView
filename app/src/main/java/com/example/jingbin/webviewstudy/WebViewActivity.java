@@ -470,6 +470,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     protected void onDestroy() {
         if (videoFullView != null) {
             videoFullView.removeAllViews();
+            videoFullView = null;
         }
         if (webView != null) {
             ViewGroup parent = (ViewGroup) webView.getParent();

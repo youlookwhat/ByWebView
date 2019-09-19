@@ -3,11 +3,9 @@ package com.example.jingbin.webviewstudy.tencentx5;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.ValueCallback;
 
-import com.example.jingbin.webviewstudy.R;
+import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
 
 import static android.app.Activity.RESULT_OK;
@@ -20,8 +18,8 @@ import static android.app.Activity.RESULT_OK;
  */
 public class MyX5WebChromeClient extends com.tencent.smtt.sdk.WebChromeClient {
 
-    private ValueCallback<Uri> mUploadMessage;
-    private ValueCallback<Uri[]> mUploadMessageForAndroid5;
+    private com.tencent.smtt.sdk.ValueCallback<Uri> mUploadMessage;
+    private com.tencent.smtt.sdk.ValueCallback<Uri[]> mUploadMessageForAndroid5;
     public static int FILECHOOSER_RESULTCODE = 1;
     public static int FILECHOOSER_RESULTCODE_FOR_ANDROID_5 = 2;
 
@@ -41,7 +39,7 @@ public class MyX5WebChromeClient extends com.tencent.smtt.sdk.WebChromeClient {
      */
     @Override
     public void onShowCustomView(View view, IX5WebChromeClient.CustomViewCallback callback) {
-        mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        mIWebPageView.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         mIWebPageView.hindWebView();
         // 如果一个视图已经存在，那么立刻终止并新建一个
         if (mXCustomView != null) {
@@ -49,7 +47,7 @@ public class MyX5WebChromeClient extends com.tencent.smtt.sdk.WebChromeClient {
             return;
         }
 
-        mActivity.fullViewAddView(view);
+        mIWebPageView.fullViewAddView(view);
         mXCustomView = view;
         mXCustomViewCallback = callback;
         mIWebPageView.showVideoFullView();
@@ -60,13 +58,15 @@ public class MyX5WebChromeClient extends com.tencent.smtt.sdk.WebChromeClient {
      */
     @Override
     public void onHideCustomView() {
-        if (mXCustomView == null)// 不是全屏播放状态
+        // 不是全屏播放状态
+        if (mXCustomView == null) {
             return;
-        mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+        mIWebPageView.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         mXCustomView.setVisibility(View.GONE);
-        if (mActivity.getVideoFullView() != null) {
-            mActivity.getVideoFullView().removeView(mXCustomView);
+        if (mIWebPageView.getVideoFullView() != null) {
+            mIWebPageView.getVideoFullView().removeView(mXCustomView);
         }
         mXCustomView = null;
         mIWebPageView.hindVideoFullView();
@@ -75,13 +75,12 @@ public class MyX5WebChromeClient extends com.tencent.smtt.sdk.WebChromeClient {
     }
 
     /**
-     * 视频加载时进程loading
+     * 视频加载时loading
      */
     @Override
     public View getVideoLoadingProgressView() {
         if (mXProgressVideo == null) {
-            LayoutInflater inflater = LayoutInflater.from(mActivity);
-            mXProgressVideo = inflater.inflate(R.layout.video_loading_progress, null);
+            mXProgressVideo = mIWebPageView.getVideoLoadingProgressView();
         }
         return mXProgressVideo;
     }
@@ -103,7 +102,7 @@ public class MyX5WebChromeClient extends com.tencent.smtt.sdk.WebChromeClient {
     public void onReceivedTitle(com.tencent.smtt.sdk.WebView view, String title) {
         super.onReceivedTitle(view, title);
         // 设置title
-        mActivity.setTitle(title);
+        mIWebPageView.onReceivedTitle(view, title);
     }
 
     //扩展浏览器上传文件
@@ -130,10 +129,10 @@ public class MyX5WebChromeClient extends com.tencent.smtt.sdk.WebChromeClient {
 
     private void openFileChooserImpl(ValueCallback<Uri> uploadMsg) {
         mUploadMessage = uploadMsg;
-        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-        i.addCategory(Intent.CATEGORY_OPENABLE);
-        i.setType("image/*");
-        mActivity.startActivityForResult(Intent.createChooser(i, "文件选择"), FILECHOOSER_RESULTCODE);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        mIWebPageView.startFileChooserForResult(Intent.createChooser(intent, "文件选择"), FILECHOOSER_RESULTCODE);
     }
 
     private void openFileChooserImplForAndroid5(ValueCallback<Uri[]> uploadMsg) {
@@ -146,7 +145,7 @@ public class MyX5WebChromeClient extends com.tencent.smtt.sdk.WebChromeClient {
         chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
         chooserIntent.putExtra(Intent.EXTRA_TITLE, "图片选择");
 
-        mActivity.startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE_FOR_ANDROID_5);
+        mIWebPageView.startFileChooserForResult(chooserIntent, FILECHOOSER_RESULTCODE_FOR_ANDROID_5);
     }
 
     /**

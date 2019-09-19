@@ -1,16 +1,15 @@
 package com.example.jingbin.webviewstudy.tencentx5;
 
+import android.content.Intent;
 import android.view.View;
+import android.widget.FrameLayout;
+
+import com.tencent.smtt.sdk.WebView;
 
 /**
  * Created by jingbin on 2016/11/17.
  */
 public interface IX5WebPageView {
-
-    /**
-     * 隐藏进度条
-     */
-    void hindProgressBar();
 
     /**
      * 显示webview
@@ -22,7 +21,6 @@ public interface IX5WebPageView {
      */
     void hindWebView();
 
-
     /**
      * 进度条变化时调用
      *
@@ -31,16 +29,53 @@ public interface IX5WebPageView {
     void startProgress(int newProgress);
 
     /**
-     * 添加js监听
-     */
-    void addImageClickListener();
-
-    /**
      * 添加视频全屏view
      */
     void fullViewAddView(View view);
 
+    /**
+     * 显示全屏view
+     */
     void showVideoFullView();
 
+    /**
+     * 隐藏全屏view
+     */
     void hindVideoFullView();
+
+    /**
+     * 设置横竖屏
+     */
+    void setRequestedOrientation(int screenOrientationPortrait);
+
+    /**
+     * 得到全屏view
+     */
+    FrameLayout getVideoFullView();
+
+    /**
+     * 加载视频进度条
+     */
+    View getVideoLoadingProgressView();
+
+    /**
+     * 返回标题处理
+     */
+    void onReceivedTitle(com.tencent.smtt.sdk.WebView view, String title);
+
+    /**
+     * 上传图片打开文件夹
+     */
+    void startFileChooserForResult(Intent intent, int requestCode);
+
+    /**
+     * 页面加载结束，添加js监听等
+     */
+    void onPageFinished(WebView view, String url);
+
+    /**
+     * 是否处理打开三方app
+     * @param url
+     */
+    boolean isOpenThirdApp(String url);
 }

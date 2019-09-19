@@ -83,6 +83,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/WebViewTheme" />
+        <!--tencent x5 页面 使用的是Apache HTTP客户端 适配SDK 28-->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 
 </manifest>

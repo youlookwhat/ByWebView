@@ -14,12 +14,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,8 +30,11 @@ import com.example.jingbin.webviewstudy.MainActivity;
 import com.example.jingbin.webviewstudy.R;
 import com.example.jingbin.webviewstudy.config.FullscreenHolder;
 import com.example.jingbin.webviewstudy.config.MyJavascriptInterface;
-import com.example.jingbin.webviewstudy.utils.WebTools;
+import com.example.jingbin.webviewstudy.config.MyWebChromeClient;
+import com.example.jingbin.webviewstudy.utils.CheckNetwork;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
+import com.example.jingbin.webviewstudy.utils.WebTools;
+import com.tencent.smtt.sdk.CookieSyncManager;
 
 /**
  * 使用 tencent x5 内核处理网页
@@ -79,7 +83,6 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
         StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimary), 0);
         mProgressBar = findViewById(R.id.pb_progress);
         webView = findViewById(R.id.webview_detail);
-        videoFullView = findViewById(R.id.video_fullView);
         mTitleToolBar = findViewById(R.id.title_tool_bar);
         tvGunTitle = findViewById(R.id.tv_gun_title);
         initToolBar();
@@ -116,21 +119,17 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
                 break;
             case R.id.actionbar_share:// 分享到
                 String shareText = webView.getTitle() + webView.getUrl();
-                WebTools.share(X5WebViewActivity.this, shareText);
+                WebTools.share(this, shareText);
                 break;
             case R.id.actionbar_cope:// 复制链接
-                if (!TextUtils.isEmpty(webView.getUrl())) {
-                    WebTools.copy(webView.getUrl());
-                    Toast.makeText(this, "复制成功", Toast.LENGTH_LONG).show();
-                }
+                WebTools.copy(webView.getUrl());
+                Toast.makeText(this, "复制成功", Toast.LENGTH_LONG).show();
                 break;
             case R.id.actionbar_open:// 打开链接
-                WebTools.openLink(X5WebViewActivity.this, webView.getUrl());
+                WebTools.openLink(this, webView.getUrl());
                 break;
             case R.id.actionbar_webview_refresh:// 刷新页面
-                if (webView != null) {
-                    webView.reload();
-                }
+                webView.reload();
                 break;
             default:
                 break;
@@ -192,11 +191,6 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
     }
 
     @Override
-    public void hindProgressBar() {
-        mProgressBar.setVisibility(View.GONE);
-    }
-
-    @Override
     public void showWebView() {
         webView.setVisibility(View.VISIBLE);
     }
@@ -209,7 +203,7 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
     @Override
     public void fullViewAddView(View view) {
         FrameLayout decor = (FrameLayout) getWindow().getDecorView();
-        videoFullView = new FullscreenHolder(X5WebViewActivity.this);
+        videoFullView = new FullscreenHolder(this);
         videoFullView.addView(view);
         decor.addView(videoFullView);
     }
@@ -239,11 +233,38 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
 
     /**
      * android与js交互：
-     * 前端嵌入js代码：不能加重复的节点，不然会覆盖
+     * 前端注入js代码：不能加重复的节点，不然会覆盖
+     * 前端调用js代码
      */
     @Override
-    public void addImageClickListener() {
-        // 这段js函数的功能就是，遍历所有的img节点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
+    public void onPageFinished(com.tencent.smtt.sdk.WebView view, String url) {
+        if (!CheckNetwork.isNetworkConnected(this)) {
+            mProgressBar.setVisibility(View.GONE);
+        }
+        loadImageClickJS();
+        loadTextClickJS();
+        loadCallJS();
+    }
+
+    /**
+     * 处理是否唤起三方app
+     */
+    @Override
+    public boolean isOpenThirdApp(String url) {
+        /** 如果url不是http开头 或 是http且包含.apk(可能有提示下载Apk文件) 则打开三方应用*/
+        if (!url.startsWith("http") || url.contains(".apk")) {
+            WebTools.handleThirdApp(this, url);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 前端注入JS：
+     * 这段js函数的功能就是，遍历所有的img节点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
+     */
+    private void loadImageClickJS() {
         webView.loadUrl("javascript:(function(){" +
                 "var objs = document.getElementsByTagName(\"img\");" +
                 "for(var i=0;i<objs.length;i++)" +
@@ -251,8 +272,13 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
                 "objs[i].onclick=function(){window.injectedObject.imageClick(this.getAttribute(\"src\"));}" +
                 "}" +
                 "})()");
+    }
 
-        // 遍历所有的<li>节点,将节点里的属性传递过去(属性自定义,用于页面跳转)
+    /**
+     * 前端注入JS：
+     * 遍历所有的<li>节点,将节点里的属性传递过去(属性自定义,用于页面跳转)
+     */
+    private void loadTextClickJS() {
         webView.loadUrl("javascript:(function(){" +
                 "var objs =document.getElementsByTagName(\"li\");" +
                 "for(var i=0;i<objs.length;i++)" +
@@ -261,17 +287,16 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
                 "window.injectedObject.textClick(this.getAttribute(\"type\"),this.getAttribute(\"item_pk\"));}" +
                 "}" +
                 "})()");
+    }
 
-        /**传应用内的数据给html，方便html处理*/
+    /**
+     * 传应用内的数据给html，方便html处理
+     */
+    private void loadCallJS() {
         // 无参数调用
         webView.loadUrl("javascript:javacalljs()");
         // 传递参数调用
         webView.loadUrl("javascript:javacalljswithargs('" + "android传入到网页里的数据，有参" + "')");
-
-    }
-
-    public FrameLayout getVideoFullView() {
-        return videoFullView;
     }
 
     /**
@@ -282,14 +307,34 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
+    @Override
+    public FrameLayout getVideoFullView() {
+        return videoFullView;
+    }
+
+    @Override
+    public View getVideoLoadingProgressView() {
+        return LayoutInflater.from(this).inflate(R.layout.video_loading_progress, null);
+    }
+
+    @Override
+    public void onReceivedTitle(com.tencent.smtt.sdk.WebView view, String title) {
+        setTitle(title);
+    }
+
+    @Override
+    public void startFileChooserForResult(Intent intent, int requestCode) {
+        startActivityForResult(intent, requestCode);
+    }
+
     /**
      * 上传图片之后的回调
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == MyX5WebChromeClient.FILECHOOSER_RESULTCODE) {
+        if (requestCode == MyWebChromeClient.FILECHOOSER_RESULTCODE) {
             mWebChromeClient.mUploadMessage(intent, resultCode);
-        } else if (requestCode == MyX5WebChromeClient.FILECHOOSER_RESULTCODE_FOR_ANDROID_5) {
+        } else if (requestCode == MyWebChromeClient.FILECHOOSER_RESULTCODE_FOR_ANDROID_5) {
             mWebChromeClient.mUploadMessageForAndroid5(intent, resultCode);
         }
     }
@@ -353,7 +398,7 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
         if (hitTestResult.getType() == com.tencent.smtt.sdk.WebView.HitTestResult.IMAGE_TYPE ||
                 hitTestResult.getType() == com.tencent.smtt.sdk.WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
             // 弹出保存图片的对话框
-            new AlertDialog.Builder(X5WebViewActivity.this)
+            new AlertDialog.Builder(this)
                     .setItems(new String[]{"查看大图", "保存图片到相册"}, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -417,18 +462,21 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
 
     @Override
     protected void onDestroy() {
-        try {
+        if (videoFullView != null) {
             videoFullView.removeAllViews();
-            if (webView != null) {
-                webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
-                webView.stopLoading();
-                webView.setWebChromeClient(null);
-                webView.setWebViewClient(null);
-                webView.destroy();
-                webView = null;
+        }
+        if (webView != null) {
+            ViewGroup parent = (ViewGroup) webView.getParent();
+            if (parent != null) {
+                parent.removeView(webView);
             }
-        } catch (Exception e) {
-            Log.e("X5WebViewActivity", e.getMessage());
+            webView.removeAllViews();
+            webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+            webView.stopLoading();
+            webView.setWebChromeClient(null);
+            webView.setWebViewClient(null);
+            webView.destroy();
+            webView = null;
         }
         super.onDestroy();
     }
@@ -444,13 +492,6 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
         Intent intent = new Intent(mContext, X5WebViewActivity.class);
         intent.putExtra("mUrl", mUrl);
         intent.putExtra("mTitle", mTitle == null ? "加载中..." : mTitle);
-        mContext.startActivity(intent);
-    }
-
-    public static void loadUrl(Context mContext, String mUrl) {
-        Intent intent = new Intent(mContext, X5WebViewActivity.class);
-        intent.putExtra("mUrl", mUrl);
-        intent.putExtra("mTitle", "详情");
         mContext.startActivity(intent);
     }
 }

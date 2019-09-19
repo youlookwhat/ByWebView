@@ -1,13 +1,11 @@
 package com.example.jingbin.webviewstudy.tencentx5;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.jingbin.webviewstudy.utils.WebTools;
-import com.example.jingbin.webviewstudy.utils.CheckNetwork;
+import com.tencent.smtt.export.external.interfaces.SslError;
+import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
+import com.tencent.smtt.sdk.WebView;
 
 /**
  * Created by jingbin on 2019/01/15.
@@ -29,33 +27,19 @@ public class MyX5WebViewClient extends com.tencent.smtt.sdk.WebViewClient {
     }
 
     @Override
-    public boolean shouldOverrideUrlLoading(com.tencent.smtt.sdk.WebView view, String url) {
-//        Log.e("jing", "----url:" + url);
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        Log.e("jing", "----url:" + url);
         if (TextUtils.isEmpty(url)) {
             return false;
         }
-
-        if (url.startsWith("http:") || url.startsWith("https:")) {
-            // 可能有提示下载Apk文件
-            if (url.contains(".apk")) {
-                handleOtherwise(mActivity, url);
-                return true;
-            }
-            return false;
-        }
-
-        handleOtherwise(mActivity, url);
-        return true;
+        return mIWebPageView.isOpenThirdApp(url);
     }
 
 
     @Override
-    public void onPageFinished(com.tencent.smtt.sdk.WebView view, String url) {
-        if (!CheckNetwork.isNetworkConnected(mActivity)) {
-            mIWebPageView.hindProgressBar();
-        }
+    public void onPageFinished(WebView view, String url) {
         // html加载完成之后，添加监听图片的点击js函数
-        mIWebPageView.addImageClickListener();
+        mIWebPageView.onPageFinished(view, url);
         super.onPageFinished(view, url);
     }
 
@@ -71,56 +55,18 @@ public class MyX5WebViewClient extends com.tencent.smtt.sdk.WebViewClient {
         }
     }
 
+    // SSL Error. Failed to validate the certificate chain,error: java.security.cert.CertPathValidatorExcept
+    @Override
+    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        handler.proceed(); //解决方案, 不要调用super.xxxx
+    }
+
     // 视频全屏播放按返回页面被放大的问题
     @Override
     public void onScaleChanged(com.tencent.smtt.sdk.WebView view, float oldScale, float newScale) {
         super.onScaleChanged(view, oldScale, newScale);
         if (newScale - oldScale > 7) {
             view.setInitialScale((int) (oldScale / newScale * 100)); //异常放大，缩回去。
-        }
-    }
-
-    /**
-     * 网页里可能唤起其他的app
-     */
-    private void handleOtherwise(Activity activity, String url) {
-        String appPackageName = "";
-        // 支付宝支付
-        if (url.contains("alipays")) {
-            appPackageName = "com.eg.android.AlipayGphone";
-
-            // 微信支付
-        } else if (url.contains("weixin://wap/pay")) {
-            appPackageName = "com.tencent.mm";
-
-            // 京东产品详情
-        } else if (url.contains("openapp.jdmobile")) {
-            appPackageName = "com.jingdong.app.mall";
-        } else {
-            startActivity(url);
-        }
-        if (WebTools.hasPackage(activity, appPackageName)) {
-            startActivity(url);
-        }
-    }
-
-    private void startActivity(String url) {
-        try {
-
-            // 用于DeepLink测试
-            if (url.startsWith("will://")) {
-                Uri uri = Uri.parse(url);
-                Log.e("---------scheme", uri.getScheme() + "；host: " + uri.getHost() + "；Id: " + uri.getPathSegments().get(0));
-            }
-
-            Intent intent1 = new Intent();
-            intent1.setAction("android.intent.action.VIEW");
-            Uri uri = Uri.parse(url);
-            intent1.setData(uri);
-            intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mActivity.startActivity(intent1);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
