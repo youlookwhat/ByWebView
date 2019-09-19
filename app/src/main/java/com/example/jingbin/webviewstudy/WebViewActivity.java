@@ -32,6 +32,7 @@ import com.example.jingbin.webviewstudy.config.IWebPageView;
 import com.example.jingbin.webviewstudy.config.MyJavascriptInterface;
 import com.example.jingbin.webviewstudy.config.MyWebChromeClient;
 import com.example.jingbin.webviewstudy.config.MyWebViewClient;
+import com.example.jingbin.webviewstudy.config.WebProgress;
 import com.example.jingbin.webviewstudy.utils.CheckNetwork;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 import com.example.jingbin.webviewstudy.utils.WebTools;
@@ -55,7 +56,7 @@ import com.example.jingbin.webviewstudy.utils.WebTools;
 public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     // 进度条
-    private ProgressBar mProgressBar;
+    private WebProgress mProgressBar;
     private WebView webView;
     // 全屏时视频加载view
     private FrameLayout videoFullView;
@@ -88,6 +89,8 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     private void initTitle() {
         StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimary), 0);
         mProgressBar = findViewById(R.id.pb_progress);
+        mProgressBar.setColor(ContextCompat.getColor(this, R.color.colorAccent));
+        mProgressBar.show();
         webView = findViewById(R.id.webview_detail);
         mTitleToolBar = findViewById(R.id.title_tool_bar);
         tvGunTitle = findViewById(R.id.tv_gun_title);
@@ -145,7 +148,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     private void initWebView() {
-        mProgressBar.setVisibility(View.VISIBLE);
         WebSettings ws = webView.getSettings();
         // 网页内容的宽度是否可大于WebView控件的宽度
         ws.setLoadWithOverviewMode(false);
@@ -226,11 +228,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     @Override
     public void startProgress(int newProgress) {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mProgressBar.setProgress(newProgress);
-        if (newProgress == 100) {
-            mProgressBar.setVisibility(View.GONE);
-        }
+        mProgressBar.setWebProgress(newProgress);
     }
 
     public void setTitle(String mTitle) {
@@ -245,7 +243,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     @Override
     public void onPageFinished(WebView view, String url) {
         if (!CheckNetwork.isNetworkConnected(this)) {
-            mProgressBar.setVisibility(View.GONE);
+            mProgressBar.hide();
         }
         loadImageClickJS();
         loadTextClickJS();

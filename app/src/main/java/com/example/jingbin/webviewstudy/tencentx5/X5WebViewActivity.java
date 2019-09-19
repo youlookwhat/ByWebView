@@ -31,6 +31,7 @@ import com.example.jingbin.webviewstudy.R;
 import com.example.jingbin.webviewstudy.config.FullscreenHolder;
 import com.example.jingbin.webviewstudy.config.MyJavascriptInterface;
 import com.example.jingbin.webviewstudy.config.MyWebChromeClient;
+import com.example.jingbin.webviewstudy.config.WebProgress;
 import com.example.jingbin.webviewstudy.utils.CheckNetwork;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 import com.example.jingbin.webviewstudy.utils.WebTools;
@@ -44,11 +45,14 @@ import com.tencent.smtt.sdk.CookieSyncManager;
  * 4、jniLibs 配置
  * 5、添加权限 READ_PHONE_STATE
  * 6、getWindow().setFormat(PixelFormat.TRANSLUCENT);
+ *
+ * @author jingbin
+ * link to https://github.com/youlookwhat/WebViewStudy
  */
 public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageView {
 
     // 进度条
-    private ProgressBar mProgressBar;
+    private WebProgress mProgressBar;
     private com.tencent.smtt.sdk.WebView webView;
     // 全屏时视频加载view
     private FrameLayout videoFullView;
@@ -82,6 +86,8 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
     private void initTitle() {
         StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimary), 0);
         mProgressBar = findViewById(R.id.pb_progress);
+        mProgressBar.setColor(ContextCompat.getColor(this, R.color.colorPink), ContextCompat.getColor(this, R.color.colorAccent));
+        mProgressBar.show();
         webView = findViewById(R.id.webview_detail);
         mTitleToolBar = findViewById(R.id.title_tool_bar);
         tvGunTitle = findViewById(R.id.tv_gun_title);
@@ -139,7 +145,6 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     private void initWebView() {
-        mProgressBar.setVisibility(View.VISIBLE);
         com.tencent.smtt.sdk.WebSettings ws = webView.getSettings();
         // 网页内容的宽度是否可大于WebView控件的宽度
         ws.setLoadWithOverviewMode(false);
@@ -220,11 +225,7 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
 
     @Override
     public void startProgress(int newProgress) {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mProgressBar.setProgress(newProgress);
-        if (newProgress == 100) {
-            mProgressBar.setVisibility(View.GONE);
-        }
+        mProgressBar.setWebProgress(newProgress);
     }
 
     public void setTitle(String mTitle) {
@@ -239,7 +240,7 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
     @Override
     public void onPageFinished(com.tencent.smtt.sdk.WebView view, String url) {
         if (!CheckNetwork.isNetworkConnected(this)) {
-            mProgressBar.setVisibility(View.GONE);
+            mProgressBar.hide();
         }
         loadImageClickJS();
         loadTextClickJS();
