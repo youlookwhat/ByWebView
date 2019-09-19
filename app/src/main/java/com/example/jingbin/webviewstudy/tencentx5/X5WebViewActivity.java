@@ -380,11 +380,7 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
      * 直接通过三方浏览器打开时，回退到首页
      */
     public void handleFinish() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAfterTransition();
-        } else {
-            finish();
-        }
+        supportFinishAfterTransition();
         if (!MainActivity.isLaunch) {
             MainActivity.start(this);
         }
