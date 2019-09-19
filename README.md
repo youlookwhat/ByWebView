@@ -4,7 +4,7 @@
 ## Function
 
  - 基本配置使用(宽度自适应、返回网页上一层、显示网页标题等)
- - 打开三方应用(拨打电话、发送短信、发送邮件)
+ - 唤起三方应用(拨打电话、发送短信、发送邮件等)
  - 上传图片(版本兼容)
  - 全屏播放网络视频
  - **与JS交互实例**
@@ -32,14 +32,14 @@
 
 <img width="300" height=“300” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/download.png"></img>
 
-### Fix
+## Fix
  - 修复显示多个进度条问题
  - 修复net::ERR_UNKNOWN+URL+SCHEME的问题
  - 可根据SCHEME跳京东，支付宝，微信原生App,用户可根据包名自行添加
  - 修复显示进度条问题
  - 修复上传图片页面没有显示“添加图片”的问题
  
-### Problem
+## Problem
  - [WebView加载网页不显示图片解决办法](http://blog.csdn.net/u013320868/article/details/52837671)
  - [webview: 视频全屏播放按返回页面被放大的问题](http://blog.csdn.net/guozhiganggang/article/details/52097975)
  - 找不到assets目录下资源：注意assets在哪层文件夹下！与AndroidManifest.xml同级
@@ -54,7 +54,7 @@
       @android.webkit.JavascriptInterface <methods>;
    }
    
-### Other
+## Other
  - [WebView的使用及实战](http://www.jianshu.com/p/dbf9b7c04be5)
  - [WebView性能、体验分析与优化](https://tech.meituan.com/WebViewPerf.html)
  - [Android WebView开发问题及优化汇总](http://www.cnblogs.com/spring87/p/4532687.html)
