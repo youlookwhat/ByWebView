@@ -17,6 +17,7 @@
  - [Android DeepLink介绍与使用](https://www.jianshu.com/p/127c80f62655)
  - [Android 应用被作为第三方浏览器打开](https://www.jianshu.com/p/272bfb6c0779)
  - [Android WebView与JS交互实例](https://www.jianshu.com/p/97f52819a19d)
+ - [一款Android WebView进度条显示控件，使其加载进度平滑过渡](https://github.com/youlookwhat/WebProgress)
  
  <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/view_00.png"></img>
  <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/电话短信邮件测试.png"></img>
