@@ -163,6 +163,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.actionbar_update:
                 loadUrl("https://fir.im/webviewstudy", "网页浏览器 - fir.im");
                 break;
+            case R.id.actionbar_about:
+                loadUrl("https://github.com/youlookwhat/WebViewStudy", "WebViewStudy");
+                break;
             default:
                 break;
         }

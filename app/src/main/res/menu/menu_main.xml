@@ -8,4 +8,9 @@
         android:title="@string/action_update"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/actionbar_about"
+        android:orderInCategory="100"
+        android:title="@string/action_about"
+        app:showAsAction="always" />
 </menu>
