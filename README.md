@@ -1,41 +1,45 @@
 # WebViewStudy
 [![fir.im][1]][2] ![](https://img.shields.io/github/stars/youlookwhat/WebViewStudy.svg?style=flat-square) ![](https://img.shields.io/github/forks/youlookwhat/WebViewStudy.svg?style=flat-square) ![GitHub watchers](https://img.shields.io/github/watchers/youlookwhat/WebViewStudy.svg?style=flat-square&label=Watch)
 
-### Contains the content
+## Function
 
- - 拨打电话、发送短信、发送邮件
+ - 基本配置使用(宽度自适应、返回网页上一层、显示网页标题等)
+ - 打开三方应用(拨打电话、发送短信、发送邮件)
  - 上传图片(版本兼容)
- - 进度条、字体大小设置
- - 返回网页上一层、显示网页标题
  - 全屏播放网络视频
  - **与JS交互实例**
  - DeepLink的基本使用
  - 被作为第三方浏览器打开
+ - **腾讯x5使用示例**
+ - 优雅的进度条显示控件
 
-### 文档
+## Document
+
  - [Android 关于WebView全方面的使用（项目应用篇）](http://www.jianshu.com/p/163d39e562f0)
  - [Android DeepLink介绍与使用](https://www.jianshu.com/p/127c80f62655)
  - [Android 应用被作为第三方浏览器打开](https://www.jianshu.com/p/272bfb6c0779)
  - [Android WebView与JS交互实例](https://www.jianshu.com/p/97f52819a19d)
  - [一款Android WebView进度条显示控件，使其加载进度平滑过渡](https://github.com/youlookwhat/WebProgress)
  
+## Screenshots
+ 
  <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/view_00.png"></img>
  <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/电话短信邮件测试.png"></img>
  <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/上传图片.png"></img>
 
-#### 下载 
+## Download
  - [https://fir.im/webviewstudy](https://fir.im/webviewstudy)
 
 <img width="300" height=“300” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/download.png"></img>
 
-### 修复
+### Fix
  - 修复显示多个进度条问题
  - 修复net::ERR_UNKNOWN+URL+SCHEME的问题
  - 可根据SCHEME跳京东，支付宝，微信原生App,用户可根据包名自行添加
  - 修复显示进度条问题
  - 修复上传图片页面没有显示“添加图片”的问题
  
-### 所遇问题
+### Problem
  - [WebView加载网页不显示图片解决办法](http://blog.csdn.net/u013320868/article/details/52837671)
  - [webview: 视频全屏播放按返回页面被放大的问题](http://blog.csdn.net/guozhiganggang/article/details/52097975)
  - 找不到assets目录下资源：注意assets在哪层文件夹下！与AndroidManifest.xml同级
@@ -50,7 +54,7 @@
       @android.webkit.JavascriptInterface <methods>;
    }
    
-### 资料
+### Other
  - [WebView的使用及实战](http://www.jianshu.com/p/dbf9b7c04be5)
  - [WebView性能、体验分析与优化](https://tech.meituan.com/WebViewPerf.html)
  - [Android WebView开发问题及优化汇总](http://www.cnblogs.com/spring87/p/4532687.html)
