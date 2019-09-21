@@ -1,5 +1,5 @@
 # WebViewStudy
-[![fir.im][1]][2] ![](https://img.shields.io/github/stars/youlookwhat/WebViewStudy.svg?style=flat-square) ![](https://img.shields.io/github/forks/youlookwhat/WebViewStudy.svg?style=flat-square) ![GitHub watchers](https://img.shields.io/github/watchers/youlookwhat/WebViewStudy.svg?style=flat-square&label=Watch)
+[![fir.im][1]][2] [![version][3]][4] ![](https://img.shields.io/github/stars/youlookwhat/WebViewStudy.svg?style=flat-square) ![](https://img.shields.io/github/forks/youlookwhat/WebViewStudy.svg?style=flat-square) ![GitHub watchers](https://img.shields.io/github/watchers/youlookwhat/WebViewStudy.svg?style=flat-square&label=Watch)
 
 ## Function
 
@@ -60,5 +60,8 @@
  - [Android WebView开发问题及优化汇总](http://www.cnblogs.com/spring87/p/4532687.html)
  - [https://developer.android.com/reference/android/webkit/WebSettings.html](https://developer.android.com/reference/android/webkit/WebSettings.html)
    
-[1]:https://img.shields.io/badge/download-fir.im-brightgreen.svg?style=flat-square
+[1]:https://img.shields.io/badge/download-fir.im-brightgreen.svg?style=flat
 [2]:https://fir.im/webviewstudy
+
+[3]:https://img.shields.io/badge/version-2.7.1-brightgreen.svg?style=flat
+[4]:https://fir.im/webviewstudy
