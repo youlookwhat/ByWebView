@@ -269,7 +269,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
      * 这段js函数的功能就是，遍历所有的img节点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
      */
     private void loadImageClickJS() {
-        webView.loadUrl("javascript:(function(){" +
+        loadJs("javascript:(function(){" +
                 "var objs = document.getElementsByTagName(\"img\");" +
                 "for(var i=0;i<objs.length;i++)" +
                 "{" +
@@ -283,7 +283,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
      * 遍历所有的<li>节点,将节点里的属性传递过去(属性自定义,用于页面跳转)
      */
     private void loadTextClickJS() {
-        webView.loadUrl("javascript:(function(){" +
+        loadJs("javascript:(function(){" +
                 "var objs =document.getElementsByTagName(\"li\");" +
                 "for(var i=0;i<objs.length;i++)" +
                 "{" +
@@ -298,9 +298,9 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
      */
     private void loadCallJS() {
         // 无参数调用
-        webView.loadUrl("javascript:javacalljs()");
+        loadJs("javascript:javacalljs()");
         // 传递参数调用
-        webView.loadUrl("javascript:javacalljswithargs('" + "android传入到网页里的数据，有参" + "')");
+        loadJs("javascript:javacalljswithargs('" + "android传入到网页里的数据，有参" + "')");
     }
 
     /**
@@ -386,6 +386,17 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         supportFinishAfterTransition();
         if (!MainActivity.isLaunch) {
             MainActivity.start(this);
+        }
+    }
+
+    /**
+     * 4.4以上可用 evaluateJavascript 效率高
+     */
+    private void loadJs(String jsString) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            webView.evaluateJavascript(jsString, null);
+        } else {
+            webView.loadUrl(jsString);
         }
     }
 
