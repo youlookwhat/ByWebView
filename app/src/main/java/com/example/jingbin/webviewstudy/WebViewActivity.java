@@ -255,13 +255,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
      */
     @Override
     public boolean isOpenThirdApp(String url) {
-        /** 如果url不是http开头 或 是http且包含.apk(可能有提示下载Apk文件) 则打开三方应用*/
-        if (!url.startsWith("http") || url.contains(".apk")) {
-            WebTools.handleThirdApp(this, url);
-            return true;
-        } else {
-            return false;
-        }
+        return WebTools.handleThirdApp(this, url);
     }
 
     /**

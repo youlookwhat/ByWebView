@@ -1,5 +1,6 @@
 package com.example.jingbin.webviewstudy.utils;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -76,29 +77,46 @@ public class WebTools {
     }
 
     /**
+     * 处理三方链接
      * 网页里可能唤起其他的app
      */
-    public static void handleThirdApp(Context context, String url) {
-        String appPackageName = "";
-        // 支付宝支付
-        if (url.contains("alipays")) {
-            appPackageName = "com.eg.android.AlipayGphone";
-
-            // 微信支付
-        } else if (url.contains("weixin://wap/pay")) {
-            appPackageName = "com.tencent.mm";
-
-            // 京东产品详情
-        } else if (url.contains("openapp.jdmobile")) {
-            appPackageName = "com.jingdong.app.mall";
-
-            // 都不是则打开
-        } else {
-            startActivity(context, url);
+    public static boolean handleThirdApp(Activity activity, String backUrl) {
+        /**http开头直接跳过*/
+        if (backUrl.startsWith("http")) {
+            // 可能有提示下载Apk文件
+            if (backUrl.contains(".apk")) {
+                startActivity(activity, backUrl);
+                return true;
+            }
+            return false;
         }
-        if (WebTools.hasPackage(context, appPackageName)) {
-            startActivity(context, url);
+
+        boolean isJump = true;
+        /**屏蔽以下应用唤起App，可根据需求 添加或取消*/
+        if (
+                backUrl.startsWith("tbopen:")// 淘宝
+//                        || backUrl.startsWith("openapp.jdmobile:")// 京东
+//                        || backUrl.startsWith("jdmobile:")//京东
+//                        || backUrl.startsWith("alipay:")// 支付宝
+//                        || backUrl.startsWith("alipays:")//支付宝
+                        || backUrl.startsWith("zhihu:")// 知乎
+                        || backUrl.startsWith("vipshop:")//
+                        || backUrl.startsWith("youku:")//优酷
+                        || backUrl.startsWith("uclink:")// UC
+                        || backUrl.startsWith("ucbrowser:")// UC
+                        || backUrl.startsWith("newsapp:")//
+                        || backUrl.startsWith("sinaweibo:")// 新浪微博
+                        || backUrl.startsWith("suning:")//
+                        || backUrl.startsWith("pinduoduo:")// 拼多多
+                        || backUrl.startsWith("baiduboxapp:")// 百度
+                        || backUrl.startsWith("qtt:")//
+        ) {
+            isJump = false;
         }
+        if (isJump) {
+            startActivity(activity, backUrl);
+        }
+        return isJump;
     }
 
     private static void startActivity(Context context, String url) {

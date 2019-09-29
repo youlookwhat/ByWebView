@@ -85,6 +85,10 @@ public class WebProgress extends FrameLayout {
      * 标志当前进度条的状态
      */
     private int TAG = 0;
+    /**
+     * 第一次过来进度show，后面就是setProgress
+     */
+    private boolean isShow = false;
     public static final int UN_START = 0;
     public static final int STARTED = 1;
     public static final int FINISH = 2;
@@ -187,6 +191,7 @@ public class WebProgress extends FrameLayout {
     }
 
     private void setFinish() {
+        isShow = false;
         TAG = FINISH;
     }
 
@@ -321,6 +326,7 @@ public class WebProgress extends FrameLayout {
      * 显示进度条
      */
     public void show() {
+        isShow = true;
         setVisibility(View.VISIBLE);
         mCurrentProgress = 0f;
         startAnim(false);
@@ -337,12 +343,12 @@ public class WebProgress extends FrameLayout {
      * 为单独处理WebView进度条
      */
     public void setWebProgress(int newProgress) {
-        if (newProgress == 0) {
-            reset();
-        } else if (newProgress > 0 && newProgress <= 10) {
-            show();
-        } else if (newProgress > 10 && newProgress < 95) {
-            setProgress(newProgress);
+        if (newProgress >= 0 && newProgress < 95) {
+            if (!isShow) {
+                show();
+            } else {
+                setProgress(newProgress);
+            }
         } else {
             setProgress(newProgress);
             setFinish();
