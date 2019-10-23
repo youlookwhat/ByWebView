@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,7 +24,6 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,15 +57,15 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     // 进度条
     private WebProgress mProgressBar;
-    private WebView webView;
     // 全屏时视频加载view
     private FrameLayout videoFullView;
     // 加载视频相关
     private MyWebChromeClient mWebChromeClient;
     // 网页链接
     private String mUrl;
-    private Toolbar mTitleToolBar;
     // 可滚动的title 使用简单 没有渐变效果，文字两旁有阴影
+    private Toolbar mTitleToolBar;
+    private WebView webView;
     private TextView tvGunTitle;
     private String mTitle;
 
@@ -76,8 +76,16 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         getIntentData();
         initTitle();
         initWebView();
-        webView.loadUrl(mUrl);
+        handleLoadUrl();
         getDataFromBrowser(getIntent());
+    }
+
+    private void handleLoadUrl() {
+        if (!TextUtils.isEmpty(mUrl) && mUrl.endsWith("mp4") && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            webView.loadData(WebTools.getVideoHtmlBody(mUrl), "text/html", "UTF-8");
+        } else {
+            webView.loadUrl(mUrl);
+        }
     }
 
     private void getIntentData() {

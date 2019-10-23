@@ -20,6 +20,25 @@ import com.example.jingbin.webviewstudy.R;
 public class WebTools {
 
     /**
+     * 将 Android5.0以下手机不能直接打开mp4后缀的链接
+     *
+     * @param url 视频链接
+     */
+    public static String getVideoHtmlBody(String url) {
+        return "<html>" +
+                "<head>" +
+                "<meta name=\"viewport\" content=\"width=device-width\">" +
+                "<style type=\"text/css\" abt=\"234\"></style>" +
+                "</head>" +
+                "<body>" +
+                "<video controls=\"\" autoplay=\"\" name=\"media\">" +
+                "<source src=\"" + url + "\" type=\"video/mp4\">" +
+                "</video>" +
+                "</body>" +
+                "</html>";
+    }
+
+    /**
      * 实现文本复制功能
      *
      * @param content 复制的文本
