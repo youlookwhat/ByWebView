@@ -22,6 +22,11 @@
     <!--android 9.0上使用前台服务，需要添加权限 原生WebView未用到，可能x5需要-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+    <!--录音和拍照 h5开启扫码使用-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
 
     <application
         android:name=".App"

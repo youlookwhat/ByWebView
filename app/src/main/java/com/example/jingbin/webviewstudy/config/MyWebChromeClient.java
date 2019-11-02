@@ -3,7 +3,10 @@ package com.example.jingbin.webviewstudy.config;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.View;
+import android.webkit.PermissionRequest;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -172,5 +175,12 @@ public class MyWebChromeClient extends WebChromeClient {
             mUploadMessageForAndroid5.onReceiveValue(new Uri[]{});
         }
         mUploadMessageForAndroid5 = null;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onPermissionRequest(PermissionRequest request) {
+        super.onPermissionRequest(request);
+        request.grant(request.getResources());
     }
 }
