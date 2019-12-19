@@ -61,4 +61,12 @@ public class MyJavascriptInterface {
     public void startFunction(String data) {
         Log.e("startFunction", "----有参" + data);
     }
+
+    /**
+     * 获取网页源代码
+     */
+    @JavascriptInterface
+    public void showSource(String html) {
+        Log.e("showSourceCode", html);
+    }
 }

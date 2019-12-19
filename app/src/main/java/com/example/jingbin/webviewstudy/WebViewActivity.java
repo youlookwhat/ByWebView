@@ -256,6 +256,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         loadImageClickJS();
         loadTextClickJS();
         loadCallJS();
+        loadWebsiteSourceCodeJS();
     }
 
     /**
@@ -303,6 +304,14 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         loadJs("javascript:javacalljs()");
         // 传递参数调用
         loadJs("javascript:javacalljswithargs('" + "android传入到网页里的数据，有参" + "')");
+    }
+
+    /**
+     * get website source code
+     * 获取网页源码
+     */
+    private void loadWebsiteSourceCodeJS() {
+        loadJs("javascript:window.injectedObject.showSource(document.getElementsByTagName('html')[0].innerHTML);");
     }
 
     /**
