@@ -103,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setTitle("感谢");
                 builder.setMessage("开源不易，给作者一个star好吗？😊");
-                builder.setCancelable(false);
                 builder.setNegativeButton("已给", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
