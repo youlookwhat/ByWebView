@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">WebClient</string>
+
+    <string name="action_update">update</string>
+    <string name="action_about">about</string>
+    <string name="action_share">share</string>
+    <string name="actionbar_search">search</string>
+    <string name="actionbar_more">more</string>
+    <string name="actionbar_webview_share">Share to</string>
+    <string name="actionbar_webview_cope">Copy the link</string>
+    <string name="actionbar_webview_open">Browser open</string>
+    <string name="actionbar_webview_refresh">Refresh the page</string>
+    <string name="actionbar_share">Share it with friends\(^o^)/~</string>
+    <string name="string_hit">Search or enter the url</string>
+    <string name="bt_open_url">open url</string>
+    <string name="text_baidu">Open baidu</string>
+    <string name="text_movie">Video playback</string>
+    <string name="text_upload_photo">Upload picture test</string>
+    <string name="text_js">Call, SMS, email, js injection</string>
+    <string name="js_android">Js intermediates with android native code</string>
+    <string name="deeplink">DeepLink test</string>
+</resources>
