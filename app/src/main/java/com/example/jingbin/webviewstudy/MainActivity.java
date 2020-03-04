@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionbar_update:
-                loadUrl("https://fir.im/webviewstudy", "网页浏览器 - fir.im");
+                loadUrl("http://d.6short.com/webviewstudy", "网页浏览器 - fir.im");
                 break;
             case R.id.actionbar_about:
                 loadUrl("https://github.com/youlookwhat/WebViewStudy", "WebViewStudy");
