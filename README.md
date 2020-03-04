@@ -1,6 +1,8 @@
 # WebViewStudy
-[![fir.im][1]][2] [![version][3]][4] ![](https://img.shields.io/github/stars/youlookwhat/WebViewStudy.svg?style=flat-square) ![](https://img.shields.io/github/forks/youlookwhat/WebViewStudy.svg?style=flat-square) ![GitHub watchers](https://img.shields.io/github/watchers/youlookwhat/WebViewStudy.svg?style=flat-square&label=Watch)
+[![fir.im][1]][2] [![version][3]][4] 
 
+<!--![](https://img.shields.io/github/stars/youlookwhat/WebViewStudy.svg?style=flat-square) ![](https://img.shields.io/github/forks/youlookwhat/WebViewStudy.svg?style=flat-square) ![GitHub watchers](https://img.shields.io/github/watchers/youlookwhat/WebViewStudy.svg?style=flat-square&label=Watch)
+-->
 ## Function
 
  - 基本配置使用(宽度自适应、返回网页上一层、显示网页标题等)
@@ -28,19 +30,13 @@
  <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/上传图片.png"></img>
 
 ## Download
- - [https://fir.im/webviewstudy](https://fir.im/webviewstudy)
+ - [Fir.im下载][4]
 
 <img width="300" height=“300” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/download.png"></img>
 
-## Fix
- - 修复显示多个进度条问题
- - 修复net::ERR_UNKNOWN+URL+SCHEME的问题
- - 可根据SCHEME跳京东，支付宝，微信原生App,用户可根据包名自行添加
- - 修复显示进度条问题
- - 修复上传图片页面没有显示“添加图片”的问题
+
  
 ## Problem
- - [WebView加载网页不显示图片解决办法](http://blog.csdn.net/u013320868/article/details/52837671)
  - [webview: 视频全屏播放按返回页面被放大的问题](http://blog.csdn.net/guozhiganggang/article/details/52097975)
  - 找不到assets目录下资源：注意assets在哪层文件夹下！与AndroidManifest.xml同级
  - 视频播放宽度比webview设置的宽度大，超过屏幕：设置ws.setLoadWithOverviewMode(false);
@@ -61,7 +57,7 @@
  - [https://developer.android.com/reference/android/webkit/WebSettings.html](https://developer.android.com/reference/android/webkit/WebSettings.html)
    
 [1]:https://img.shields.io/badge/download-fir.im-brightgreen.svg?style=flat
-[2]:https://fir.im/webviewstudy
+[2]:http://d.6short.com/webviewstudy
 
-[3]:https://img.shields.io/badge/version-2.7.1-brightgreen.svg?style=flat
-[4]:https://fir.im/webviewstudy
+[3]:https://img.shields.io/badge/version-2.7.2-brightgreen.svg?style=flat
+[4]:http://d.6short.com/webviewstudy
