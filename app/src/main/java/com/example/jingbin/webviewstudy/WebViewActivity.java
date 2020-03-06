@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -96,16 +97,20 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     private void initTitle() {
         StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimary), 0);
-        mProgressBar = findViewById(R.id.pb_progress);
+        RelativeLayout rl_web_container = findViewById(R.id.rl_web_container);
+        webView = new WebView(this);
+        mProgressBar = new WebProgress(this);
+        mProgressBar.setVisibility(View.GONE);
+        rl_web_container.addView(webView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        rl_web_container.addView(mProgressBar);
         mProgressBar.setColor(ContextCompat.getColor(this, R.color.colorAccent));
         mProgressBar.show();
-        webView = findViewById(R.id.webview_detail);
-        mTitleToolBar = findViewById(R.id.title_tool_bar);
-        tvGunTitle = findViewById(R.id.tv_gun_title);
         initToolBar();
     }
 
     private void initToolBar() {
+        mTitleToolBar = findViewById(R.id.title_tool_bar);
+        tvGunTitle = findViewById(R.id.tv_gun_title);
         setSupportActionBar(mTitleToolBar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -157,8 +162,6 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     private void initWebView() {
         WebSettings ws = webView.getSettings();
-        // 网页内容的宽度是否可大于WebView控件的宽度
-        ws.setLoadWithOverviewMode(false);
         // 保存表单数据
         ws.setSaveFormData(true);
         // 是否应该支持使用其屏幕缩放控件和手势缩放
@@ -170,10 +173,13 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         // 设置缓存模式
         ws.setCacheMode(WebSettings.LOAD_DEFAULT);
         // setDefaultZoom  api19被弃用
-        // 设置此属性，可任意比例缩放。
+        // 网页内容的宽度自适应屏幕
+        ws.setLoadWithOverviewMode(true);
         ws.setUseWideViewPort(true);
-        // 不缩放
-        webView.setInitialScale(100);
+        // 网页缩放至100，一般的网页达到屏幕宽度效果，个别除外
+//        webView.setInitialScale(100);
+        // 关掉下滑弧形阴影
+//        webView.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
         // 告诉WebView启用JavaScript执行。默认的是false。
         ws.setJavaScriptEnabled(true);
         //  页面加载好以后，再放开图片
@@ -181,7 +187,11 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         // 使用localStorage则必须打开
         ws.setDomStorageEnabled(true);
         // 排版适应屏幕
-        ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        } else {
+            ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+        }
         // WebView是否新窗口打开(加了后可能打不开网页)
 //        ws.setSupportMultipleWindows(true);
 
@@ -191,6 +201,9 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         }
         /** 设置字体默认缩放大小(改变网页字体大小,setTextSize  api14被弃用)*/
         ws.setTextZoom(100);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            webView.setScrollBarSize(WebTools.dp2px(this, 3));
+        }
 
         mWebChromeClient = new MyWebChromeClient(this);
         webView.setWebChromeClient(mWebChromeClient);

@@ -22,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +34,6 @@ import com.example.jingbin.webviewstudy.config.WebProgress;
 import com.example.jingbin.webviewstudy.utils.CheckNetwork;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 import com.example.jingbin.webviewstudy.utils.WebTools;
-import com.tencent.smtt.sdk.CookieSyncManager;
 
 /**
  * 使用 tencent x5 内核处理网页
@@ -146,8 +144,9 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     private void initWebView() {
         com.tencent.smtt.sdk.WebSettings ws = webView.getSettings();
-        // 网页内容的宽度是否可大于WebView控件的宽度
-        ws.setLoadWithOverviewMode(false);
+        // 网页内容的宽度自适应屏幕
+        ws.setLoadWithOverviewMode(true);
+        ws.setUseWideViewPort(true);
         // 保存表单数据
         ws.setSaveFormData(true);
         // 是否应该支持使用其屏幕缩放控件和手势缩放
@@ -161,8 +160,6 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
         // setDefaultZoom  api19被弃用
         // 设置此属性，可任意比例缩放。
         ws.setUseWideViewPort(true);
-        // 不缩放
-        webView.setInitialScale(100);
         // 告诉WebView启用JavaScript执行。默认的是false。
         ws.setJavaScriptEnabled(true);
         //  页面加载好以后，再放开图片

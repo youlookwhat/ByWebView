@@ -30,21 +30,21 @@
     </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
+        android:id="@+id/rl_web_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <WebView
-            android:id="@+id/webview_detail"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbarSize="3dp" />
+        <!--<WebView-->
+            <!--android:id="@+id/webview_detail"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
 
-        <com.example.jingbin.webviewstudy.config.WebProgress
-            android:id="@+id/pb_progress"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_alignParentTop="true"
-            android:visibility="gone" />
+        <!--<com.example.jingbin.webviewstudy.config.WebProgress-->
+            <!--android:id="@+id/pb_progress"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="3dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:visibility="gone" />-->
 
     </RelativeLayout>
 
