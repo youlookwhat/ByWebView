@@ -36,13 +36,9 @@
 
 
  
-## Problem
- - [webview: 视频全屏播放按返回页面被放大的问题](http://blog.csdn.net/guozhiganggang/article/details/52097975)
- - 找不到assets目录下资源：注意assets在哪层文件夹下！与AndroidManifest.xml同级
- - 视频播放宽度比webview设置的宽度大，超过屏幕：设置ws.setLoadWithOverviewMode(false);
- - onDestroy时的清除资源操作
- - 通过js向网页内传值
- - 混淆时应加上（[通过JS向网页传值，如不加有时候会传值失败](http://www.jianshu.com/p/f3b3e91575ee)）:
+## Tip
+ - 混淆时应加上（通过JS向网页传值，如不加有时候会传值失败）:
+
    ```java
    -keepattributes *Annotation*
    -keepattributes *JavascriptInterface*
