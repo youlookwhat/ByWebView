@@ -173,7 +173,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void loadUrl(String mUrl, String mTitle) {
         if (rbSystem.isChecked()) {
-            WebViewActivity.loadUrl(this, mUrl, mTitle);
+//            WebViewActivity.loadUrl(this, mUrl, mTitle);
+            ByWebViewActivity.loadUrl(this, mUrl, mTitle);
         } else {
             X5WebViewActivity.loadUrl(this, mUrl, mTitle);
         }

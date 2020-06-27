@@ -1,8 +1,6 @@
-package com.example.jingbin.webviewstudy.utils;
+package me.jingbin.web;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,14 +11,12 @@ import android.util.Log;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 
-import com.example.jingbin.webviewstudy.App;
-import com.example.jingbin.webviewstudy.R;
 
 /**
  * Created by jingbin on 2017/2/13.
  */
 
-public class WebTools {
+public class ByWebTools {
 
     /**
      * 将 Android5.0以下手机不能直接打开mp4后缀的链接
@@ -79,54 +75,13 @@ public class WebTools {
     public static void handleReceivedHttpError(WebView webView, WebResourceResponse errorResponse) {
         // 这个方法在 android 6.0才出现
         int statusCode = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             statusCode = errorResponse.getStatusCode();
         }
         if (404 == statusCode || 500 == statusCode) {
             String mErrorUrl = "file:///android_asset/404_error.html";
             webView.loadUrl(mErrorUrl);
         }
-    }
-
-    /**
-     * 实现文本复制功能
-     *
-     * @param content 复制的文本
-     */
-    public static void copy(String content) {
-        if (!TextUtils.isEmpty(content)) {
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
-                ClipboardManager clipboard = (ClipboardManager) App.getInstance().getSystemService(Context.CLIPBOARD_SERVICE);
-                clipboard.setText(content);
-            } else {
-                ClipboardManager clipboard = (ClipboardManager) App.getInstance().getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText(content, content);
-                clipboard.setPrimaryClip(clip);
-            }
-        }
-    }
-
-    /**
-     * 使用浏览器打开链接
-     */
-    public static void openLink(Context context, String content) {
-        if (!TextUtils.isEmpty(content) && content.startsWith("http")) {
-            Uri issuesUrl = Uri.parse(content);
-            Intent intent = new Intent(Intent.ACTION_VIEW, issuesUrl);
-            context.startActivity(intent);
-        }
-    }
-
-    /**
-     * 分享
-     */
-    public static void share(Context context, String extraText) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.action_share));
-        intent.putExtra(Intent.EXTRA_TEXT, extraText);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(Intent.createChooser(intent, context.getString(R.string.action_share)));
     }
 
     /**

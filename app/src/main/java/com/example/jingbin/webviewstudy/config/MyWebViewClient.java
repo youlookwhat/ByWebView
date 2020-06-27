@@ -1,9 +1,15 @@
 package com.example.jingbin.webviewstudy.config;
 
+import android.content.DialogInterface;
 import android.net.http.SslError;
+import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -43,17 +49,60 @@ public class MyWebViewClient extends WebViewClient {
     @Override
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         super.onReceivedError(view, errorCode, description, failingUrl);
-        if (errorCode == 404) {
-            //用javascript隐藏系统定义的404页面信息
-            String data = "Page NO FOUND！";
-            view.loadUrl("javascript:document.body.innerHTML=\"" + data + "\"");
+        //6.0以下执行
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return;
+        }
+        String mErrorUrl = "file:///android_asset/404_error.html";
+        view.loadUrl(mErrorUrl);
+    }
+
+    @Override
+    public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+        super.onReceivedHttpError(view, request, errorResponse);
+//        WebTools.handleReceivedHttpError(view, errorResponse);
+        // 这个方法在 android 6.0才出现
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            int statusCode = errorResponse.getStatusCode();
+            if (404 == statusCode || 500 == statusCode) {
+                String mErrorUrl = "file:///android_asset/404_error.html";
+                view.loadUrl(mErrorUrl);
+            }
         }
     }
 
-    // SSL Error. Failed to validate the certificate chain,error: java.security.cert.CertPathValidatorExcept
     @Override
-    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-        handler.proceed(); //解决方案, 不要调用super.xxxx
+    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+        super.onReceivedError(view, request, error);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (request.isForMainFrame()) {//是否是为 main frame创建
+                String mErrorUrl = "file:///android_asset/404_error.html";
+                view.loadUrl(mErrorUrl);
+            }
+        }
+    }
+
+    /**
+     * 解决google play上线 WebViewClient.onReceivedSslError问题
+     */
+    @Override
+    public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setMessage("SSL认证失败，是否继续访问？");
+        builder.setPositiveButton("继续", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                handler.proceed();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                handler.cancel();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     // 视频全屏播放按返回页面被放大的问题

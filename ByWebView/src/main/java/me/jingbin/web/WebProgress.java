@@ -1,4 +1,4 @@
-package com.example.jingbin.webviewstudy.config;
+package me.jingbin.web;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
