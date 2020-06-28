@@ -83,7 +83,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     private void handleLoadUrl() {
         if (!TextUtils.isEmpty(mUrl) && mUrl.endsWith("mp4") && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            webView.loadData(WebTools.getVideoHtmlBody(mUrl), "text/html", "UTF-8");
+            webView.loadData(WebTools.getVideoHtmlBody(mTitle, mUrl), "text/html", "UTF-8");
         } else {
             webView.loadUrl(mUrl);
         }

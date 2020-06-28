@@ -30,7 +30,7 @@ public class ByWebTools {
                 "<style type=\"text/css\" abt=\"234\"></style>" +
                 "</head>" +
                 "<body>" +
-                "<video controls=\"\" autoplay=\"\" name=\"media\">" +
+                "<video controls=\"\" autoplay=\"\" name=\"media\" style=\"display:block;width:100%;position:absolute;left:0;top:20%;\">" +
                 "<source src=\"" + url + "\" type=\"video/mp4\">" +
                 "</video>" +
                 "</body>" +

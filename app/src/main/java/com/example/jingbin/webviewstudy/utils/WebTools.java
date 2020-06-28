@@ -27,14 +27,15 @@ public class WebTools {
      *
      * @param url 视频链接
      */
-    public static String getVideoHtmlBody(String url) {
+    public static String getVideoHtmlBody(String title, String url) {
         return "<html>" +
                 "<head>" +
                 "<meta name=\"viewport\" content=\"width=device-width\">" +
+                "<title>" + title + "</title>" +
                 "<style type=\"text/css\" abt=\"234\"></style>" +
                 "</head>" +
                 "<body>" +
-                "<video controls=\"\" autoplay=\"\" name=\"media\">" +
+                "<video controls=\"\" autoplay=\"\" name=\"media\" style=\"display:block;width:100%;position:absolute;left:0;top:20%;\">" +
                 "<source src=\"" + url + "\" type=\"video/mp4\">" +
                 "</video>" +
                 "</body>" +
