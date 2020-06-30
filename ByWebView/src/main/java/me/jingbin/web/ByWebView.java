@@ -2,10 +2,12 @@ package me.jingbin.web;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -19,11 +21,11 @@ public class ByWebView {
 
     private WebProgress mProgressBar;
     private WebView mWebView;
-    private Builder builder;
     private Activity activity;
+    private ByWebChromeClient mWebChromeClient;
+    private ByWebViewClient mByWebViewClient;
 
     private ByWebView(Builder builder) {
-        this.builder = builder;
         this.activity = builder.mActivity;
 
         RelativeLayout relativeLayout = new RelativeLayout(activity);
@@ -35,8 +37,13 @@ public class ByWebView {
         builder.mWebContainer.addView(relativeLayout, builder.mLayoutParams);
         // 配置
         handleSetting();
-//        mWebChromeClient = new ByWebChromeClient(this);
-//        webView.setWebChromeClient(mWebChromeClient);
+        mWebChromeClient = new ByWebChromeClient(activity, this);
+        mWebChromeClient.setOnByWebChromeCallback(builder.mOnByWebChromeCallback);
+        mWebView.setWebChromeClient(mWebChromeClient);
+
+        mByWebViewClient = new ByWebViewClient(activity, this);
+        mByWebViewClient.setOnByWebClientCallback(builder.mOnByWebClientCallback);
+        mWebView.setWebViewClient(mByWebViewClient);
     }
 
     /**
@@ -121,8 +128,64 @@ public class ByWebView {
         mProgressBar.show();
     }
 
+    public ByWebChromeClient getWebChromeClient() {
+        return mWebChromeClient;
+    }
+
     public void reload() {
         mWebView.reload();
+    }
+
+    public void onResume() {
+        mWebView.onResume();
+        // 支付宝网页版在打开文章详情之后,无法点击按钮下一步
+        mWebView.resumeTimers();
+    }
+
+    public void onPause() {
+        mWebView.onPause();
+        mWebView.resumeTimers();
+    }
+
+    public void onDestroy() {
+        if (mWebChromeClient != null && mWebChromeClient.getVideoFullView() != null) {
+            mWebChromeClient.getVideoFullView().removeAllViews();
+        }
+        if (mWebView != null) {
+            ViewGroup parent = (ViewGroup) mWebView.getParent();
+            if (parent != null) {
+                parent.removeView(mWebView);
+            }
+            mWebView.removeAllViews();
+            mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+            mWebView.stopLoading();
+            mWebView.setWebChromeClient(null);
+            mWebView.setWebViewClient(null);
+            mWebView.destroy();
+            mWebView = null;
+        }
+    }
+
+
+    @SuppressLint("SourceLockedOrientationActivity")
+    public boolean handleKeyEvent(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //全屏播放退出全屏
+            if (mWebChromeClient.inCustomView()) {
+//            hideCustomView();
+                mWebChromeClient.onHideCustomView();
+                if (activity != null) {
+                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                }
+                return true;
+
+                //返回网页上一页
+            } else if (mWebView.canGoBack()) {
+                mWebView.goBack();
+                return true;
+            }
+        }
+        return false;
     }
 
     public WebView getWebView() {
@@ -159,6 +222,8 @@ public class ByWebView {
         private ViewGroup mWebContainer;
         private ViewGroup.LayoutParams mLayoutParams;
         private WebSettings mWebSettings;
+        private OnByWebChromeCallback mOnByWebChromeCallback;
+        private OnByWebClientCallback mOnByWebClientCallback;
 
         public Builder(Activity activity) {
             this.mActivity = activity;
@@ -213,6 +278,15 @@ public class ByWebView {
             return this;
         }
 
+        public Builder setOnByWebChromeCallback(OnByWebChromeCallback onByWebChromeCallback) {
+            this.mOnByWebChromeCallback = onByWebChromeCallback;
+            return this;
+        }
+
+        public Builder setOnByWebClientCallback(OnByWebClientCallback onByWebClientCallback) {
+            this.mOnByWebClientCallback = onByWebClientCallback;
+            return this;
+        }
 
         public static Builder with(@NonNull Activity activity) {
             if (activity == null) {

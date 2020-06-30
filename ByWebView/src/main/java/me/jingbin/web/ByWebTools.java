@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
@@ -167,5 +169,25 @@ public class ByWebTools {
     public static int dp2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * 判断网络是否连通
+     */
+    public static boolean isNetworkConnected(Context context) {
+        try {
+            if (context != null) {
+                @SuppressWarnings("static-access")
+                ConnectivityManager cm = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+                NetworkInfo info = cm.getActiveNetworkInfo();
+                return info != null && info.isConnected();
+            } else {
+                /**如果context为空，就返回false，表示网络未连接*/
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
