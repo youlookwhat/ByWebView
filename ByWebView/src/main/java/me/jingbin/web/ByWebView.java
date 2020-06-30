@@ -23,7 +23,6 @@ public class ByWebView {
     private WebView mWebView;
     private Activity activity;
     private ByWebChromeClient mWebChromeClient;
-    private ByWebViewClient mByWebViewClient;
 
     private ByWebView(Builder builder) {
         this.activity = builder.mActivity;
@@ -41,7 +40,7 @@ public class ByWebView {
         mWebChromeClient.setOnByWebChromeCallback(builder.mOnByWebChromeCallback);
         mWebView.setWebChromeClient(mWebChromeClient);
 
-        mByWebViewClient = new ByWebViewClient(activity, this);
+        ByWebViewClient mByWebViewClient = new ByWebViewClient(activity, this);
         mByWebViewClient.setOnByWebClientCallback(builder.mOnByWebClientCallback);
         mWebView.setWebViewClient(mByWebViewClient);
     }

@@ -226,7 +226,7 @@ public class ByWebChromeClient extends WebChromeClient {
     /**
      * 用于Activity的回调
      */
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    public void handleFileChooser(int requestCode, int resultCode, Intent intent) {
         if (requestCode == FILECHOOSER_RESULTCODE) {
             uploadMessage(intent, resultCode);
         } else if (requestCode == FILECHOOSER_RESULTCODE_FOR_ANDROID_5) {

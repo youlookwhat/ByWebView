@@ -1,10 +1,8 @@
 package com.example.jingbin.webviewstudy;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -43,14 +41,9 @@ import me.jingbin.web.OnByWebClientCallback;
  * link to https://github.com/youlookwhat/ByWebView
  */
 public class ByWebViewActivity extends AppCompatActivity {
-//public class ByWebViewActivity extends AppCompatActivity {
 
-    // 进度条
-//    private WebProgress mProgressBar;
     // 网页链接
     private String mUrl;
-    // 可滚动的title 使用简单 没有渐变效果，文字两旁有阴影
-    private Toolbar mTitleToolBar;
     private WebView webView;
     private TextView tvGunTitle;
     private String mTitle;
@@ -59,39 +52,18 @@ public class ByWebViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web_view);
-
-
+        setContentView(R.layout.activity_by_webview);
         getIntentData();
         initTitle();
-//        initWebView();
-//        handleLoadUrl();
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//            webView.setScrollBarSize(WebTools.dp2px(this, 3));
-//        }
-
-//        mWebChromeClient = new MyWebChromeClient(this);
-//        webView.setWebChromeClient(mWebChromeClient);
         // 与js交互
 //        webView.addJavascriptInterface(new MyJavascriptInterface(this), "injectedObject");
-
-//        webView.setWebViewClient(new MyWebViewClient(this));
         getDataFromBrowser(getIntent());
     }
-
-//    private void handleLoadUrl() {
-//        if (!TextUtils.isEmpty(mUrl) && mUrl.endsWith("mp4") && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
-//            webView.loadData(WebTools.getVideoHtmlBody(mUrl), "text/html", "UTF-8");
-//        } else {
-//            webView.loadUrl(mUrl);
-//        }
-//    }
 
     private void getIntentData() {
         mUrl = getIntent().getStringExtra("mUrl");
         mTitle = getIntent().getStringExtra("mTitle");
     }
-
 
     private void initTitle() {
         StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimary), 0);
@@ -101,38 +73,15 @@ public class ByWebViewActivity extends AppCompatActivity {
                 .with(this)
                 .setWebParent(container, new LinearLayout.LayoutParams(-1, -1))
                 .useWebProgress(ContextCompat.getColor(this, R.color.colorPink))
-                .setOnByWebChromeCallback(new OnByWebChromeCallback() {
-                    @Override
-                    public void onReceivedTitle(String title) {
-                        setTitle(title);
-                    }
-
-                    @Override
-                    public void onProgressChanged(int newProgress) {
-
-                    }
-                })
-                .setOnByWebClientCallback(new OnByWebClientCallback() {
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        loadImageClickJS();
-                        loadTextClickJS();
-                        loadCallJS();
-                        loadWebsiteSourceCodeJS();
-                    }
-
-                    @Override
-                    public boolean isOpenThirdApp(String url) {
-                        return WebTools.handleThirdApp(ByWebViewActivity.this, url);
-                    }
-                })
+                .setOnByWebChromeCallback(onByWebChromeCallback)
+                .setOnByWebClientCallback(onByWebClientCallback)
                 .loadUrl(mUrl);
         webView = byWebView.getWebView();
-//        mProgressBar = byWebView.getProgressBar();
     }
 
     private void initToolBar() {
-        mTitleToolBar = findViewById(R.id.title_tool_bar);
+        // 可滚动的title 使用简单 没有渐变效果，文字两旁有阴影
+        Toolbar mTitleToolBar = findViewById(R.id.title_tool_bar);
         tvGunTitle = findViewById(R.id.tv_gun_title);
         setSupportActionBar(mTitleToolBar);
         ActionBar actionBar = getSupportActionBar();
@@ -147,8 +96,30 @@ public class ByWebViewActivity extends AppCompatActivity {
                 tvGunTitle.setSelected(true);
             }
         }, 1900);
-        setTitle(mTitle);
+        tvGunTitle.setText(mTitle);
     }
+
+    private OnByWebChromeCallback onByWebChromeCallback = new OnByWebChromeCallback() {
+        @Override
+        public void onReceivedTitle(String title) {
+            tvGunTitle.setText(mTitle);
+        }
+    };
+
+    private OnByWebClientCallback onByWebClientCallback = new OnByWebClientCallback() {
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            loadImageClickJS();
+            loadTextClickJS();
+            loadCallJS();
+            loadWebsiteSourceCodeJS();
+        }
+
+        @Override
+        public boolean isOpenThirdApp(String url) {
+            return WebTools.handleThirdApp(ByWebViewActivity.this, url);
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -182,12 +153,6 @@ public class ByWebViewActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    public void setTitle(String mTitle) {
-        tvGunTitle.setText(mTitle);
-    }
-
-
     /**
      * 前端注入JS：
      * 这段js函数的功能就是，遍历所有的img节点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
@@ -207,7 +172,7 @@ public class ByWebViewActivity extends AppCompatActivity {
      * 遍历所有的<li>节点,将节点里的属性传递过去(属性自定义,用于页面跳转)
      */
     private void loadTextClickJS() {
-        loadJs("javascript:(function(){" +
+        byWebView.loadJs("javascript:(function(){" +
                 "var objs =document.getElementsByTagName(\"li\");" +
                 "for(var i=0;i<objs.length;i++)" +
                 "{" +
@@ -222,9 +187,9 @@ public class ByWebViewActivity extends AppCompatActivity {
      */
     private void loadCallJS() {
         // 无参数调用
-        loadJs("javascript:javacalljs()");
+        byWebView.loadJs("javascript:javacalljs()");
         // 传递参数调用
-        loadJs("javascript:javacalljswithargs('" + "android传入到网页里的数据，有参" + "')");
+        byWebView.loadJs("javascript:javacalljswithargs('" + "android传入到网页里的数据，有参" + "')");
     }
 
     /**
@@ -232,9 +197,8 @@ public class ByWebViewActivity extends AppCompatActivity {
      * 获取网页源码
      */
     private void loadWebsiteSourceCodeJS() {
-        loadJs("javascript:window.injectedObject.showSource(document.getElementsByTagName('html')[0].innerHTML);");
+        byWebView.loadJs("javascript:window.injectedObject.showSource(document.getElementsByTagName('html')[0].innerHTML);");
     }
-
 
     /**
      * 上传图片之后的回调
@@ -242,10 +206,9 @@ public class ByWebViewActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (byWebView.getWebChromeClient() != null) {
-            byWebView.getWebChromeClient().onActivityResult(requestCode, resultCode, intent);
+            byWebView.getWebChromeClient().handleFileChooser(requestCode, resultCode, intent);
         }
     }
-
 
     /**
      * 使用singleTask启动模式的Activity在系统中只会存在一个实例。
@@ -292,17 +255,6 @@ public class ByWebViewActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 4.4以上可用 evaluateJavascript 效率高
-     */
-    private void loadJs(String jsString) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webView.evaluateJavascript(jsString, null);
-        } else {
-            webView.loadUrl(jsString);
-        }
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (byWebView.handleKeyEvent(keyCode, event)) {
@@ -319,7 +271,6 @@ public class ByWebViewActivity extends AppCompatActivity {
         byWebView.onPause();
     }
 
-    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onResume() {
         super.onResume();
