@@ -148,7 +148,7 @@ public class ByWebViewActivity extends AppCompatActivity {
                 WebTools.openLink(ByWebViewActivity.this, webView.getUrl());
                 break;
             case R.id.actionbar_webview_refresh:// 刷新页面
-                webView.reload();
+                byWebView.reload();
                 break;
             default:
                 break;

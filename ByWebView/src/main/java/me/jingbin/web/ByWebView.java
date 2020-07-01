@@ -92,11 +92,11 @@ public class ByWebView {
         // WebView是否新窗口打开(加了后可能打不开网页)
 //        ws.setSupportMultipleWindows(true);
 
-        // webview从5.0开始默认不允许混合模式,https中不能加载http资源,需要设置开启。
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // WebView从5.0开始默认不允许混合模式,https中不能加载http资源,需要设置开启。
             ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
-        /** 设置字体默认缩放大小(改变网页字体大小,setTextSize  api14被弃用)*/
+        // 设置字体默认缩放大小(改变网页字体大小,setTextSize  api14被弃用)
         ws.setTextZoom(100);
     }
 
@@ -131,6 +131,7 @@ public class ByWebView {
         if (mProgressBar != null) {
             mProgressBar.show();
         }
+        hideErrorView();
     }
 
     public ByWebChromeClient getWebChromeClient() {
@@ -138,6 +139,7 @@ public class ByWebView {
     }
 
     public void reload() {
+        hideErrorView();
         mWebView.reload();
     }
 
@@ -185,6 +187,7 @@ public class ByWebView {
 
                 //返回网页上一页
             } else if (mWebView.canGoBack()) {
+                hideErrorView();
                 mWebView.goBack();
                 return true;
             }
@@ -211,7 +214,6 @@ public class ByWebView {
                 mErrorView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        hideErrorView();
                         reload();
                     }
                 });
