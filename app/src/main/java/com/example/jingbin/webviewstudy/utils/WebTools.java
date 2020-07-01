@@ -180,6 +180,7 @@ public class WebTools {
                         || backUrl.startsWith("pinduoduo:")// 拼多多
                         || backUrl.startsWith("baiduboxapp:")// 百度
                         || backUrl.startsWith("qtt:")//
+                        || backUrl.startsWith("baiduhaokan:")//
         ) {
             isJump = false;
         }

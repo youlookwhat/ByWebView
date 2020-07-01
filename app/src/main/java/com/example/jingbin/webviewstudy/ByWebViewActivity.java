@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jingbin.webviewstudy.config.MyJavascriptInterface;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 import com.example.jingbin.webviewstudy.utils.WebTools;
 
@@ -55,8 +56,6 @@ public class ByWebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_by_webview);
         getIntentData();
         initTitle();
-        // 与js交互
-//        webView.addJavascriptInterface(new MyJavascriptInterface(this), "injectedObject");
         getDataFromBrowser(getIntent());
     }
 
@@ -77,6 +76,8 @@ public class ByWebViewActivity extends AppCompatActivity {
                 .setOnByWebClientCallback(onByWebClientCallback)
                 .loadUrl(mUrl);
         webView = byWebView.getWebView();
+        // 与js交互
+        webView.addJavascriptInterface(new MyJavascriptInterface(this), "injectedObject");
     }
 
     private void initToolBar() {
@@ -102,7 +103,8 @@ public class ByWebViewActivity extends AppCompatActivity {
     private OnByWebChromeCallback onByWebChromeCallback = new OnByWebChromeCallback() {
         @Override
         public void onReceivedTitle(String title) {
-            tvGunTitle.setText(mTitle);
+            Log.e("---title", title);
+            tvGunTitle.setText(title);
         }
     };
 
@@ -112,11 +114,12 @@ public class ByWebViewActivity extends AppCompatActivity {
             loadImageClickJS();
             loadTextClickJS();
             loadCallJS();
-            loadWebsiteSourceCodeJS();
+//            loadWebsiteSourceCodeJS();
         }
 
         @Override
         public boolean isOpenThirdApp(String url) {
+            Log.e("---url", url);
             return WebTools.handleThirdApp(ByWebViewActivity.this, url);
         }
     };
