@@ -16,7 +16,7 @@ import android.webkit.WebViewClient;
 import java.lang.ref.WeakReference;
 
 /**
- * Created by jingbin on 2016/11/17.
+ * Created by jingbin on 2020/06/30
  * 监听网页链接:
  * - 根据标识:打电话、发短信、发邮件
  * - 进度条的显示
@@ -29,12 +29,12 @@ public class ByWebViewClient extends WebViewClient {
     private ByWebView mByWebView;
     private OnByWebClientCallback onByWebClientCallback;
 
-    public ByWebViewClient(Activity activity, ByWebView byWebView) {
+    ByWebViewClient(Activity activity, ByWebView byWebView) {
         mActivityWeakReference = new WeakReference<Activity>(activity);
         this.mByWebView = byWebView;
     }
 
-    public void setOnByWebClientCallback(OnByWebClientCallback onByWebClientCallback) {
+    void setOnByWebClientCallback(OnByWebClientCallback onByWebClientCallback) {
         this.onByWebClientCallback = onByWebClientCallback;
     }
 
@@ -44,14 +44,12 @@ public class ByWebViewClient extends WebViewClient {
             return false;
         }
         return onByWebClientCallback.isOpenThirdApp(url);
-//        return mIWebPageView.isOpenThirdApp(url);
     }
 
 
     @Override
     public void onPageFinished(WebView view, String url) {
         // html加载完成之后，添加监听图片的点击js函数
-//        mIWebPageView.onPageFinished(view, url);
         Activity mActivity = this.mActivityWeakReference.get();
         if (mActivity != null && !mActivity.isFinishing() && !ByWebTools.isNetworkConnected(mActivity)) {
             mByWebView.getProgressBar().hide();
@@ -89,7 +87,8 @@ public class ByWebViewClient extends WebViewClient {
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
         super.onReceivedError(view, request, error);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (request.isForMainFrame()) {//是否是为 main frame创建
+            if (request.isForMainFrame()) {
+                // 是否是为 main frame创建
                 String mErrorUrl = "file:///android_asset/404_error.html";
                 view.loadUrl(mErrorUrl);
             }
@@ -119,12 +118,15 @@ public class ByWebViewClient extends WebViewClient {
         dialog.show();
     }
 
-    // 视频全屏播放按返回页面被放大的问题
+    /**
+     * 视频全屏播放按返回页面被放大的问题
+     */
     @Override
     public void onScaleChanged(WebView view, float oldScale, float newScale) {
         super.onScaleChanged(view, oldScale, newScale);
         if (newScale - oldScale > 7) {
-            view.setInitialScale((int) (oldScale / newScale * 100)); //异常放大，缩回去。
+            //异常放大，缩回去。
+            view.setInitialScale((int) (oldScale / newScale * 100));
         }
     }
 

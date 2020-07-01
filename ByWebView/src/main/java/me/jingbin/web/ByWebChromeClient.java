@@ -25,29 +25,25 @@ import java.lang.ref.WeakReference;
  */
 public class ByWebChromeClient extends WebChromeClient {
 
-    /**
-     * Activity
-     */
     private WeakReference<Activity> mActivityWeakReference = null;
     private ByWebView mByWebView;
     private ValueCallback<Uri> mUploadMessage;
     private ValueCallback<Uri[]> mUploadMessageForAndroid5;
-    private static int FILECHOOSER_RESULTCODE = 1;
-    private static int FILECHOOSER_RESULTCODE_FOR_ANDROID_5 = 2;
+    private static int RESULT_CODE_FILE_CHOOSER = 1;
+    private static int RESULT_CODE_FILE_CHOOSER_FOR_ANDROID_5 = 2;
 
-    private View mXProgressVideo;
-    //    private IWebPageView mIWebPageView;
-    private View mXCustomView;
-    private CustomViewCallback mXCustomViewCallback;
+    private View mProgressVideo;
+    private View mCustomView;
+    private CustomViewCallback mCustomViewCallback;
     private ByFullscreenHolder videoFullView;
     private OnByWebChromeCallback onByWebChromeCallback;
 
-    public ByWebChromeClient(Activity activity, ByWebView byWebView) {
+    ByWebChromeClient(Activity activity, ByWebView byWebView) {
         mActivityWeakReference = new WeakReference<Activity>(activity);
         this.mByWebView = byWebView;
     }
 
-    public void setOnByWebChromeCallback(OnByWebChromeCallback onByWebChromeCallback) {
+    void setOnByWebChromeCallback(OnByWebChromeCallback onByWebChromeCallback) {
         this.onByWebChromeCallback = onByWebChromeCallback;
     }
 
@@ -62,10 +58,8 @@ public class ByWebChromeClient extends WebChromeClient {
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             mByWebView.getWebView().setVisibility(View.INVISIBLE);
 
-//        mIWebPageView.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-//        mIWebPageView.hindWebView();
             // 如果一个视图已经存在，那么立刻终止并新建一个
-            if (mXCustomView != null) {
+            if (mCustomView != null) {
                 callback.onCustomViewHidden();
                 return;
             }
@@ -75,10 +69,8 @@ public class ByWebChromeClient extends WebChromeClient {
             videoFullView.addView(view);
             decor.addView(videoFullView);
 
-//        mIWebPageView.fullViewAddView(view);
-            mXCustomView = view;
-            mXCustomViewCallback = callback;
-//        mIWebPageView.showVideoFullView();
+            mCustomView = view;
+            mCustomViewCallback = callback;
             videoFullView.setVisibility(View.VISIBLE);
         }
     }
@@ -92,20 +84,18 @@ public class ByWebChromeClient extends WebChromeClient {
         Activity mActivity = this.mActivityWeakReference.get();
         if (mActivity != null && !mActivity.isFinishing()) {
             // 不是全屏播放状态
-            if (mXCustomView == null) {
+            if (mCustomView == null) {
                 return;
             }
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-            mXCustomView.setVisibility(View.GONE);
+            mCustomView.setVisibility(View.GONE);
             if (videoFullView != null) {
-                videoFullView.removeView(mXCustomView);
+                videoFullView.removeView(mCustomView);
                 videoFullView.setVisibility(View.GONE);
             }
-            mXCustomView = null;
-//            mIWebPageView.hindVideoFullView();
-            mXCustomViewCallback.onCustomViewHidden();
-//            mIWebPageView.showWebView();
+            mCustomView = null;
+            mCustomViewCallback.onCustomViewHidden();
             mByWebView.getWebView().setVisibility(View.VISIBLE);
         }
     }
@@ -115,10 +105,10 @@ public class ByWebChromeClient extends WebChromeClient {
      */
     @Override
     public View getVideoLoadingProgressView() {
-        if (mXProgressVideo == null) {
-            mXProgressVideo = LayoutInflater.from(mByWebView.getWebView().getContext()).inflate(R.layout.by_video_loading_progress, null);
+        if (mProgressVideo == null) {
+            mProgressVideo = LayoutInflater.from(mByWebView.getWebView().getContext()).inflate(R.layout.by_video_loading_progress, null);
         }
-        return mXProgressVideo;
+        return mProgressVideo;
     }
 
     @Override
@@ -127,22 +117,20 @@ public class ByWebChromeClient extends WebChromeClient {
         if (mByWebView.getProgressBar() != null) {
             mByWebView.getProgressBar().setWebProgress(newProgress);
         }
-//        mIWebPageView.startProgress(newProgress);
         onByWebChromeCallback.onProgressChanged(newProgress);
     }
 
     /**
      * 判断是否是全屏
      */
-    public boolean inCustomView() {
-        return (mXCustomView != null);
+    boolean inCustomView() {
+        return (mCustomView != null);
     }
 
     @Override
     public void onReceivedTitle(WebView view, String title) {
         super.onReceivedTitle(view, title);
         // 设置title
-//        mIWebPageView.onReceivedTitle(view, title);
         onByWebChromeCallback.onReceivedTitle(title);
     }
 
@@ -175,7 +163,7 @@ public class ByWebChromeClient extends WebChromeClient {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("image/*");
-            mActivity.startActivityForResult(Intent.createChooser(intent, "文件选择"), FILECHOOSER_RESULTCODE);
+            mActivity.startActivityForResult(Intent.createChooser(intent, "文件选择"), RESULT_CODE_FILE_CHOOSER);
         }
     }
 
@@ -191,7 +179,7 @@ public class ByWebChromeClient extends WebChromeClient {
             chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
             chooserIntent.putExtra(Intent.EXTRA_TITLE, "图片选择");
 
-            mActivity.startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE_FOR_ANDROID_5);
+            mActivity.startActivityForResult(chooserIntent, RESULT_CODE_FILE_CHOOSER_FOR_ANDROID_5);
         }
     }
 
@@ -227,9 +215,9 @@ public class ByWebChromeClient extends WebChromeClient {
      * 用于Activity的回调
      */
     public void handleFileChooser(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == FILECHOOSER_RESULTCODE) {
+        if (requestCode == RESULT_CODE_FILE_CHOOSER) {
             uploadMessage(intent, resultCode);
-        } else if (requestCode == FILECHOOSER_RESULTCODE_FOR_ANDROID_5) {
+        } else if (requestCode == RESULT_CODE_FILE_CHOOSER_FOR_ANDROID_5) {
             uploadMessageForAndroid5(intent, resultCode);
         }
     }
@@ -241,7 +229,7 @@ public class ByWebChromeClient extends WebChromeClient {
         request.grant(request.getResources());
     }
 
-    public ByFullscreenHolder getVideoFullView() {
+    ByFullscreenHolder getVideoFullView() {
         return videoFullView;
     }
 }

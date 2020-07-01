@@ -190,4 +190,29 @@ public class ByWebTools {
             return false;
         }
     }
+
+    public static String getUrl(String url) {
+        String urlResult = "";
+        if (TextUtils.isEmpty(url)) {
+            // 空url
+            return urlResult;
+
+        } else if (!url.startsWith("http") && url.contains("http")) {
+            // 有http且不在头部
+            urlResult = url.substring(url.indexOf("http"));
+
+        } else if (url.startsWith("www")) {
+            // 以"www"开头
+            urlResult = "http://" + url;
+
+        } else if (!url.startsWith("http") && (url.contains(".me") || url.contains(".com") || url.contains(".cn"))) {
+            // 不以"http"开头且有后缀
+            urlResult = "http://www." + url;
+
+        } else if (!url.startsWith("http") && !url.contains("www")) {
+            // 输入纯文字的情况
+            urlResult = "http://m5.baidu.com/s?from=124n&word=" + url;
+        }
+        return urlResult;
+    }
 }

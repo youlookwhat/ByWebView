@@ -171,7 +171,6 @@ public class ByWebView {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             //全屏播放退出全屏
             if (mWebChromeClient.inCustomView()) {
-//            hideCustomView();
                 mWebChromeClient.onHideCustomView();
                 if (activity != null) {
                     activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
