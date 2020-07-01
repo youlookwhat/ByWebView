@@ -114,8 +114,16 @@ public class ByWebChromeClient extends WebChromeClient {
     @Override
     public void onProgressChanged(WebView view, int newProgress) {
         super.onProgressChanged(view, newProgress);
+        // 进度条
         if (mByWebView.getProgressBar() != null) {
             mByWebView.getProgressBar().setWebProgress(newProgress);
+        }
+        // 当显示错误页面时，进度达到100才显示网页
+        if (mByWebView.getWebView() != null
+                && mByWebView.getWebView().getVisibility() == View.INVISIBLE
+                && mByWebView.getErrorView().getVisibility() == View.GONE
+                && newProgress == 100) {
+            mByWebView.getWebView().setVisibility(View.VISIBLE);
         }
         onByWebChromeCallback.onProgressChanged(newProgress);
     }

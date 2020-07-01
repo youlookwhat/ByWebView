@@ -7,17 +7,11 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
-import android.webkit.WebResourceResponse;
-import android.webkit.WebView;
-
 
 /**
- * Created by jingbin on 2017/2/13.
+ * @author jingbin
  */
-
 public class ByWebTools {
 
     /**
@@ -37,53 +31,6 @@ public class ByWebTools {
                 "</video>" +
                 "</body>" +
                 "</html>";
-    }
-
-
-    /**
-     * Android 6.0以下处理方法：
-     * 1）判断 Html页面的标题中是否含有“Error”、“找不到网页”等信息；
-     */
-    public static void handleErrorHtml(WebView webView, String title) {
-        // android 6.0 以下通过title获取判断
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            if (title.contains("404")
-                    || title.contains("500")
-                    || title.contains("Error")
-                    || title.contains("找不到网页")
-                    || title.contains("网页无法打开")) {
-                String mErrorUrl = "file:///android_asset/404_error.html";
-                webView.loadUrl(mErrorUrl);
-            }
-        }
-    }
-
-    /**
-     * 2）重写WebChromeClient的onReceivedError()方法处理（该方法已过时）
-     */
-    public static void handleReceivedError(WebView webView) {
-        //6.0以下执行
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return;
-        }
-        String mErrorUrl = "file:///android_asset/404_error.html";
-        webView.loadUrl(mErrorUrl);
-    }
-
-    /**
-     * Android 6.0以上处理方法：
-     * 重写WebViewClient的onReceivedHttpError()方法，判断错误码来处理；
-     */
-    public static void handleReceivedHttpError(WebView webView, WebResourceResponse errorResponse) {
-        // 这个方法在 android 6.0才出现
-        int statusCode = 0;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            statusCode = errorResponse.getStatusCode();
-        }
-        if (404 == statusCode || 500 == statusCode) {
-            String mErrorUrl = "file:///android_asset/404_error.html";
-            webView.loadUrl(mErrorUrl);
-        }
     }
 
     /**
@@ -147,24 +94,15 @@ public class ByWebTools {
 
     private static void startActivity(Context context, String url) {
         try {
-
-            // 用于DeepLink测试
-            if (url.startsWith("will://")) {
-                Uri uri = Uri.parse(url);
-                Log.e("---------scheme", uri.getScheme() + "；host: " + uri.getHost() + "；Id: " + uri.getPathSegments().get(0));
-            }
-
             Intent intent = new Intent();
             intent.setAction("android.intent.action.VIEW");
-            Uri uri = Uri.parse(url);
-            intent.setData(uri);
+            intent.setData(Uri.parse(url));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     public static int dp2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -178,7 +116,7 @@ public class ByWebTools {
         try {
             if (context != null) {
                 @SuppressWarnings("static-access")
-                ConnectivityManager cm = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+                ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo info = cm.getActiveNetworkInfo();
                 return info != null && info.isConnected();
             } else {

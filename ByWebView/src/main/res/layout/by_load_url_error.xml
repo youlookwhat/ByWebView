@@ -14,25 +14,24 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/progress_indicator"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
+    android:gravity="center"
     android:orientation="vertical">
 
-    <ProgressBar
-        android:id="@android:id/progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center" />
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:src="@drawable/by_icon_refresh" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:paddingTop="5dp"
-        android:text="@string/by_web_string_loading"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="14sp" />
+        android:paddingTop="12dp"
+        android:text="@string/by_web_string_click_load"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="15sp" />
 </LinearLayout>

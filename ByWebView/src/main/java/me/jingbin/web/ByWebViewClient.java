@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.net.http.SslError;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.webkit.SslErrorHandler;
@@ -38,6 +39,16 @@ public class ByWebViewClient extends WebViewClient {
         this.onByWebClientCallback = onByWebClientCallback;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+        String url = request.getUrl().toString();
+        if (TextUtils.isEmpty(url)) {
+            return false;
+        }
+        return onByWebClientCallback.isOpenThirdApp(url);
+    }
+
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         if (TextUtils.isEmpty(url)) {
@@ -51,7 +62,8 @@ public class ByWebViewClient extends WebViewClient {
     public void onPageFinished(WebView view, String url) {
         // html加载完成之后，添加监听图片的点击js函数
         Activity mActivity = this.mActivityWeakReference.get();
-        if (mActivity != null && !mActivity.isFinishing() && !ByWebTools.isNetworkConnected(mActivity)) {
+        if (mActivity != null && !mActivity.isFinishing()
+                && !ByWebTools.isNetworkConnected(mActivity) && mByWebView.getProgressBar() != null) {
             mByWebView.getProgressBar().hide();
         }
         onByWebClientCallback.onPageFinished(view, url);
@@ -61,24 +73,21 @@ public class ByWebViewClient extends WebViewClient {
     @Override
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         super.onReceivedError(view, errorCode, description, failingUrl);
-        //6.0以下执行
+        // 6.0以下执行
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return;
         }
-        String mErrorUrl = "file:///android_asset/404_error.html";
-        view.loadUrl(mErrorUrl);
+        mByWebView.showErrorView();
     }
 
     @Override
     public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
         super.onReceivedHttpError(view, request, errorResponse);
-//        WebTools.handleReceivedHttpError(view, errorResponse);
         // 这个方法在 android 6.0才出现
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int statusCode = errorResponse.getStatusCode();
             if (404 == statusCode || 500 == statusCode) {
-                String mErrorUrl = "file:///android_asset/404_error.html";
-                view.loadUrl(mErrorUrl);
+                mByWebView.showErrorView();
             }
         }
     }
@@ -89,8 +98,7 @@ public class ByWebViewClient extends WebViewClient {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (request.isForMainFrame()) {
                 // 是否是为 main frame创建
-                String mErrorUrl = "file:///android_asset/404_error.html";
-                view.loadUrl(mErrorUrl);
+                mByWebView.showErrorView();
             }
         }
     }

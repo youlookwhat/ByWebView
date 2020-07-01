@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -19,10 +20,12 @@ import android.widget.RelativeLayout;
  */
 public class ByWebView {
 
-    private WebProgress mProgressBar;
     private WebView mWebView;
+    private WebProgress mProgressBar;
+    private View mErrorView;
     private Activity activity;
     private ByWebChromeClient mWebChromeClient;
+    private OnByWebChromeCallback mOnByWebChromeCallback;
 
     private ByWebView(Builder builder) {
         this.activity = builder.mActivity;
@@ -37,7 +40,8 @@ public class ByWebView {
         // 配置
         handleSetting();
         mWebChromeClient = new ByWebChromeClient(activity, this);
-        mWebChromeClient.setOnByWebChromeCallback(builder.mOnByWebChromeCallback);
+        mOnByWebChromeCallback = builder.mOnByWebChromeCallback;
+        mWebChromeClient.setOnByWebChromeCallback(mOnByWebChromeCallback);
         mWebView.setWebChromeClient(mWebChromeClient);
 
         ByWebViewClient mByWebViewClient = new ByWebViewClient(activity, this);
@@ -124,7 +128,9 @@ public class ByWebView {
         } else {
             mWebView.loadUrl(url);
         }
-        mProgressBar.show();
+        if (mProgressBar != null) {
+            mProgressBar.show();
+        }
     }
 
     public ByWebChromeClient getWebChromeClient() {
@@ -192,6 +198,47 @@ public class ByWebView {
 
     public WebProgress getProgressBar() {
         return mProgressBar;
+    }
+
+    /**
+     * 显示错误布局
+     */
+    public void showErrorView() {
+        try {
+            if (mErrorView == null) {
+                RelativeLayout parent = (RelativeLayout) mWebView.getParent();
+                mErrorView = LayoutInflater.from(parent.getContext()).inflate(R.layout.by_load_url_error, null);
+                mErrorView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        hideErrorView();
+                        reload();
+                    }
+                });
+                parent.addView(mErrorView, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            } else {
+                mErrorView.setVisibility(View.VISIBLE);
+            }
+            mWebView.setVisibility(View.INVISIBLE);
+            if (mOnByWebChromeCallback != null) {
+                mOnByWebChromeCallback.onReceivedTitle("网页无法打开");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 隐藏错误布局
+     */
+    public void hideErrorView() {
+        if (mErrorView != null) {
+            mErrorView.setVisibility(View.GONE);
+        }
+    }
+
+    public View getErrorView() {
+        return mErrorView;
     }
 
     public static Builder with(@NonNull Activity activity) {
@@ -285,29 +332,6 @@ public class ByWebView {
             this.mOnByWebClientCallback = onByWebClientCallback;
             return this;
         }
-
-        public static Builder with(@NonNull Activity activity) {
-            if (activity == null) {
-                throw new NullPointerException("activity can not be null .");
-            }
-            return new Builder(activity);
-        }
-
-        public static Builder with(@NonNull Fragment fragment) {
-            Activity mActivity = null;
-            if ((mActivity = fragment.getActivity()) == null) {
-                throw new NullPointerException("activity can not be null .");
-            }
-            return new Builder(mActivity, fragment);
-        }
-
-
-//        public boolean handleKeyEvent(int keyCode, KeyEvent keyEvent) {
-//            if (mIEventHandler == null) {
-//                mIEventHandler = EventHandlerImpl.getInstantce(mWebCreator.getWebView(), getInterceptor());
-//            }
-//            return mIEventHandler.onKeyDown(keyCode, keyEvent);
-//        }
 
         public ByWebView loadUrl(String url) {
             ByWebView byWebView = new ByWebView(this);
