@@ -203,6 +203,8 @@ public class WebProgress extends FrameLayout {
             mAnimator.cancel();
         }
         mCurrentProgress = mCurrentProgress == 0 ? 0.00000001f : mCurrentProgress;
+        // 可能由于透明度造成突然出现的问题
+        setAlpha(1);
 
         if (!isFinished) {
             ValueAnimator mAnimator = ValueAnimator.ofFloat(mCurrentProgress, v);

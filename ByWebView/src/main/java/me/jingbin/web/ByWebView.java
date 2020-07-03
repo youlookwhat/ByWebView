@@ -43,13 +43,17 @@ public class ByWebView {
         builder.mWebContainer.addView(relativeLayout, builder.mLayoutParams);
         // 配置
         handleSetting();
+        // 视频、照片、进度条
         mWebChromeClient = new ByWebChromeClient(activity, this);
         mWebChromeClient.setOnByWebChromeCallback(builder.mOnByWebChromeCallback);
         mWebView.setWebChromeClient(mWebChromeClient);
 
+        // 错误页面、页面结束、处理DeepLink
         ByWebViewClient mByWebViewClient = new ByWebViewClient(activity, this);
         mByWebViewClient.setOnByWebClientCallback(builder.mOnByWebClientCallback);
         mWebView.setWebViewClient(mByWebViewClient);
+
+        mWebView.addJavascriptInterface(builder.mInterfaceObj, builder.mInterfaceName);
     }
 
     /**
@@ -176,24 +180,28 @@ public class ByWebView {
         }
     }
 
-
-    @SuppressLint("SourceLockedOrientationActivity")
     public boolean handleKeyEvent(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            //全屏播放退出全屏
-            if (mWebChromeClient.inCustomView()) {
-                mWebChromeClient.onHideCustomView();
-                if (activity != null) {
-                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                }
-                return true;
+            return handleBack();
+        }
+        return false;
+    }
 
-                //返回网页上一页
-            } else if (mWebView.canGoBack()) {
-                hideErrorView();
-                mWebView.goBack();
-                return true;
+    @SuppressLint("SourceLockedOrientationActivity")
+    public boolean handleBack() {
+        //全屏播放退出全屏
+        if (mWebChromeClient.inCustomView()) {
+            mWebChromeClient.onHideCustomView();
+            if (activity != null) {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             }
+            return true;
+
+            //返回网页上一页
+        } else if (mWebView.canGoBack()) {
+            hideErrorView();
+            mWebView.goBack();
+            return true;
         }
         return false;
     }
@@ -272,6 +280,8 @@ public class ByWebView {
         private int mProgressHeightDp;
         private int mErrorLayoutId;
         private String mErrorTitle;
+        private String mInterfaceName;
+        private Object mInterfaceObj;
         private ViewGroup mWebContainer;
         private ViewGroup.LayoutParams mLayoutParams;
         private WebSettings mWebSettings;
@@ -346,6 +356,12 @@ public class ByWebView {
 
         public Builder setWebSettings(WebSettings webSettings) {
             this.mWebSettings = webSettings;
+            return this;
+        }
+
+        public Builder addJavascriptInterface(String interfaceName, Object interfaceObj) {
+            this.mInterfaceName = interfaceName;
+            this.mInterfaceObj = interfaceObj;
             return this;
         }
 

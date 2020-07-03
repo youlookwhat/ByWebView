@@ -71,7 +71,7 @@ public class ByWebViewActivity extends AppCompatActivity {
         byWebView = ByWebView
                 .with(this)
                 .setWebParent(container, new LinearLayout.LayoutParams(-1, -1))
-                .useWebProgress(ContextCompat.getColor(this, R.color.colorPink))
+                .useWebProgress(ContextCompat.getColor(this, R.color.coloRed))
                 .setOnByWebChromeCallback(onByWebChromeCallback)
                 .setOnByWebClientCallback(onByWebClientCallback)
                 .loadUrl(mUrl);

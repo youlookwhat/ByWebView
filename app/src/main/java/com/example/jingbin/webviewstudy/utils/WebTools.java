@@ -155,8 +155,8 @@ public class WebTools {
         if (backUrl.startsWith("http")) {
             // 可能有提示下载Apk文件
             if (backUrl.contains(".apk")) {
-                startActivity(activity, backUrl);
-                return true;
+                return startActivity(activity, backUrl);
+//                return true;
             }
             return false;
         }
@@ -185,12 +185,12 @@ public class WebTools {
             isJump = false;
         }
         if (isJump) {
-            startActivity(activity, backUrl);
+            return startActivity(activity, backUrl);
         }
         return isJump;
     }
 
-    private static void startActivity(Context context, String url) {
+    private static boolean  startActivity(Context context, String url) {
         try {
 
             // 用于DeepLink测试
@@ -205,8 +205,10 @@ public class WebTools {
             intent.setData(uri);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
