@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -23,12 +24,15 @@ public class ByWebView {
     private WebView mWebView;
     private WebProgress mProgressBar;
     private View mErrorView;
+    private int mErrorLayoutId;
+    private String mErrorTitle;
     private Activity activity;
     private ByWebChromeClient mWebChromeClient;
-    private OnByWebChromeCallback mOnByWebChromeCallback;
 
     private ByWebView(Builder builder) {
         this.activity = builder.mActivity;
+        this.mErrorTitle = builder.mErrorTitle;
+        this.mErrorLayoutId = builder.mErrorLayoutId;
 
         RelativeLayout relativeLayout = new RelativeLayout(activity);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -40,8 +44,7 @@ public class ByWebView {
         // 配置
         handleSetting();
         mWebChromeClient = new ByWebChromeClient(activity, this);
-        mOnByWebChromeCallback = builder.mOnByWebChromeCallback;
-        mWebChromeClient.setOnByWebChromeCallback(mOnByWebChromeCallback);
+        mWebChromeClient.setOnByWebChromeCallback(builder.mOnByWebChromeCallback);
         mWebView.setWebChromeClient(mWebChromeClient);
 
         ByWebViewClient mByWebViewClient = new ByWebViewClient(activity, this);
@@ -210,7 +213,7 @@ public class ByWebView {
         try {
             if (mErrorView == null) {
                 RelativeLayout parent = (RelativeLayout) mWebView.getParent();
-                mErrorView = LayoutInflater.from(parent.getContext()).inflate(R.layout.by_load_url_error, null);
+                mErrorView = LayoutInflater.from(parent.getContext()).inflate((mErrorLayoutId == 0) ? R.layout.by_load_url_error : mErrorLayoutId, null);
                 mErrorView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -222,9 +225,6 @@ public class ByWebView {
                 mErrorView.setVisibility(View.VISIBLE);
             }
             mWebView.setVisibility(View.INVISIBLE);
-            if (mOnByWebChromeCallback != null) {
-                mOnByWebChromeCallback.onReceivedTitle("网页无法打开");
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -241,6 +241,10 @@ public class ByWebView {
 
     public View getErrorView() {
         return mErrorView;
+    }
+
+    String getErrorTitle() {
+        return mErrorTitle;
     }
 
     public static Builder with(@NonNull Activity activity) {
@@ -266,6 +270,8 @@ public class ByWebView {
         private String mProgressEndColorString;
         // 进度条 高度
         private int mProgressHeightDp;
+        private int mErrorLayoutId;
+        private String mErrorTitle;
         private ViewGroup mWebContainer;
         private ViewGroup.LayoutParams mLayoutParams;
         private WebSettings mWebSettings;
@@ -317,6 +323,24 @@ public class ByWebView {
             mProgressStartColor = startColor;
             mProgressEndColor = endColor;
             mProgressHeightDp = heightDp;
+            return this;
+        }
+
+        /**
+         * @param errorLayoutId 错误页面布局，标题默认“网页打开失败”
+         */
+        public Builder setErrorLayout(@LayoutRes int errorLayoutId) {
+            mErrorLayoutId = errorLayoutId;
+            return this;
+        }
+
+        /**
+         * @param errorLayoutId 错误页面布局
+         * @param errorTitle    错误页面标题
+         */
+        public Builder setErrorLayout(@LayoutRes int errorLayoutId, String errorTitle) {
+            mErrorLayoutId = errorLayoutId;
+            mErrorTitle = errorTitle;
             return this;
         }
 
