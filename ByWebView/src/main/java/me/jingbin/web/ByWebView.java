@@ -28,6 +28,7 @@ public class ByWebView {
     private String mErrorTitle;
     private Activity activity;
     private ByWebChromeClient mWebChromeClient;
+    private ByLoadJsHolder byLoadJsHolder;
 
     private ByWebView(Builder builder) {
         this.activity = builder.mActivity;
@@ -53,18 +54,19 @@ public class ByWebView {
         mByWebViewClient.setOnByWebClientCallback(builder.mOnByWebClientCallback);
         mWebView.setWebViewClient(mByWebViewClient);
 
+        handleJsInterface(builder);
+    }
+
+    @SuppressLint({"JavascriptInterface", "AddJavascriptInterface"})
+    private void handleJsInterface(Builder builder) {
         mWebView.addJavascriptInterface(builder.mInterfaceObj, builder.mInterfaceName);
     }
 
-    /**
-     * 4.4以上可用 evaluateJavascript 效率高
-     */
-    public void loadJs(String jsString) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            mWebView.evaluateJavascript(jsString, null);
-        } else {
-            mWebView.loadUrl(jsString);
+    public ByLoadJsHolder getLoadJsHolder() {
+        if (byLoadJsHolder == null) {
+            byLoadJsHolder = new ByLoadJsHolder(mWebView);
         }
+        return byLoadJsHolder;
     }
 
     @SuppressLint("SetJavaScriptEnabled")

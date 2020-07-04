@@ -45,10 +45,10 @@ public class ByWebViewActivity extends AppCompatActivity {
 
     // 网页链接
     private String mUrl;
-    private WebView webView;
-    private TextView tvGunTitle;
     private String mTitle;
+    private WebView webView;
     private ByWebView byWebView;
+    private TextView tvGunTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +74,11 @@ public class ByWebViewActivity extends AppCompatActivity {
                 .useWebProgress(ContextCompat.getColor(this, R.color.coloRed))
                 .setOnByWebChromeCallback(onByWebChromeCallback)
                 .setOnByWebClientCallback(onByWebClientCallback)
+                .addJavascriptInterface("injectedObject", new MyJavascriptInterface(this))
                 .loadUrl(mUrl);
         webView = byWebView.getWebView();
         // 与js交互
-        webView.addJavascriptInterface(new MyJavascriptInterface(this), "injectedObject");
+//        webView.addJavascriptInterface(new MyJavascriptInterface(this), "injectedObject");
     }
 
     private void initToolBar() {
@@ -161,7 +162,7 @@ public class ByWebViewActivity extends AppCompatActivity {
      * 这段js函数的功能就是，遍历所有的img节点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
      */
     private void loadImageClickJS() {
-        byWebView.loadJs("javascript:(function(){" +
+        byWebView.getLoadJsHolder().loadJs("javascript:(function(){" +
                 "var objs = document.getElementsByTagName(\"img\");" +
                 "for(var i=0;i<objs.length;i++)" +
                 "{" +
@@ -175,7 +176,7 @@ public class ByWebViewActivity extends AppCompatActivity {
      * 遍历所有的<li>节点,将节点里的属性传递过去(属性自定义,用于页面跳转)
      */
     private void loadTextClickJS() {
-        byWebView.loadJs("javascript:(function(){" +
+        byWebView.getLoadJsHolder().loadJs("javascript:(function(){" +
                 "var objs =document.getElementsByTagName(\"li\");" +
                 "for(var i=0;i<objs.length;i++)" +
                 "{" +
@@ -190,9 +191,11 @@ public class ByWebViewActivity extends AppCompatActivity {
      */
     private void loadCallJS() {
         // 无参数调用
-        byWebView.loadJs("javascript:javacalljs()");
+//        byWebView.loadJs("javascript:javacalljs()");
+        byWebView.getLoadJsHolder().quickCallJs("javacalljs");
         // 传递参数调用
-        byWebView.loadJs("javascript:javacalljswithargs('" + "android传入到网页里的数据，有参" + "')");
+//        byWebView.loadJs("javascript:javacalljswithargs('" + "android传入到网页里的数据，有参" + "')");
+        byWebView.getLoadJsHolder().quickCallJs("javacalljswithargs", "android传入到网页里的数据，有参");
     }
 
     /**
@@ -200,7 +203,7 @@ public class ByWebViewActivity extends AppCompatActivity {
      * 获取网页源码
      */
     private void loadWebsiteSourceCodeJS() {
-        byWebView.loadJs("javascript:window.injectedObject.showSource(document.getElementsByTagName('html')[0].innerHTML);");
+        byWebView.getLoadJsHolder().loadJs("javascript:window.injectedObject.showSource(document.getElementsByTagName('html')[0].innerHTML);");
     }
 
     /**

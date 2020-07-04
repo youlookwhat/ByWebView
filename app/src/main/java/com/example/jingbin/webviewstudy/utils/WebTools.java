@@ -7,13 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
-import android.webkit.WebResourceResponse;
-import android.webkit.WebView;
 
 import com.example.jingbin.webviewstudy.App;
+import com.example.jingbin.webviewstudy.BuildConfig;
 import com.example.jingbin.webviewstudy.R;
 
 /**
@@ -42,52 +40,6 @@ public class WebTools {
                 "</html>";
     }
 
-
-    /**
-     * Android 6.0以下处理方法：
-     * 1）判断 Html页面的标题中是否含有“Error”、“找不到网页”等信息；
-     */
-    public static void handleErrorHtml(WebView webView, String title) {
-        // android 6.0 以下通过title获取判断
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            if (title.contains("404")
-                    || title.contains("500")
-                    || title.contains("Error")
-                    || title.contains("找不到网页")
-                    || title.contains("网页无法打开")) {
-                String mErrorUrl = "file:///android_asset/404_error.html";
-                webView.loadUrl(mErrorUrl);
-            }
-        }
-    }
-
-    /**
-     * 2）重写WebChromeClient的onReceivedError()方法处理（该方法已过时）
-     */
-    public static void handleReceivedError(WebView webView) {
-        //6.0以下执行
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return;
-        }
-        String mErrorUrl = "file:///android_asset/404_error.html";
-        webView.loadUrl(mErrorUrl);
-    }
-
-    /**
-     * Android 6.0以上处理方法：
-     * 重写WebViewClient的onReceivedHttpError()方法，判断错误码来处理；
-     */
-    public static void handleReceivedHttpError(WebView webView, WebResourceResponse errorResponse) {
-        // 这个方法在 android 6.0才出现
-        int statusCode = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            statusCode = errorResponse.getStatusCode();
-        }
-        if (404 == statusCode || 500 == statusCode) {
-            String mErrorUrl = "file:///android_asset/404_error.html";
-            webView.loadUrl(mErrorUrl);
-        }
-    }
 
     /**
      * 实现文本复制功能
@@ -155,8 +107,8 @@ public class WebTools {
         if (backUrl.startsWith("http")) {
             // 可能有提示下载Apk文件
             if (backUrl.contains(".apk")) {
-                return startActivity(activity, backUrl);
-//                return true;
+                startActivity(activity, backUrl);
+                return true;
             }
             return false;
         }
@@ -180,17 +132,17 @@ public class WebTools {
                         || backUrl.startsWith("pinduoduo:")// 拼多多
                         || backUrl.startsWith("baiduboxapp:")// 百度
                         || backUrl.startsWith("qtt:")//
-                        || backUrl.startsWith("baiduhaokan:")//
+//                        || backUrl.startsWith("baiduhaokan:")//
         ) {
             isJump = false;
         }
         if (isJump) {
-            return startActivity(activity, backUrl);
+            startActivity(activity, backUrl);
         }
         return isJump;
     }
 
-    private static boolean  startActivity(Context context, String url) {
+    private static void startActivity(Activity context, String url) {
         try {
 
             // 用于DeepLink测试
@@ -200,15 +152,13 @@ public class WebTools {
             }
 
             Intent intent = new Intent();
-            intent.setAction("android.intent.action.VIEW");
-            Uri uri = Uri.parse(url);
-            intent.setData(uri);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
             context.startActivity(intent);
-            return true;
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            if (BuildConfig.DEBUG) {
+                e.printStackTrace();
+            }
         }
     }
 
