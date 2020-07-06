@@ -130,7 +130,7 @@ public class WebTools {
                         || backUrl.startsWith("sinaweibo:")// 新浪微博
                         || backUrl.startsWith("suning:")//
                         || backUrl.startsWith("pinduoduo:")// 拼多多
-                        || backUrl.startsWith("baiduboxapp:")// 百度
+//                        || backUrl.startsWith("baiduboxapp:")// 百度
                         || backUrl.startsWith("qtt:")//
 //                        || backUrl.startsWith("baiduhaokan:")//
         ) {
@@ -154,6 +154,7 @@ public class WebTools {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(url));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
