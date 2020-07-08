@@ -105,8 +105,15 @@ public class ByWebView {
             // WebView从5.0开始默认不允许混合模式,https中不能加载http资源,需要设置开启。
             ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
-        // 设置字体默认缩放大小(改变网页字体大小,setTextSize  api14被弃用)
-        ws.setTextZoom(100);
+    }
+
+    /**
+     * 设置字体默认缩放大小(改变网页字体大小,setTextSize  api14被弃用)
+     *
+     * @param textZoom 默认100
+     */
+    public void setTextZoom(int textZoom) {
+        mWebView.getSettings().setTextZoom(textZoom);
     }
 
     private void handleWebProgress(Builder builder, RelativeLayout relativeLayout) {
