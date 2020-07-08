@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.jingbin.webviewstudy.App;
 import com.example.jingbin.webviewstudy.BuildConfig;
@@ -167,5 +168,11 @@ public class WebTools {
     public static int dp2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    public static void showToast(String content) {
+        if (!TextUtils.isEmpty(content)) {
+            Toast.makeText(App.getInstance(), content, Toast.LENGTH_SHORT).show();
+        }
     }
 }

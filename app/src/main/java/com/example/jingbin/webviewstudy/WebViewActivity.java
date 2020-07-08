@@ -53,7 +53,9 @@ import com.example.jingbin.webviewstudy.utils.WebTools;
  *
  * @author jingbin
  * link to https://github.com/youlookwhat/WebViewStudy
+ * new to {@link com.example.jingbin.webviewstudy.ByWebViewActivity}
  */
+@Deprecated
 public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
     // 进度条

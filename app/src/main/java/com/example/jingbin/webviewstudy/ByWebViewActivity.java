@@ -44,6 +44,7 @@ import me.jingbin.web.OnByWebClientCallback;
 public class ByWebViewActivity extends AppCompatActivity {
 
     // 网页链接
+    private int mState;
     private String mUrl;
     private String mTitle;
     private WebView webView;
@@ -60,8 +61,9 @@ public class ByWebViewActivity extends AppCompatActivity {
     }
 
     private void getIntentData() {
-        mUrl = getIntent().getStringExtra("mUrl");
-        mTitle = getIntent().getStringExtra("mTitle");
+        mUrl = getIntent().getStringExtra("url");
+        mTitle = getIntent().getStringExtra("title");
+        mState = getIntent().getIntExtra("state", 0);
     }
 
     private void initTitle() {
@@ -77,8 +79,6 @@ public class ByWebViewActivity extends AppCompatActivity {
                 .addJavascriptInterface("injectedObject", new MyJavascriptInterface(this))
                 .loadUrl(mUrl);
         webView = byWebView.getWebView();
-        // 与js交互
-//        webView.addJavascriptInterface(new MyJavascriptInterface(this), "injectedObject");
     }
 
     private void initToolBar() {
@@ -112,10 +112,14 @@ public class ByWebViewActivity extends AppCompatActivity {
     private OnByWebClientCallback onByWebClientCallback = new OnByWebClientCallback() {
         @Override
         public void onPageFinished(WebView view, String url) {
-            loadImageClickJS();
-            loadTextClickJS();
-            loadCallJS();
-//            loadWebsiteSourceCodeJS();
+            if (mState == 1) {
+                loadImageClickJs();
+                loadTextClickJs();
+            } else if (mState == 2) {
+                loadCallJs();
+            } else if (mState == 3) {
+                loadWebsiteSourceCodeJs();
+            }
         }
 
         @Override
@@ -161,7 +165,7 @@ public class ByWebViewActivity extends AppCompatActivity {
      * 前端注入JS：
      * 这段js函数的功能就是，遍历所有的img节点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
      */
-    private void loadImageClickJS() {
+    private void loadImageClickJs() {
         byWebView.getLoadJsHolder().loadJs("javascript:(function(){" +
                 "var objs = document.getElementsByTagName(\"img\");" +
                 "for(var i=0;i<objs.length;i++)" +
@@ -175,7 +179,7 @@ public class ByWebViewActivity extends AppCompatActivity {
      * 前端注入JS：
      * 遍历所有的<li>节点,将节点里的属性传递过去(属性自定义,用于页面跳转)
      */
-    private void loadTextClickJS() {
+    private void loadTextClickJs() {
         byWebView.getLoadJsHolder().loadJs("javascript:(function(){" +
                 "var objs =document.getElementsByTagName(\"li\");" +
                 "for(var i=0;i<objs.length;i++)" +
@@ -189,12 +193,10 @@ public class ByWebViewActivity extends AppCompatActivity {
     /**
      * 传应用内的数据给html，方便html处理
      */
-    private void loadCallJS() {
+    private void loadCallJs() {
         // 无参数调用
-//        byWebView.loadJs("javascript:javacalljs()");
         byWebView.getLoadJsHolder().quickCallJs("javacalljs");
         // 传递参数调用
-//        byWebView.loadJs("javascript:javacalljswithargs('" + "android传入到网页里的数据，有参" + "')");
         byWebView.getLoadJsHolder().quickCallJs("javacalljswithargs", "android传入到网页里的数据，有参");
     }
 
@@ -202,7 +204,7 @@ public class ByWebViewActivity extends AppCompatActivity {
      * get website source code
      * 获取网页源码
      */
-    private void loadWebsiteSourceCodeJS() {
+    private void loadWebsiteSourceCodeJs() {
         byWebView.getLoadJsHolder().loadJs("javascript:window.injectedObject.showSource(document.getElementsByTagName('html')[0].innerHTML);");
     }
 
@@ -293,13 +295,15 @@ public class ByWebViewActivity extends AppCompatActivity {
      * 打开网页:
      *
      * @param mContext 上下文
-     * @param mUrl     要加载的网页url
-     * @param mTitle   标题
+     * @param url      要加载的网页url
+     * @param title    标题
+     * @param state    类型
      */
-    public static void loadUrl(Context mContext, String mUrl, String mTitle) {
+    public static void loadUrl(Context mContext, String url, String title, int state) {
         Intent intent = new Intent(mContext, ByWebViewActivity.class);
-        intent.putExtra("mUrl", mUrl);
-        intent.putExtra("mTitle", mTitle == null ? "加载中..." : mTitle);
+        intent.putExtra("url", url);
+        intent.putExtra("state", state);
+        intent.putExtra("title", title == null ? "加载中..." : title);
         mContext.startActivity(intent);
     }
 }
