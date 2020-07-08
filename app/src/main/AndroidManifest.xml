@@ -53,19 +53,9 @@
             android:hardwareAccelerated="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/WebViewTheme">
+            android:theme="@style/WebViewTheme"
+            tools:ignore="LockedOrientationActivity" />
 
-            <!--需要添加下面的intent-filter配置-->
-            <intent-filter tools:ignore="AppLinkUrlError">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!--使用http，则只能打开http开头的网页-->
-                <data android:scheme="https" />
-            </intent-filter>
-
-        </activity>
 
         <!--用于DeepLink，html跳到此页面  scheme_Adr: 'will://link/testid',-->
         <activity android:name=".DeepLinkActivity">

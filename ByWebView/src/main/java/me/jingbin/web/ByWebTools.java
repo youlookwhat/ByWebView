@@ -19,7 +19,7 @@ public class ByWebTools {
      *
      * @param url 视频链接
      */
-    public static String getVideoHtmlBody(String url) {
+    static String getVideoHtmlBody(String url) {
         return "<html>" +
                 "<head>" +
                 "<meta name=\"viewport\" content=\"width=device-width\">" +
@@ -100,19 +100,16 @@ public class ByWebTools {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } catch (Exception e) {
-            e.printStackTrace();
+            if (BuildConfig.DEBUG) {
+                e.printStackTrace();
+            }
         }
-    }
-
-    public static int dp2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
     }
 
     /**
      * 判断网络是否连通
      */
-    public static boolean isNetworkConnected(Context context) {
+    static boolean isNetworkConnected(Context context) {
         try {
             if (context != null) {
                 @SuppressWarnings("static-access")

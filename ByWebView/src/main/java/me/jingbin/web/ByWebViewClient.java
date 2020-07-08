@@ -83,23 +83,22 @@ public class ByWebViewClient extends WebViewClient {
     @Override
     public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
         super.onReceivedHttpError(view, request, errorResponse);
-        // 这个方法在 android 6.0才出现
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int statusCode = errorResponse.getStatusCode();
-            if (404 == statusCode || 500 == statusCode) {
-                mByWebView.showErrorView();
-            }
-        }
+        // 这个方法在 android 6.0才出现。加了正常的页面可能会出现错误页面
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            int statusCode = errorResponse.getStatusCode();
+//            if (404 == statusCode || 500 == statusCode) {
+//                mByWebView.showErrorView();
+//            }
+//        }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
         super.onReceivedError(view, request, error);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (request.isForMainFrame()) {
-                // 是否是为 main frame创建
-                mByWebView.showErrorView();
-            }
+        if (request.isForMainFrame()) {
+            // 是否是为 main frame创建
+            mByWebView.showErrorView();
         }
     }
 
