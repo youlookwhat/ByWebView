@@ -12,6 +12,6 @@ public abstract class OnByWebClientCallback {
     }
 
     public boolean isOpenThirdApp(String url) {
-        return false;
+        return !url.startsWith("http:") && !url.startsWith("https:");
     }
 }

@@ -23,6 +23,9 @@ import android.widget.FrameLayout;
  * 1. progress同时返回两次100时进度条出现两次
  * 2. 当一条进度没跑完，又点击其他链接开始第二次进度时，第二次进度不出现
  * 3. 修改消失动画时长，使其消失时看到可以进度跑完
+ * 4. [2019.9.29] 修复当第一次进度返回 0 或超过 10，出现不显示进度条的问题
+ * 5. 能显示渐变色
+ * 6. 进度在95-100时再次开始进度条透明度问题
  *
  * @author jingbin
  * Link to https://github.com/youlookwhat/WebProgress

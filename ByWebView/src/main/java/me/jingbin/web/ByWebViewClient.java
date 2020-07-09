@@ -46,7 +46,16 @@ public class ByWebViewClient extends WebViewClient {
         if (TextUtils.isEmpty(url)) {
             return false;
         }
-        return onByWebClientCallback.isOpenThirdApp(url);
+        if (onByWebClientCallback != null) {
+            return onByWebClientCallback.isOpenThirdApp(url);
+        } else {
+            Activity mActivity = this.mActivityWeakReference.get();
+            if (mActivity != null && !mActivity.isFinishing()) {
+                return ByWebTools.handleThirdApp(mActivity, url);
+            } else {
+                return !url.startsWith("http:") && !url.startsWith("https:");
+            }
+        }
     }
 
     @Override
@@ -54,7 +63,16 @@ public class ByWebViewClient extends WebViewClient {
         if (TextUtils.isEmpty(url)) {
             return false;
         }
-        return onByWebClientCallback.isOpenThirdApp(url);
+        if (onByWebClientCallback != null) {
+            return onByWebClientCallback.isOpenThirdApp(url);
+        } else {
+            Activity mActivity = this.mActivityWeakReference.get();
+            if (mActivity != null && !mActivity.isFinishing()) {
+                return ByWebTools.handleThirdApp(mActivity, url);
+            } else {
+                return !url.startsWith("http:") && !url.startsWith("https:");
+            }
+        }
     }
 
 
@@ -66,7 +84,9 @@ public class ByWebViewClient extends WebViewClient {
                 && !ByWebTools.isNetworkConnected(mActivity) && mByWebView.getProgressBar() != null) {
             mByWebView.getProgressBar().hide();
         }
-        onByWebClientCallback.onPageFinished(view, url);
+        if (onByWebClientCallback != null) {
+            onByWebClientCallback.onPageFinished(view, url);
+        }
         super.onPageFinished(view, url);
     }
 

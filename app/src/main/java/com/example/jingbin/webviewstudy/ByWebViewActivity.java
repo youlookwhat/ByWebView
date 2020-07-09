@@ -21,6 +21,7 @@ import com.example.jingbin.webviewstudy.config.MyJavascriptInterface;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 import com.example.jingbin.webviewstudy.utils.WebTools;
 
+import me.jingbin.web.ByWebTools;
 import me.jingbin.web.ByWebView;
 import me.jingbin.web.OnByWebChromeCallback;
 import me.jingbin.web.OnByWebClientCallback;
@@ -112,20 +113,21 @@ public class ByWebViewActivity extends AppCompatActivity {
     private OnByWebClientCallback onByWebClientCallback = new OnByWebClientCallback() {
         @Override
         public void onPageFinished(WebView view, String url) {
+            // 网页加载完成后的回调
             if (mState == 1) {
                 loadImageClickJs();
                 loadTextClickJs();
+                loadWebsiteSourceCodeJs();
             } else if (mState == 2) {
                 loadCallJs();
-            } else if (mState == 3) {
-                loadWebsiteSourceCodeJs();
             }
         }
 
         @Override
         public boolean isOpenThirdApp(String url) {
+            // 处理三方链接
             Log.e("---url", url);
-            return WebTools.handleThirdApp(ByWebViewActivity.this, url);
+            return ByWebTools.handleThirdApp(ByWebViewActivity.this, url);
         }
     };
 

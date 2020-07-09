@@ -59,7 +59,9 @@ public class ByWebView {
 
     @SuppressLint({"JavascriptInterface", "AddJavascriptInterface"})
     private void handleJsInterface(Builder builder) {
-        mWebView.addJavascriptInterface(builder.mInterfaceObj, builder.mInterfaceName);
+        if (!TextUtils.isEmpty(builder.mInterfaceName) && builder.mInterfaceObj != null) {
+            mWebView.addJavascriptInterface(builder.mInterfaceObj, builder.mInterfaceName);
+        }
     }
 
     public ByLoadJsHolder getLoadJsHolder() {

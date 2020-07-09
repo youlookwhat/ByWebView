@@ -126,7 +126,9 @@ public class ByWebChromeClient extends WebChromeClient {
                 && newProgress == 100) {
             mByWebView.getWebView().setVisibility(View.VISIBLE);
         }
-        onByWebChromeCallback.onProgressChanged(newProgress);
+        if (onByWebChromeCallback != null) {
+            onByWebChromeCallback.onProgressChanged(newProgress);
+        }
     }
 
     /**
@@ -140,10 +142,12 @@ public class ByWebChromeClient extends WebChromeClient {
     public void onReceivedTitle(WebView view, String title) {
         super.onReceivedTitle(view, title);
         // 设置title
-        if (mByWebView.getErrorView() != null && mByWebView.getErrorView().getVisibility() == View.VISIBLE) {
-            onByWebChromeCallback.onReceivedTitle(TextUtils.isEmpty(mByWebView.getErrorTitle()) ? "网页无法打开" : mByWebView.getErrorTitle());
-        } else {
-            onByWebChromeCallback.onReceivedTitle(title);
+        if (onByWebChromeCallback != null) {
+            if (mByWebView.getErrorView() != null && mByWebView.getErrorView().getVisibility() == View.VISIBLE) {
+                onByWebChromeCallback.onReceivedTitle(TextUtils.isEmpty(mByWebView.getErrorTitle()) ? "网页无法打开" : mByWebView.getErrorTitle());
+            } else {
+                onByWebChromeCallback.onReceivedTitle(title);
+            }
         }
     }
 

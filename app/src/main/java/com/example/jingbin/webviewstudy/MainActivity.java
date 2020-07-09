@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.bt_movie).setOnClickListener(this);
         findViewById(R.id.bt_upload_photo).setOnClickListener(this);
         findViewById(R.id.bt_call).setOnClickListener(this);
-        findViewById(R.id.bt_getSourceCode).setOnClickListener(this);
         findViewById(R.id.bt_java_js).setOnClickListener(this);
 
         rbSystem = findViewById(R.id.rb_system);
@@ -103,11 +102,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 state = 2;
                 String javaJs = "file:///android_asset/java_js.html";
                 loadUrl(javaJs, getString(R.string.js_android));
-                break;
-            case R.id.bt_getSourceCode://  js与android原生代码互调
-                state = 3;
-                String sourceCode = "file:///android_asset/java_js.html";
-                loadUrl(sourceCode, getString(R.string.source_code));
                 break;
             case R.id.bt_deeplink:// DeepLink通过网页跳入App
                 state = 0;

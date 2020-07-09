@@ -100,8 +100,7 @@ public class WebTools {
     }
 
     /**
-     * 处理三方链接
-     * 网页里可能唤起其他的app
+     * 默认处理流程：网页里可能唤起其他的app
      */
     public static boolean handleThirdApp(Activity activity, String backUrl) {
         /**http开头直接跳过*/
@@ -113,34 +112,44 @@ public class WebTools {
             }
             return false;
         }
+        if (backUrl.contains("alipays")) {
+            // 网页跳支付宝支付
+            if (hasPackage(activity, "com.eg.android.AlipayGphone")) {
+                startActivity(activity, backUrl);
+            }
 
-        boolean isJump = true;
-        /**屏蔽以下应用唤起App，可根据需求 添加或取消*/
-        if (
-                backUrl.startsWith("tbopen:")// 淘宝
-//                        || backUrl.startsWith("openapp.jdmobile:")// 京东
-//                        || backUrl.startsWith("jdmobile:")//京东
-//                        || backUrl.startsWith("alipay:")// 支付宝
-//                        || backUrl.startsWith("alipays:")//支付宝
-                        || backUrl.startsWith("zhihu:")// 知乎
-                        || backUrl.startsWith("vipshop:")//
-                        || backUrl.startsWith("youku:")//优酷
-                        || backUrl.startsWith("uclink:")// UC
-                        || backUrl.startsWith("ucbrowser:")// UC
-                        || backUrl.startsWith("newsapp:")//
-                        || backUrl.startsWith("sinaweibo:")// 新浪微博
-                        || backUrl.startsWith("suning:")//
-                        || backUrl.startsWith("pinduoduo:")// 拼多多
-//                        || backUrl.startsWith("baiduboxapp:")// 百度
-                        || backUrl.startsWith("qtt:")//
-//                        || backUrl.startsWith("baiduhaokan:")//
-        ) {
-            isJump = false;
+        } else if (backUrl.contains("weixin://wap/pay")) {
+            // 微信支付
+            if (hasPackage(activity, "com.tencent.mm")) {
+                startActivity(activity, backUrl);
+            }
+        } else {
+
+            // 会唤起手机里有的App，如果不想被唤起，复制出来然后添加屏蔽即可
+            boolean isJump = true;
+            if (backUrl.contains("tbopen:")// 淘宝
+                    || backUrl.contains("openapp.jdmobile:")// 京东
+                    || backUrl.contains("jdmobile:")//京东
+                    || backUrl.contains("zhihu:")// 知乎
+                    || backUrl.contains("vipshop:")//
+                    || backUrl.contains("youku:")//优酷
+                    || backUrl.contains("uclink:")// UC
+                    || backUrl.contains("ucbrowser:")// UC
+                    || backUrl.contains("newsapp:")//
+                    || backUrl.contains("sinaweibo:")// 新浪微博
+                    || backUrl.contains("suning:")//
+                    || backUrl.contains("pinduoduo:")// 拼多多
+                    || backUrl.contains("qtt:")//
+                    || backUrl.contains("baiduboxapp:")// 百度
+                    || backUrl.contains("baiduhaokan:")// 百度看看
+            ) {
+                isJump = false;
+            }
+            if (isJump) {
+                startActivity(activity, backUrl);
+            }
         }
-        if (isJump) {
-            startActivity(activity, backUrl);
-        }
-        return isJump;
+        return true;
     }
 
     private static void startActivity(Activity context, String url) {
