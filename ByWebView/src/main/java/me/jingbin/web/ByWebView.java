@@ -277,8 +277,6 @@ public class ByWebView {
     public static class Builder {
         private Activity mActivity;
         private Fragment mFragment;
-        // 加载链接
-        private String mUrl;
         // 默认使用进度条
         private boolean mUseWebProgress = true;
         // 进度条 开始颜色
@@ -295,7 +293,6 @@ public class ByWebView {
         private Object mInterfaceObj;
         private ViewGroup mWebContainer;
         private ViewGroup.LayoutParams mLayoutParams;
-        private WebSettings mWebSettings;
         private OnByWebChromeCallback mOnByWebChromeCallback;
         private OnByWebClientCallback mOnByWebClientCallback;
 
@@ -325,24 +322,41 @@ public class ByWebView {
             return this;
         }
 
+        /**
+         * 设置进度条颜色
+         *
+         * @param color 示例：ContextCompat.getColor(this, R.color.red)
+         */
         public Builder useWebProgress(int color) {
             return useWebProgress(color, color, 3);
         }
 
+        /**
+         * 设置进度条颜色
+         *
+         * @param color 示例："#FF0000"
+         */
         public Builder useWebProgress(String color) {
             return useWebProgress(color, color, 3);
+        }
+
+        /**
+         * 设置进度条渐变色颜色
+         *
+         * @param startColor 开始颜色
+         * @param endColor   结束颜色
+         * @param heightDp   进度条高度，单位dp
+         */
+        public Builder useWebProgress(int startColor, int endColor, int heightDp) {
+            mProgressStartColor = startColor;
+            mProgressEndColor = endColor;
+            mProgressHeightDp = heightDp;
+            return this;
         }
 
         public Builder useWebProgress(String startColor, String endColor, int heightDp) {
             mProgressStartColorString = startColor;
             mProgressEndColorString = endColor;
-            mProgressHeightDp = heightDp;
-            return this;
-        }
-
-        public Builder useWebProgress(int startColor, int endColor, int heightDp) {
-            mProgressStartColor = startColor;
-            mProgressEndColor = endColor;
             mProgressHeightDp = heightDp;
             return this;
         }
@@ -365,22 +379,26 @@ public class ByWebView {
             return this;
         }
 
-        public Builder setWebSettings(WebSettings webSettings) {
-            this.mWebSettings = webSettings;
-            return this;
-        }
-
+        /**
+         * 添加Js监听
+         */
         public Builder addJavascriptInterface(String interfaceName, Object interfaceObj) {
             this.mInterfaceName = interfaceName;
             this.mInterfaceObj = interfaceObj;
             return this;
         }
 
+        /**
+         * @param onByWebChromeCallback 返回Title 和 Progress
+         */
         public Builder setOnByWebChromeCallback(OnByWebChromeCallback onByWebChromeCallback) {
             this.mOnByWebChromeCallback = onByWebChromeCallback;
             return this;
         }
 
+        /**
+         * 页面加载结束监听 和 处理三方跳转链接
+         */
         public Builder setOnByWebClientCallback(OnByWebClientCallback onByWebClientCallback) {
             this.mOnByWebClientCallback = onByWebClientCallback;
             return this;
