@@ -9,6 +9,7 @@
  - 基本配置使用(宽度自适应、返回网页上一层、显示网页标题等)
  - 唤起三方应用(拨打电话、发送短信、发送邮件等)
  - 上传图片(版本兼容)
+ - 错误页面处理
  - 全屏播放网络视频
  - **与Js交互实例**
  - 优雅的进度条显示控件
@@ -147,6 +148,14 @@ private OnByWebClientCallback onByWebClientCallback = new OnByWebClientCallback(
         return ByWebTools.handleThirdApp(ByWebViewActivity.this, url);
     }
 };
+```
+
+### 自定义错误页面
+
+```java
+ByWebView.with(this)
+	.setErrorLayout(R.layout.by_load_url_error,"无法打开网页")
+	.loadUrl(mUrl);
 ```
 
 ## Document
