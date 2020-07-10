@@ -189,7 +189,7 @@ private OnByWebClientCallback onByWebClientCallback = new OnByWebClientCallback(
  - [Android WebView开发问题及优化汇总](http://www.cnblogs.com/spring87/p/4532687.html)
  - [https://developer.android.com/reference/android/webkit/WebSettings.html](https://developer.android.com/reference/android/webkit/WebSettings.html)
    
-[1]:https://img.shields.io/badge/download-fir.im-red.svg?style=flat
+[1]:https://img.shields.io/badge/download-fir.im-blue.svg?style=flat
 [2]:http://d.6short.com/webviewstudy
 
 [3]:https://img.shields.io/badge/version-2.7.2-brightgreen.svg?style=flat
