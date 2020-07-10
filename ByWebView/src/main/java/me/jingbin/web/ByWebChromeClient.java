@@ -37,14 +37,14 @@ public class ByWebChromeClient extends WebChromeClient {
     private View mCustomView;
     private CustomViewCallback mCustomViewCallback;
     private ByFullscreenHolder videoFullView;
-    private OnByWebChromeCallback onByWebChromeCallback;
+    private OnTitleProgressCallback onByWebChromeCallback;
 
     ByWebChromeClient(Activity activity, ByWebView byWebView) {
         mActivityWeakReference = new WeakReference<Activity>(activity);
         this.mByWebView = byWebView;
     }
 
-    void setOnByWebChromeCallback(OnByWebChromeCallback onByWebChromeCallback) {
+    void setOnByWebChromeCallback(OnTitleProgressCallback onByWebChromeCallback) {
         this.onByWebChromeCallback = onByWebChromeCallback;
     }
 

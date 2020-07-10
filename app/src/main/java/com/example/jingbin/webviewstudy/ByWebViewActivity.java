@@ -23,16 +23,17 @@ import com.example.jingbin.webviewstudy.utils.WebTools;
 
 import me.jingbin.web.ByWebTools;
 import me.jingbin.web.ByWebView;
-import me.jingbin.web.OnByWebChromeCallback;
+import me.jingbin.web.OnTitleProgressCallback;
 import me.jingbin.web.OnByWebClientCallback;
 
 /**
  * 网页可以处理:
  * 点击相应控件：
- * - 拨打电话、发送短信、发送邮件
+ * - 进度条显示
  * - 上传图片(版本兼容)
  * - 全屏播放网络视频
- * - 进度条显示
+ * - 唤起微信支付宝
+ * - 拨打电话、发送短信、发送邮件
  * - 返回网页上一层、显示网页标题
  * JS交互部分：
  * - 前端代码嵌入js(缺乏灵活性)
@@ -75,7 +76,7 @@ public class ByWebViewActivity extends AppCompatActivity {
                 .with(this)
                 .setWebParent(container, new LinearLayout.LayoutParams(-1, -1))
                 .useWebProgress(ContextCompat.getColor(this, R.color.coloRed))
-                .setOnByWebChromeCallback(onByWebChromeCallback)
+                .setOnTitleProgressCallback(onTitleProgressCallback)
                 .setOnByWebClientCallback(onByWebClientCallback)
                 .addJavascriptInterface("injectedObject", new MyJavascriptInterface(this))
                 .loadUrl(mUrl);
@@ -102,7 +103,7 @@ public class ByWebViewActivity extends AppCompatActivity {
         tvGunTitle.setText(mTitle);
     }
 
-    private OnByWebChromeCallback onByWebChromeCallback = new OnByWebChromeCallback() {
+    private OnTitleProgressCallback onTitleProgressCallback = new OnTitleProgressCallback() {
         @Override
         public void onReceivedTitle(String title) {
             Log.e("---title", title);
@@ -215,9 +216,7 @@ public class ByWebViewActivity extends AppCompatActivity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (byWebView.getWebChromeClient() != null) {
-            byWebView.getWebChromeClient().handleFileChooser(requestCode, resultCode, intent);
-        }
+        byWebView.handleFileChooser(requestCode, resultCode, intent);
     }
 
     /**
@@ -271,7 +270,7 @@ public class ByWebViewActivity extends AppCompatActivity {
             return true;
         } else {
             handleFinish();
-            return false;
+            return super.onKeyDown(keyCode, event);
         }
     }
 

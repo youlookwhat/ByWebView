@@ -2,6 +2,7 @@ package me.jingbin.web;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.support.annotation.LayoutRes;
@@ -17,7 +18,20 @@ import android.webkit.WebView;
 import android.widget.RelativeLayout;
 
 /**
- * Created by jingbin on 2020-06-26.
+ * 网页可以处理:
+ * 点击相应控件：
+ * - 进度条显示
+ * - 上传图片(版本兼容)
+ * - 全屏播放网络视频
+ * - 唤起微信支付宝
+ * - 拨打电话、发送短信、发送邮件
+ * - 返回网页上一层、显示网页标题
+ * JS交互部分：
+ * - 前端代码嵌入js(缺乏灵活性)
+ * - 网页自带js跳转
+ *
+ * @author jingbin
+ * link to https://github.com/youlookwhat/ByWebView
  */
 public class ByWebView {
 
@@ -46,7 +60,7 @@ public class ByWebView {
         handleSetting();
         // 视频、照片、进度条
         mWebChromeClient = new ByWebChromeClient(activity, this);
-        mWebChromeClient.setOnByWebChromeCallback(builder.mOnByWebChromeCallback);
+        mWebChromeClient.setOnByWebChromeCallback(builder.mOnTitleProgressCallback);
         mWebView.setWebChromeClient(mWebChromeClient);
 
         // 错误页面、页面结束、处理DeepLink
@@ -152,10 +166,6 @@ public class ByWebView {
         hideErrorView();
     }
 
-    public ByWebChromeClient getWebChromeClient() {
-        return mWebChromeClient;
-    }
-
     public void reload() {
         hideErrorView();
         mWebView.reload();
@@ -191,16 +201,25 @@ public class ByWebView {
         }
     }
 
+    /**
+     * 选择图片之后的回调，在Activity里onActivityResult调用
+     */
+    public void handleFileChooser(int requestCode, int resultCode, Intent intent) {
+        if (mWebChromeClient != null) {
+            mWebChromeClient.handleFileChooser(requestCode, resultCode, intent);
+        }
+    }
+
     public boolean handleKeyEvent(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return handleBack();
+            return isBack();
         }
         return false;
     }
 
     @SuppressLint("SourceLockedOrientationActivity")
-    public boolean handleBack() {
-        //全屏播放退出全屏
+    public boolean isBack() {
+        // 全屏播放退出全屏
         if (mWebChromeClient.inCustomView()) {
             mWebChromeClient.onHideCustomView();
             if (activity != null) {
@@ -208,7 +227,7 @@ public class ByWebView {
             }
             return true;
 
-            //返回网页上一页
+            // 返回网页上一页
         } else if (mWebView.canGoBack()) {
             hideErrorView();
             mWebView.goBack();
@@ -293,7 +312,7 @@ public class ByWebView {
         private Object mInterfaceObj;
         private ViewGroup mWebContainer;
         private ViewGroup.LayoutParams mLayoutParams;
-        private OnByWebChromeCallback mOnByWebChromeCallback;
+        private OnTitleProgressCallback mOnTitleProgressCallback;
         private OnByWebClientCallback mOnByWebClientCallback;
 
         public Builder(Activity activity) {
@@ -389,10 +408,10 @@ public class ByWebView {
         }
 
         /**
-         * @param onByWebChromeCallback 返回Title 和 Progress
+         * @param onTitleProgressCallback 返回Title 和 Progress
          */
-        public Builder setOnByWebChromeCallback(OnByWebChromeCallback onByWebChromeCallback) {
-            this.mOnByWebChromeCallback = onByWebChromeCallback;
+        public Builder setOnTitleProgressCallback(OnTitleProgressCallback onTitleProgressCallback) {
+            this.mOnTitleProgressCallback = onTitleProgressCallback;
             return this;
         }
 
