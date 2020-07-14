@@ -158,6 +158,20 @@ ByWebView.with(this)
 	.loadUrl(mUrl);
 ```
 
+### 完整设置
+```java
+byWebView = ByWebView
+        .with(this)
+        .useWebProgress(true) // 是否使用进度条，默认true，如使用可不用配置
+        .setWebParent(container, new LinearLayout.LayoutParams(-1, -1)) // 设置WebView父容器
+        .useWebProgress("#ffb6cf", "#ff0000", 3)// 进度条渐变色(开始颜色，结束颜色，高度)
+        .setOnTitleProgressCallback(onTitleProgressCallback)// title 和 progress 监听
+        .setOnByWebClientCallback(onByWebClientCallback)    // WebViewClient监听
+        .setErrorLayout(R.layout.by_load_url_error, "无法打开网页") // 设置错误页面及标题
+        .addJavascriptInterface("injectedObject", new MyJavascriptInterface(this)) // 设置Js监听
+        .loadUrl(mUrl);
+```
+
 ## Document
 
  - [Android 关于WebView全方面的使用（项目应用篇）](http://www.jianshu.com/p/163d39e562f0)
