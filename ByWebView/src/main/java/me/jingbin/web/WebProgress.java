@@ -63,7 +63,7 @@ public class WebProgress extends FrameLayout {
     /**
      * 进度条颜色默认
      */
-    public static String WEB_PROGRESS_COLOR = "#2483D9";
+    public static String WEB_PROGRESS_COLOR = "#32B848";
     /**
      * 进度条颜色
      */
