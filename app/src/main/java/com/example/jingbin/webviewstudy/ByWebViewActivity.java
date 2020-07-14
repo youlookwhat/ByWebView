@@ -269,7 +269,9 @@ public class ByWebViewActivity extends AppCompatActivity {
         if (byWebView.handleKeyEvent(keyCode, event)) {
             return true;
         } else {
-            handleFinish();
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                handleFinish();
+            }
             return super.onKeyDown(keyCode, event);
         }
     }

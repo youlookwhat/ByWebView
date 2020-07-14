@@ -334,10 +334,10 @@ public class ByWebView {
         }
 
         /**
-         * @param isUser 是否使用进度条，默认true
+         * @param isUse 是否使用进度条，默认true
          */
-        public Builder useWebProgress(boolean isUser) {
-            this.mUseWebProgress = isUser;
+        public Builder useWebProgress(boolean isUse) {
+            this.mUseWebProgress = isUse;
             return this;
         }
 
