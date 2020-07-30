@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.PermissionRequest;
@@ -88,6 +89,7 @@ public class ByWebChromeClient extends WebChromeClient {
             if (mCustomView == null) {
                 return;
             }
+            // 还原到之前的屏幕状态
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
             mCustomView.setVisibility(View.GONE);

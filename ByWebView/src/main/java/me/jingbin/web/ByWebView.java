@@ -222,9 +222,6 @@ public class ByWebView {
         // 全屏播放退出全屏
         if (mWebChromeClient.inCustomView()) {
             mWebChromeClient.onHideCustomView();
-            if (activity != null) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            }
             return true;
 
             // 返回网页上一页
