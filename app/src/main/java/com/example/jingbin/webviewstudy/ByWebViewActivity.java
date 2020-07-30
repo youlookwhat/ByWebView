@@ -74,6 +74,7 @@ public class ByWebViewActivity extends AppCompatActivity {
         LinearLayout container = findViewById(R.id.ll_container);
         byWebView = ByWebView
                 .with(this)
+                .setCustomWebViewLayout(R.layout.layout_costom_webview)
                 .setWebParent(container, new LinearLayout.LayoutParams(-1, -1))
                 .useWebProgress(ContextCompat.getColor(this, R.color.coloRed))
                 .setOnTitleProgressCallback(onTitleProgressCallback)

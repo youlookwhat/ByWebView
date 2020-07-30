@@ -3,7 +3,6 @@ package me.jingbin.web;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -51,7 +50,8 @@ public class ByWebView {
 
         RelativeLayout relativeLayout = new RelativeLayout(activity);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        mWebView = new WebView(activity);
+        // 设置WebView
+        setWebView(builder.mCustomWebViewId);
         relativeLayout.addView(mWebView, layoutParams);
         // 进度条布局
         handleWebProgress(builder, relativeLayout);
@@ -69,6 +69,21 @@ public class ByWebView {
         mWebView.setWebViewClient(mByWebViewClient);
 
         handleJsInterface(builder);
+    }
+
+    /**
+     * 配置自定义的WebView
+     */
+    private void setWebView(int mCustomWebViewId) {
+        if (mCustomWebViewId != 0) {
+            try {
+                mWebView = LayoutInflater.from(activity).inflate(mCustomWebViewId, null).findViewById(R.id.by_custom_webview);
+            } catch (Exception e) {
+                throw new IllegalStateException("Sorry, ByWebView setWebView() is Error!");
+            }
+        } else {
+            mWebView = new WebView(activity);
+        }
     }
 
     @SuppressLint({"JavascriptInterface", "AddJavascriptInterface"})
@@ -304,6 +319,7 @@ public class ByWebView {
         // 进度条 高度
         private int mProgressHeightDp;
         private int mErrorLayoutId;
+        private int mCustomWebViewId;
         private String mErrorTitle;
         private String mInterfaceName;
         private Object mInterfaceObj;
@@ -374,6 +390,14 @@ public class ByWebView {
             mProgressStartColorString = startColor;
             mProgressEndColorString = endColor;
             mProgressHeightDp = heightDp;
+            return this;
+        }
+
+        /**
+         * @param customWebViewId 三方WebView,注意一定要使用id = by_custom_webview
+         */
+        public Builder setCustomWebViewLayout(@LayoutRes int customWebViewId) {
+            mCustomWebViewId = customWebViewId;
             return this;
         }
 
