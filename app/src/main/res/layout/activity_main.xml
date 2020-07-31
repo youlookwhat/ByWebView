@@ -41,11 +41,11 @@
         </RadioGroup>
 
         <android.support.design.widget.TextInputLayout
-            android:focusableInTouchMode="true"
-            android:focusable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <AutoCompleteTextView
                 android:id="@+id/et_search"
@@ -124,6 +124,16 @@
             android:id="@+id/bt_deeplink"
             style="@style/textStyle"
             android:text="@string/deeplink" />
+
+        <View
+            style="@style/lineStyle"
+            android:layout_width="match_parent"
+            android:layout_height="1px" />
+
+        <TextView
+            android:id="@+id/bt_toolbar"
+            style="@style/textStyle"
+            android:text="@string/string_toolbar" />
 
         <View
             style="@style/lineStyle"

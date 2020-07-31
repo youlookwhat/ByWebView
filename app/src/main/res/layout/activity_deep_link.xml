@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jingbin.webviewstudy.DeepLinkActivity">
+    tools:context="com.example.jingbin.webviewstudy.ui.DeepLinkActivity">
 
     <TextView
         android:id="@+id/tv_deeplink"

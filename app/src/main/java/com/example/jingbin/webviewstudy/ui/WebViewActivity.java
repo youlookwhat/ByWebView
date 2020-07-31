@@ -1,4 +1,4 @@
-package com.example.jingbin.webviewstudy;
+package com.example.jingbin.webviewstudy.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,6 +28,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jingbin.webviewstudy.MainActivity;
+import com.example.jingbin.webviewstudy.R;
 import com.example.jingbin.webviewstudy.config.FullscreenHolder;
 import com.example.jingbin.webviewstudy.config.IWebPageView;
 import com.example.jingbin.webviewstudy.config.MyJavascriptInterface;
@@ -53,7 +55,7 @@ import com.example.jingbin.webviewstudy.utils.WebTools;
  *
  * @author jingbin
  * link to https://github.com/youlookwhat/WebViewStudy
- * new to {@link com.example.jingbin.webviewstudy.ByWebViewActivity}
+ * new to {@link ByWebViewActivity}
  */
 @Deprecated
 public class WebViewActivity extends AppCompatActivity implements IWebPageView {

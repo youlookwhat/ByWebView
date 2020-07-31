@@ -19,4 +19,5 @@
     <string name="text_js">电话、短信、邮件、注入js</string>
     <string name="js_android">js与android原生代码互调</string>
     <string name="deeplink">DeepLink 测试</string>
+    <string name="string_toolbar">与ToolBar联动，自定义WebView</string>
 </resources>

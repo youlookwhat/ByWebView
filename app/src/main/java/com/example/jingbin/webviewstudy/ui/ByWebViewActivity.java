@@ -1,4 +1,4 @@
-package com.example.jingbin.webviewstudy;
+package com.example.jingbin.webviewstudy.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jingbin.webviewstudy.MainActivity;
+import com.example.jingbin.webviewstudy.R;
 import com.example.jingbin.webviewstudy.config.MyJavascriptInterface;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 import com.example.jingbin.webviewstudy.utils.WebTools;
@@ -74,7 +76,6 @@ public class ByWebViewActivity extends AppCompatActivity {
         LinearLayout container = findViewById(R.id.ll_container);
         byWebView = ByWebView
                 .with(this)
-                .setCustomWebViewLayout(R.layout.layout_custom_webview)
                 .setWebParent(container, new LinearLayout.LayoutParams(-1, -1))
                 .useWebProgress(ContextCompat.getColor(this, R.color.coloRed))
                 .setOnTitleProgressCallback(onTitleProgressCallback)

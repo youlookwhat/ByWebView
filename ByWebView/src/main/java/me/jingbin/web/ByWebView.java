@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 /**
@@ -48,14 +49,17 @@ public class ByWebView {
         this.mErrorTitle = builder.mErrorTitle;
         this.mErrorLayoutId = builder.mErrorLayoutId;
 
-        RelativeLayout relativeLayout = new RelativeLayout(activity);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        FrameLayout parentLayout = new FrameLayout(activity);
         // 设置WebView
-        setWebView(builder.mCustomWebViewId);
-        relativeLayout.addView(mWebView, layoutParams);
+        setWebView(builder.mCustomWebView);
+        parentLayout.addView(mWebView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         // 进度条布局
-        handleWebProgress(builder, relativeLayout);
-        builder.mWebContainer.addView(relativeLayout, builder.mLayoutParams);
+        handleWebProgress(builder, parentLayout);
+        if (builder.mIndex != -1) {
+            builder.mWebContainer.addView(parentLayout, builder.mIndex, builder.mLayoutParams);
+        } else {
+            builder.mWebContainer.addView(parentLayout, builder.mLayoutParams);
+        }
         // 配置
         handleSetting();
         // 视频、照片、进度条
@@ -74,13 +78,9 @@ public class ByWebView {
     /**
      * 配置自定义的WebView
      */
-    private void setWebView(int mCustomWebViewId) {
-        if (mCustomWebViewId != 0) {
-            try {
-                mWebView = LayoutInflater.from(activity).inflate(mCustomWebViewId, null).findViewById(R.id.by_custom_webview);
-            } catch (Exception e) {
-                throw new IllegalStateException("Sorry, ByWebView setWebView() is Error!");
-            }
+    private void setWebView(WebView mCustomWebView) {
+        if (mCustomWebView != null) {
+            mWebView = mCustomWebView;
         } else {
             mWebView = new WebView(activity);
         }
@@ -147,7 +147,7 @@ public class ByWebView {
         mWebView.getSettings().setTextZoom(textZoom);
     }
 
-    private void handleWebProgress(Builder builder, RelativeLayout relativeLayout) {
+    private void handleWebProgress(Builder builder, FrameLayout parentLayout) {
         if (builder.mUseWebProgress) {
             mProgressBar = new WebProgress(activity);
             if (builder.mProgressStartColor != 0 && builder.mProgressEndColor != 0) {
@@ -161,11 +161,13 @@ public class ByWebView {
                     && TextUtils.isEmpty(builder.mProgressEndColorString)) {
                 mProgressBar.setColor(builder.mProgressStartColorString, builder.mProgressStartColorString);
             }
+            int progressHeight = ByWebTools.dip2px(parentLayout.getContext(), WebProgress.WEB_PROGRESS_DEFAULT_HEIGHT);
             if (builder.mProgressHeightDp != 0) {
                 mProgressBar.setHeight(builder.mProgressHeightDp);
+                progressHeight = ByWebTools.dip2px(parentLayout.getContext(), builder.mProgressHeightDp);
             }
             mProgressBar.setVisibility(View.GONE);
-            relativeLayout.addView(mProgressBar);
+            parentLayout.addView(mProgressBar, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, progressHeight));
         }
     }
 
@@ -262,7 +264,7 @@ public class ByWebView {
     public void showErrorView() {
         try {
             if (mErrorView == null) {
-                RelativeLayout parent = (RelativeLayout) mWebView.getParent();
+                FrameLayout parent = (FrameLayout) mWebView.getParent();
                 mErrorView = LayoutInflater.from(parent.getContext()).inflate((mErrorLayoutId == 0) ? R.layout.by_load_url_error : mErrorLayoutId, null);
                 mErrorView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -270,7 +272,7 @@ public class ByWebView {
                         reload();
                     }
                 });
-                parent.addView(mErrorView, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                parent.addView(mErrorView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             } else {
                 mErrorView.setVisibility(View.VISIBLE);
             }
@@ -319,8 +321,9 @@ public class ByWebView {
         // 进度条 高度
         private int mProgressHeightDp;
         private int mErrorLayoutId;
-        private int mCustomWebViewId;
+        private int mIndex = -1;
         private String mErrorTitle;
+        private WebView mCustomWebView;
         private String mInterfaceName;
         private Object mInterfaceObj;
         private ViewGroup mWebContainer;
@@ -342,6 +345,20 @@ public class ByWebView {
          */
         public Builder setWebParent(@NonNull ViewGroup webContainer, ViewGroup.LayoutParams layoutParams) {
             this.mWebContainer = webContainer;
+            this.mLayoutParams = layoutParams;
+            return this;
+        }
+
+        /**
+         * WebView容器
+         *
+         * @param webContainer 外部WebView容器
+         * @param index        加入的位置
+         * @param layoutParams 对应的LayoutParams
+         */
+        public Builder setWebParent(@NonNull ViewGroup webContainer, int index, ViewGroup.LayoutParams layoutParams) {
+            this.mWebContainer = webContainer;
+            this.mIndex = index;
             this.mLayoutParams = layoutParams;
             return this;
         }
@@ -394,10 +411,10 @@ public class ByWebView {
         }
 
         /**
-         * @param customWebViewId 三方WebView,注意一定要使用id = by_custom_webview
+         * @param customWebView 自定义的WebView
          */
-        public Builder setCustomWebViewLayout(@LayoutRes int customWebViewId) {
-            mCustomWebViewId = customWebViewId;
+        public Builder setCustomWebView(WebView customWebView) {
+            mCustomWebView = customWebView;
             return this;
         }
 

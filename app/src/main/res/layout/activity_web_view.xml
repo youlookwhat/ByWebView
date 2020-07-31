@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.jingbin.webviewstudy.WebViewActivity">
+    tools:context="com.example.jingbin.webviewstudy.ui.WebViewActivity">
 
     <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/title_tool_bar"
