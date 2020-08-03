@@ -2,9 +2,13 @@ package com.example.jingbin.webviewstudy.tencentx5;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.example.jingbin.webviewstudy.R;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
 
@@ -174,5 +178,15 @@ public class MyX5WebChromeClient extends com.tencent.smtt.sdk.WebChromeClient {
             mUploadMessageForAndroid5.onReceiveValue(new Uri[]{});
         }
         mUploadMessageForAndroid5 = null;
+    }
+
+    @Nullable
+    @Override
+    public Bitmap getDefaultVideoPoster() {
+        if (super.getDefaultVideoPoster() == null) {
+            return BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.by_icon_video);
+        } else {
+            return super.getDefaultVideoPoster();
+        }
     }
 }
