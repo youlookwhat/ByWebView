@@ -2,7 +2,9 @@ package com.example.jingbin.webviewstudy.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,8 +28,8 @@ import com.example.jingbin.webviewstudy.utils.WebTools;
 
 import me.jingbin.web.ByWebTools;
 import me.jingbin.web.ByWebView;
-import me.jingbin.web.OnTitleProgressCallback;
 import me.jingbin.web.OnByWebClientCallback;
+import me.jingbin.web.OnTitleProgressCallback;
 
 /**
  * 网页可以处理:
@@ -114,6 +117,18 @@ public class ByWebViewActivity extends AppCompatActivity {
     };
 
     private OnByWebClientCallback onByWebClientCallback = new OnByWebClientCallback() {
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            Log.e("---onPageStarted", url);
+        }
+
+        @Override
+        public boolean onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            // 如果自己处理，需要返回true
+            return super.onReceivedSslError(view, handler, error);
+        }
+
         @Override
         public void onPageFinished(WebView view, String url) {
             // 网页加载完成后的回调

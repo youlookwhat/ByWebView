@@ -2,6 +2,7 @@ package me.jingbin.web;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -75,6 +76,13 @@ public class ByWebViewClient extends WebViewClient {
         }
     }
 
+    @Override
+    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        if (onByWebClientCallback != null) {
+            onByWebClientCallback.onPageStarted(view, url, favicon);
+        }
+        super.onPageStarted(view, url, favicon);
+    }
 
     @Override
     public void onPageFinished(WebView view, String url) {
@@ -127,22 +135,26 @@ public class ByWebViewClient extends WebViewClient {
      */
     @Override
     public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-        builder.setMessage("SSL认证失败，是否继续访问？");
-        builder.setPositiveButton("继续", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                handler.proceed();
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                handler.cancel();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        if (onByWebClientCallback == null || !onByWebClientCallback.onReceivedSslError(view, handler, error)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+            builder.setMessage("SSL认证失败，是否继续访问？");
+            builder.setPositiveButton("继续", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    handler.proceed();
+                }
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    handler.cancel();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
+            onByWebClientCallback.onReceivedSslError(view, handler, error);
+        }
     }
 
     /**
