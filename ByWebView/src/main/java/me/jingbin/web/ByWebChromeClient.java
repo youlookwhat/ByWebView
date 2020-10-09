@@ -248,7 +248,8 @@ public class ByWebChromeClient extends WebChromeClient {
     @Override
     public void onPermissionRequest(PermissionRequest request) {
         super.onPermissionRequest(request);
-        request.grant(request.getResources());
+        // 部分页面可能崩溃
+//        request.grant(request.getResources());
     }
 
     ByFullscreenHolder getVideoFullView() {
