@@ -127,7 +127,7 @@ public class ByWebChromeClient extends WebChromeClient {
         // 当显示错误页面时，进度达到100才显示网页
         if (mByWebView.getWebView() != null
                 && mByWebView.getWebView().getVisibility() == View.INVISIBLE
-                && mByWebView.getErrorView().getVisibility() == View.GONE
+                && (mByWebView.getErrorView() == null || mByWebView.getErrorView().getVisibility() == View.GONE)
                 && newProgress == 100) {
             mByWebView.getWebView().setVisibility(View.VISIBLE);
         }
