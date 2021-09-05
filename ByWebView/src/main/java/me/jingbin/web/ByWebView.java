@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
 /**
  * 网页可以处理:
