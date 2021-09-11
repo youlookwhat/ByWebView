@@ -149,9 +149,9 @@ public class ByWebTools {
 
         } else if (url.startsWith("http")) {
             // 直接返回
-            return urlResult;
+            return url;
 
-        } else if (!url.startsWith("http") && url.contains("http")) {
+        } else if (url.contains("http")) {
             // 有http且不在头部
             urlResult = url.substring(url.indexOf("http"));
 
