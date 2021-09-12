@@ -147,7 +147,11 @@ public class ByWebTools {
             // 空url
             return urlResult;
 
-        } else if (!url.startsWith("http") && url.contains("http")) {
+        } else if (url.startsWith("http")) {
+            // 直接返回
+            return url;
+
+        } else if (url.contains("http")) {
             // 有http且不在头部
             urlResult = url.substring(url.indexOf("http"));
 
@@ -155,11 +159,11 @@ public class ByWebTools {
             // 以"www"开头
             urlResult = "http://" + url;
 
-        } else if (!url.startsWith("http") && (url.contains(".me") || url.contains(".com") || url.contains(".cn"))) {
+        } else if ((url.contains(".me") || url.contains(".com") || url.contains(".cn"))) {
             // 不以"http"开头且有后缀
             urlResult = "http://www." + url;
 
-        } else if (!url.startsWith("http") && !url.contains("www")) {
+        } else if (!url.contains("www")) {
             // 输入纯文字的情况
             urlResult = "http://m5.baidu.com/s?from=124n&word=" + url;
         }
