@@ -1,5 +1,5 @@
 # ByWebView
-[![JitPack][5]][6] [![fir.im][1]][2] <!--[![version][3]][4] -->
+[![JitPack][5]][6] [![API][7]][8] [![download][1]][2] <!--[![version][3]][4] -->
 
 <!--![](https://img.shields.io/github/stars/youlookwhat/WebViewStudy.svg?style=flat-square) ![](https://img.shields.io/github/forks/youlookwhat/WebViewStudy.svg?style=flat-square) ![GitHub watchers](https://img.shields.io/github/watchers/youlookwhat/WebViewStudy.svg?style=flat-square&label=Watch)
 -->
@@ -36,7 +36,7 @@ allprojects {
 
  ```java
 dependencies {
-        implementation 'com.github.youlookwhat:ByWebView:1.0.0'
+        implementation 'com.github.youlookwhat:ByWebView:1.1.4'
 }
 
  ```
@@ -187,9 +187,9 @@ byWebView = ByWebView
  <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/上传图片.png"></img>
 
 ## Download
- - [Fir.im下载][4]
+ - [Demo示例下载][2]
 
-<img width="300" height=“300” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/download.png"></img>
+<!--<img width="300" height=“300” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/download.png"></img>-->
 
 
  
@@ -212,11 +212,14 @@ byWebView = ByWebView
  - [Android WebView开发问题及优化汇总](http://www.cnblogs.com/spring87/p/4532687.html)
  - [https://developer.android.com/reference/android/webkit/WebSettings.html](https://developer.android.com/reference/android/webkit/WebSettings.html)
    
-[1]:https://img.shields.io/badge/download-fir.im-blue.svg?style=flat
-[2]:http://d.6short.com/webviewstudy
+[1]:https://img.shields.io/badge/download-apk-blue.svg?style=flat
+[2]:https://github.com/youlookwhat/ByWebView/raw/master/art/ByWebView-3.0.1.apk
 
 [3]:https://img.shields.io/badge/version-2.7.2-brightgreen.svg?style=flat
 [4]:http://d.6short.com/webviewstudy
 
 [5]:https://jitpack.io/v/youlookwhat/ByWebView.svg
 [6]:https://jitpack.io/#youlookwhat/ByWebView
+
+[7]:https://img.shields.io/badge/API-14%2B-red.svg?style=flat
+[8]:https://android-arsenal.com/api?level=14
