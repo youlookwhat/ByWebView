@@ -213,10 +213,10 @@ byWebView = ByWebView
  - [https://developer.android.com/reference/android/webkit/WebSettings.html](https://developer.android.com/reference/android/webkit/WebSettings.html)
    
 [1]:https://img.shields.io/badge/download-apk-blue.svg?style=flat
-[2]:https://github.com/youlookwhat/ByWebView/raw/master/art/ByWebView-3.0.1.apk
+[2]:https://github.com/youlookwhat/download/raw/main/ByWebView.apk
 
 [3]:https://img.shields.io/badge/version-2.7.2-brightgreen.svg?style=flat
-[4]:http://d.6short.com/webviewstudy
+[4]:https://github.com/youlookwhat/download/raw/main/ByWebView.apk
 
 [5]:https://jitpack.io/v/youlookwhat/ByWebView.svg
 [6]:https://jitpack.io/#youlookwhat/ByWebView
