@@ -305,6 +305,23 @@ public class ByWebView {
         return new Builder(activity);
     }
 
+    /**
+     * 修复可能部分h5无故竖屏问题，如果h5里有视频全屏播放请禁用
+     */
+    public void setFixScreenPortrait(boolean fixScreenPortrait) {
+        if (mWebChromeClient != null) {
+            mWebChromeClient.setFixScreenPortrait(fixScreenPortrait);
+        }
+    }
+
+    /**
+     * 修复可能部分h5无故横屏问题，如果h5里有视频全屏播放请禁用
+     */
+    public void setFixScreenLandscape(boolean fixScreenLandscape) {
+        if (mWebChromeClient != null) {
+            mWebChromeClient.setFixScreenLandscape(fixScreenLandscape);
+        }
+    }
 
     public static class Builder {
         private Activity mActivity;

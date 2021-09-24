@@ -11,7 +11,6 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.PermissionRequest;
@@ -42,6 +41,10 @@ public class ByWebChromeClient extends WebChromeClient {
     private CustomViewCallback mCustomViewCallback;
     private ByFullscreenHolder videoFullView;
     private OnTitleProgressCallback onByWebChromeCallback;
+    // 修复可能部分h5无故横屏问题
+    private boolean isFixScreenLandscape = false;
+    // 修复可能部分h5无故竖屏问题
+    private boolean isFixScreenPortrait = false;
 
     ByWebChromeClient(Activity activity, ByWebView byWebView) {
         mActivityWeakReference = new WeakReference<Activity>(activity);
@@ -52,6 +55,14 @@ public class ByWebChromeClient extends WebChromeClient {
         this.onByWebChromeCallback = onByWebChromeCallback;
     }
 
+    public void setFixScreenLandscape(boolean fixScreenLandscape) {
+        isFixScreenLandscape = fixScreenLandscape;
+    }
+
+    public void setFixScreenPortrait(boolean fixScreenPortrait) {
+        isFixScreenPortrait = fixScreenPortrait;
+    }
+
     /**
      * 播放网络视频时全屏会被调用的方法
      */
@@ -60,7 +71,9 @@ public class ByWebChromeClient extends WebChromeClient {
     public void onShowCustomView(View view, CustomViewCallback callback) {
         Activity mActivity = this.mActivityWeakReference.get();
         if (mActivity != null && !mActivity.isFinishing()) {
-            mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            if (!isFixScreenLandscape) {
+                mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            }
             mByWebView.getWebView().setVisibility(View.INVISIBLE);
 
             // 如果一个视图已经存在，那么立刻终止并新建一个
@@ -93,7 +106,9 @@ public class ByWebChromeClient extends WebChromeClient {
                 return;
             }
             // 还原到之前的屏幕状态
-            mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            if (!isFixScreenPortrait) {
+                mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
 
             mCustomView.setVisibility(View.GONE);
             if (videoFullView != null) {
