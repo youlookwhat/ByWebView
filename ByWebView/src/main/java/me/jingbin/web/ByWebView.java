@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -325,7 +324,6 @@ public class ByWebView {
 
     public static class Builder {
         private Activity mActivity;
-        private Fragment mFragment;
         // 默认使用进度条
         private boolean mUseWebProgress = true;
         // 进度条 开始颜色
@@ -349,11 +347,6 @@ public class ByWebView {
 
         public Builder(Activity activity) {
             this.mActivity = activity;
-        }
-
-        public Builder(Activity activity, Fragment fragment) {
-            this.mActivity = activity;
-            this.mFragment = fragment;
         }
 
         /**
@@ -477,8 +470,18 @@ public class ByWebView {
             return this;
         }
 
+        /**
+         * 直接获取ByWebView，避免一定要调用loadUrl()才能获取ByWebView的情况
+         */
+        public ByWebView get() {
+            return new ByWebView(this);
+        }
+
+        /**
+         * loadUrl()并获取ByWebView
+         */
         public ByWebView loadUrl(String url) {
-            ByWebView byWebView = new ByWebView(this);
+            ByWebView byWebView = get();
             byWebView.loadUrl(url);
             return byWebView;
         }

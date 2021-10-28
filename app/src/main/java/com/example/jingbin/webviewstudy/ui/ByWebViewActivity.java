@@ -264,7 +264,7 @@ public class ByWebViewActivity extends AppCompatActivity {
                 String text = "Scheme: " + scheme + "\n" + "host: " + host + "\n" + "path: " + path;
                 Log.e("data", text);
                 String url = scheme + "://" + host + path;
-                webView.loadUrl(url);
+                byWebView.loadUrl(url);
             } catch (Exception e) {
                 e.printStackTrace();
             }
