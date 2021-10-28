@@ -36,7 +36,7 @@ allprojects {
 
  ```java
 dependencies {
-        implementation 'com.github.youlookwhat:ByWebView:1.1.4'
+        implementation 'com.github.youlookwhat:ByWebView:1.1.6'
 }
 
  ```
@@ -182,9 +182,9 @@ byWebView = ByWebView
  
 ## Screenshots
  
- <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/view_00.png"></img>
- <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/电话短信邮件测试.png"></img>
- <img width="260" height=“374” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/上传图片.png"></img>
+ <img width="260" height=“374” src="https://github.com/youlookwhat/ByWebView/blob/master/art/view_00.png"></img>
+ <img width="260" height=“374” src="https://github.com/youlookwhat/ByWebView/blob/master/art/电话短信邮件测试.png"></img>
+ <img width="260" height=“374” src="https://github.com/youlookwhat/ByWebView/blob/master/art/上传图片.png"></img>
 
 ## Download
  - [Demo示例下载][2]

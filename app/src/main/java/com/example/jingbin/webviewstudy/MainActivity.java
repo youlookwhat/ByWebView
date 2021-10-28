@@ -26,7 +26,7 @@ import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 import me.jingbin.web.ByWebTools;
 
 /**
- * Link to: https://github.com/youlookwhat/WebViewStudy
+ * Link to: https://github.com/youlookwhat/ByWebView
  * contact me: https://www.jianshu.com/u/e43c6e979831
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         state = 0;
-                        loadUrl("https://github.com/youlookwhat/WebViewStudy", "WebViewStudy");
+                        loadUrl("https://github.com/youlookwhat/ByWebView", "ByWebView");
                     }
                 });
                 builder.show();
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void openUrl() {
         state = 0;
         String url = ByWebTools.getUrl(etSearch.getText().toString().trim());
-        loadUrl(!TextUtils.isEmpty(url) ? url : "https://github.com/youlookwhat/WebViewStudy", "详情");
+        loadUrl(!TextUtils.isEmpty(url) ? url : "https://github.com/youlookwhat/ByWebView", "ByWebView");
     }
 
     @Override
@@ -158,11 +158,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (item.getItemId()) {
             case R.id.actionbar_update:
                 state = 0;
-                loadUrl("http://d.6short.com/webviewstudy", "网页浏览器 - fir.im");
+                loadUrl("https://github.com/youlookwhat/download/raw/main/ByWebView.apk", "ByWebView.apk");
                 break;
             case R.id.actionbar_about:
                 state = 0;
-                loadUrl("https://github.com/youlookwhat/WebViewStudy", "WebViewStudy");
+                loadUrl("https://github.com/youlookwhat/ByWebView", "ByWebView");
                 break;
             default:
                 break;

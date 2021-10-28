@@ -54,7 +54,7 @@ import com.example.jingbin.webviewstudy.utils.WebTools;
  * 被作为第三方浏览器打开
  *
  * @author jingbin
- * link to https://github.com/youlookwhat/WebViewStudy
+ * link to https://github.com/youlookwhat/ByWebView
  * new to {@link ByWebViewActivity}
  */
 @Deprecated

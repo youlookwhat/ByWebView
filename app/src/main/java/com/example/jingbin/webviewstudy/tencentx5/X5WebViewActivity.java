@@ -45,7 +45,7 @@ import com.example.jingbin.webviewstudy.utils.WebTools;
  * 6、getWindow().setFormat(PixelFormat.TRANSLUCENT);
  *
  * @author jingbin
- * link to https://github.com/youlookwhat/WebViewStudy
+ * link to https://github.com/youlookwhat/ByWebView
  */
 public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageView {
 
