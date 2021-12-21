@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.example.jingbin.webviewstudy"
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 13
         versionName "3.2.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -50,5 +50,5 @@ dependencies {
     implementation files('libs/tbs_sdk_thirdapp_v3.1.0.1034_43100_sharewithdownload_obfs_20170301_182143.jar')
 
     implementation project(':ByWebView')
-//    implementation 'com.github.youlookwhat:ByWebView:1.0.0'
+//    implementation 'com.github.youlookwhat:ByWebView:1.2.0'
 }
