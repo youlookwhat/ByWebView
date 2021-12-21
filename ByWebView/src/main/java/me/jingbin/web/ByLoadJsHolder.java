@@ -1,10 +1,11 @@
 package me.jingbin.web;
 
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
+
+import androidx.annotation.RequiresApi;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -11,12 +11,13 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
+
+import androidx.annotation.Nullable;
 
 /**
  * WebView进度条，原作者: cenxiaozhong，在此基础上修改优化：

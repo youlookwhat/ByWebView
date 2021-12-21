@@ -5,8 +5,9 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.example.jingbin.webviewstudy.R;
 import com.tencent.smtt.sdk.ValueCallback;

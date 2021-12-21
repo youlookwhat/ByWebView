@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.example.jingbin.webviewstudy.ui.ByWebViewActivity">
 
-    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.appcompat.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/title_tool_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -28,7 +28,7 @@
             android:textSize="18sp"
             android:visibility="visible" />
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
 </LinearLayout>
 

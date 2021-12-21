@@ -2,9 +2,10 @@ package com.example.jingbin.webviewstudy.ui;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jingbin.webviewstudy.R;
 

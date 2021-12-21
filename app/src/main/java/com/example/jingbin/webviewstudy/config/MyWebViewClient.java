@@ -3,7 +3,6 @@ package com.example.jingbin.webviewstudy.config;
 import android.content.DialogInterface;
 import android.net.http.SslError;
 import android.os.Build;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.SslErrorHandler;
@@ -12,6 +11,8 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import androidx.appcompat.app.AlertDialog;
 
 /**
  * Created by jingbin on 2016/11/17.
