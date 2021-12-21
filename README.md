@@ -36,7 +36,7 @@ allprojects {
 
  ```java
 dependencies {
-        implementation 'com.github.youlookwhat:ByWebView:1.1.6'
+        implementation 'com.github.youlookwhat:ByWebView:1.2.0'
 }
 
  ```
