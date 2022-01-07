@@ -26,17 +26,17 @@ public class DeepLinkActivity extends AppCompatActivity {
 
     /**
      * 从deep link中获取数据
-     * 'will://share/传过来的数据'
+     * 'scheme://host/path?传过来的数据' 示例：will://link/testId?type=1&id=345
      */
     private void getDataFromBrowser(TextView textView) {
         Uri data = getIntent().getData();
         try {
             String scheme = data.getScheme();
             String host = data.getHost();
-            List<String> params = data.getPathSegments();
+            String path = data.getPath();
             // 从网页传过来的数据
-            String testId = params.get(0);
-            String text = "Scheme: " + scheme + "\n" + "host: " + host + "\n" + "params: " + testId;
+            String query = data.getQuery();
+            String text = "scheme: " + scheme + "\n" + "host: " + host + "\n" + "path: " + path + "\n" + "query: " + query;
             Log.e("ScrollingActivity", text);
             textView.setText(text);
         } catch (Exception e) {

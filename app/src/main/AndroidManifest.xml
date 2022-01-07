@@ -69,7 +69,18 @@
                     android:host="link"
                     android:scheme="will" />
             </intent-filter>
+            <!--配置多个data-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="jingbin.me"
+                    android:path="/deeplink"
+                    android:scheme="will" />
+            </intent-filter>
         </activity>
 
         <!--tencent x5 页面-->
