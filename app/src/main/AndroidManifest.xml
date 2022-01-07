@@ -76,6 +76,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
+                <!--可以只配置一个scheme，也可以唤起来-->
                 <data
                     android:host="jingbin.me"
                     android:path="/deeplink"

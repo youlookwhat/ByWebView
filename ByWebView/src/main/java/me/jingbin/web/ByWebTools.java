@@ -15,7 +15,7 @@ import android.text.TextUtils;
 public class ByWebTools {
 
     /**
-     * 将 Android5.0以下手机不能直接打开mp4后缀的链接
+     * 处理Android5.0以下手机不能直接打开mp4后缀的链接
      *
      * @param url 视频链接
      */
