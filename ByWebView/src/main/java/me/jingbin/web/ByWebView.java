@@ -195,7 +195,7 @@ public class ByWebView {
 
     public void onPause() {
         mWebView.onPause();
-        mWebView.resumeTimers();
+        mWebView.pauseTimers();
     }
 
     public void onDestroy() {
