@@ -7,8 +7,8 @@ android {
         applicationId "com.example.jingbin.webviewstudy"
         minSdkVersion 14
         targetSdkVersion 29
-        versionCode 13
-        versionName "3.2.0"
+        versionCode 14
+        versionName "3.3.0"
         multiDexEnabled true
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         // tencent x5
@@ -49,8 +49,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
-    implementation files('libs/tbs_sdk_thirdapp_v3.1.0.1034_43100_sharewithdownload_obfs_20170301_182143.jar')
-
+    implementation files('libs/tbs_sdk_thirdapp_v4.3.0.253_44153_sharewithdownloadwithfile_withoutGame_obfs_20220117_105333.jar')
     implementation project(':ByWebView')
 //    implementation 'com.github.youlookwhat:ByWebView:1.2.0'
 }

@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jingbin.webviewstudy.App;
 import com.example.jingbin.webviewstudy.MainActivity;
 import com.example.jingbin.webviewstudy.R;
 import com.example.jingbin.webviewstudy.config.MyJavascriptInterface;
@@ -234,6 +235,7 @@ public class ByWebViewActivity extends AppCompatActivity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode,resultCode,intent);
         byWebView.handleFileChooser(requestCode, resultCode, intent);
     }
 

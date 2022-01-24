@@ -16,8 +16,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!--tencent x5添加-->
-<!--    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!--    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
     <!-- 硬件加速对X5视频播放非常重要，建议开启 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
     <!--android 9.0上使用前台服务，需要添加权限 原生WebView未用到，可能x5需要-->
@@ -40,7 +39,6 @@
         tools:ignore="UnusedAttribute">
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,7 +49,6 @@
             android:name=".ui.WebViewActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/WebViewTheme"
             tools:ignore="LockedOrientationActivity" />
@@ -89,7 +86,6 @@
             android:name=".tencentx5.X5WebViewActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:hardwareAccelerated="true"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/WebViewTheme"
             tools:ignore="LockedOrientationActivity" />
@@ -97,12 +93,16 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+        <!--腾讯x5 增加Service声明-->
+        <service
+            android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
+            android:label="dexopt"
+            android:process=":dexopt" />
 
         <activity
             android:name=".ui.ByWebViewActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/WebViewTheme"
             tools:ignore="LockedOrientationActivity">
@@ -113,10 +113,17 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!--使用http，则只能打开http开头的网页-->
+                <!--打开https开头的网页-->
                 <data android:scheme="https" />
             </intent-filter>
+            <intent-filter tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!--打开http开头的网页-->
+                <data android:scheme="http" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.CoordinatorWebActivity"

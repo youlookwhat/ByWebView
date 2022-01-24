@@ -141,6 +141,7 @@ public class WebTools {
                     || backUrl.contains("pinduoduo:")// 拼多多
                     || backUrl.contains("qtt:")//
                     || backUrl.contains("baiduboxapp:")// 百度
+                    || backUrl.contains("baiduboxlite:")// 百度
                     || backUrl.contains("baiduhaokan:")// 百度看看
             ) {
                 isJump = false;

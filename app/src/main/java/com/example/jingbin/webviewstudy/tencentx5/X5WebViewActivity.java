@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -42,10 +43,11 @@ import com.example.jingbin.webviewstudy.utils.WebTools;
  * 2、application 初始化
  * 3、gradle ndk配置
  * 4、jniLibs 配置
- * 5、添加权限 READ_PHONE_STATE
+ * 5、添加相关权限
  * 6、getWindow().setFormat(PixelFormat.TRANSLUCENT);
  *
  * @author jingbin
+ * 腾讯x5文档地址：https://x5.tencent.com/docs/access.html
  * link to https://github.com/youlookwhat/ByWebView
  */
 public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageView {
@@ -345,6 +347,7 @@ public class X5WebViewActivity extends AppCompatActivity implements IX5WebPageVi
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == MyWebChromeClient.FILECHOOSER_RESULTCODE) {
             mWebChromeClient.mUploadMessage(intent, resultCode);
         } else if (requestCode == MyWebChromeClient.FILECHOOSER_RESULTCODE_FOR_ANDROID_5) {
