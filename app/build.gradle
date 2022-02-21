@@ -7,8 +7,8 @@ android {
         applicationId "com.example.jingbin.webviewstudy"
         minSdkVersion 14
         targetSdkVersion 29
-        versionCode 14
-        versionName "3.3.0"
+        versionCode 15
+        versionName "3.3.1"
         multiDexEnabled true
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         // tencent x5
