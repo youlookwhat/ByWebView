@@ -55,7 +55,7 @@ public class App extends Application {
         QbSdk.initX5Environment(getApplicationContext(), cb);
 
         // 在调用TBS初始化、创建WebView之前进行如下配置
-        HashMap map = new HashMap();
+        HashMap<String, Object> map = new HashMap<String, Object>();
         map.put(TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER, true);
         map.put(TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE, true);
         QbSdk.initTbsSettings(map);

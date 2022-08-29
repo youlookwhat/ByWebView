@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 30
+
     defaultConfig {
         applicationId "com.example.jingbin.webviewstudy"
         minSdkVersion 14
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 15
         versionName "3.3.1"
         multiDexEnabled true
