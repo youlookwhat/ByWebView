@@ -30,12 +30,12 @@ import java.lang.ref.WeakReference;
  */
 public class ByWebChromeClient extends WebChromeClient {
 
-    private WeakReference<Activity> mActivityWeakReference = null;
+    private WeakReference<Activity> mActivityWeakReference;
     private ByWebView mByWebView;
     private ValueCallback<Uri> mUploadMessage;
     private ValueCallback<Uri[]> mUploadMessageForAndroid5;
-    private static int RESULT_CODE_FILE_CHOOSER = 1;
-    private static int RESULT_CODE_FILE_CHOOSER_FOR_ANDROID_5 = 2;
+    private static final int RESULT_CODE_FILE_CHOOSER = 1;
+    private static final int RESULT_CODE_FILE_CHOOSER_FOR_ANDROID_5 = 2;
 
     private View mProgressVideo;
     private View mCustomView;
@@ -73,7 +73,10 @@ public class ByWebChromeClient extends WebChromeClient {
         Activity mActivity = this.mActivityWeakReference.get();
         if (mActivity != null && !mActivity.isFinishing()) {
             if (!isFixScreenLandscape) {
-                mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                if (onByWebChromeCallback == null || !onByWebChromeCallback.onHandleScreenOrientation(true)) {
+                    // 为空或返回为ture时，自己处理横竖屏。否则全屏时默认设置为横屏
+                    mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                }
             }
             mByWebView.getWebView().setVisibility(View.INVISIBLE);
 
@@ -108,7 +111,10 @@ public class ByWebChromeClient extends WebChromeClient {
             }
             // 还原到之前的屏幕状态
             if (!isFixScreenPortrait) {
-                mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                if (onByWebChromeCallback == null || !onByWebChromeCallback.onHandleScreenOrientation(false)) {
+                    // 为空或返回为ture时，自己处理横竖屏。否则默认设置为竖屏
+                    mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                }
             }
 
             mCustomView.setVisibility(View.GONE);

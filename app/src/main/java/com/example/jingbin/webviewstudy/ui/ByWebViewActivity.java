@@ -6,11 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -21,7 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.jingbin.webviewstudy.App;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+
 import com.example.jingbin.webviewstudy.MainActivity;
 import com.example.jingbin.webviewstudy.R;
 import com.example.jingbin.webviewstudy.config.MyJavascriptInterface;
@@ -116,6 +115,17 @@ public class ByWebViewActivity extends AppCompatActivity {
             Log.e("---title", title);
             tvGunTitle.setText(title);
         }
+
+//        // 视频全屏时，横竖屏自己处理
+//        @Override
+//        public boolean onHandleScreenOrientation(boolean isShow) {
+//            if (isShow) {
+//                ByWebViewActivity.this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//            } else {
+//                ByWebViewActivity.this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//            }
+//            return true;
+//        }
     };
 
     private OnByWebClientCallback onByWebClientCallback = new OnByWebClientCallback() {
@@ -235,7 +245,7 @@ public class ByWebViewActivity extends AppCompatActivity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode,resultCode,intent);
+        super.onActivityResult(requestCode, resultCode, intent);
         byWebView.handleFileChooser(requestCode, resultCode, intent);
     }
 

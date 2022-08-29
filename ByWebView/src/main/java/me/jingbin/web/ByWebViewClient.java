@@ -137,6 +137,7 @@ public class ByWebViewClient extends WebViewClient {
     @Override
     public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
         if (onByWebClientCallback == null || !onByWebClientCallback.onReceivedSslError(view, handler, error)) {
+            // 默认http请求会有弹框提示，如果要自己处理需要使用onReceivedSslError()且返回true
             AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
             builder.setMessage("SSL认证失败，是否继续访问？");
             builder.setPositiveButton("继续", new DialogInterface.OnClickListener() {
@@ -153,8 +154,6 @@ public class ByWebViewClient extends WebViewClient {
             });
             AlertDialog dialog = builder.create();
             dialog.show();
-        } else {
-            onByWebClientCallback.onReceivedSslError(view, handler, error);
         }
     }
 
