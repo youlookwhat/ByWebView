@@ -20,6 +20,13 @@
  - 被作为第三方浏览器打开
  - **腾讯x5使用示例**
 
+## Document
+
+ - [Android 关于WebView全方面的使用（项目应用篇）](http://www.jianshu.com/p/163d39e562f0)
+ - [Android DeepLink介绍与使用](https://juejin.cn/post/6844903954149539848)
+ - [Android 应用被作为第三方浏览器打开](https://www.jianshu.com/p/272bfb6c0779)
+ - [Android WebView与JS交互实例](https://www.jianshu.com/p/97f52819a19d)
+ - [一款Android WebView进度条显示控件，使其加载进度平滑过渡](https://github.com/youlookwhat/WebProgress)
 
 ## 引用
 1. Add the JitPack repository to your build file
@@ -171,14 +178,6 @@ byWebView = ByWebView
         .addJavascriptInterface("injectedObject", new MyJavascriptInterface(this)) // 设置Js监听
         .loadUrl(mUrl);
 ```
-
-## Document
-
- - [Android 关于WebView全方面的使用（项目应用篇）](http://www.jianshu.com/p/163d39e562f0)
- - [Android DeepLink介绍与使用](https://juejin.cn/post/6844903954149539848)
- - [Android 应用被作为第三方浏览器打开](https://www.jianshu.com/p/272bfb6c0779)
- - [Android WebView与JS交互实例](https://www.jianshu.com/p/97f52819a19d)
- - [一款Android WebView进度条显示控件，使其加载进度平滑过渡](https://github.com/youlookwhat/WebProgress)
  
 ## Screenshots
  
