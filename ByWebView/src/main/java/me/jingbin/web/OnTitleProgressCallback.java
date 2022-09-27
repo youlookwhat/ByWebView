@@ -24,7 +24,7 @@ public abstract class OnTitleProgressCallback {
      * 默认返回false，全屏时为横屏，全屏还原后为竖屏
      * 如果要手动处理，需要返回true！
      *
-     * @param isShow 是否显示了全屏视频 ture点击了全屏显示，false全屏视频还原
+     * @param isShow 是否显示了全屏视频 true点击了全屏显示，false全屏视频还原
      */
     public boolean onHandleScreenOrientation(boolean isShow) {
         return false;
