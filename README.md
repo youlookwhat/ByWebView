@@ -29,6 +29,13 @@
  - [Android WebView与JS交互实例](https://www.jianshu.com/p/97f52819a19d)
  - [一款Android WebView进度条显示控件，使其加载进度平滑过渡](https://github.com/youlookwhat/WebProgress)
 
+## Screenshots
+ 
+ ![bywebview](https://github.com/youlookwhat/ByWebView/blob/master/art/bywebview.png?raw=true)
+
+## Download
+ - [Demo示例下载][2]
+
 ## 引用
 1. Add the JitPack repository to your build file
 
@@ -195,15 +202,6 @@ byWebView = ByWebView
         .addJavascriptInterface("injectedObject", new MyJavascriptInterface(this)) // 设置Js监听
         .loadUrl(mUrl);
 ```
- 
-## Screenshots
- 
- ![bywebview](https://github.com/youlookwhat/ByWebView/blob/master/art/bywebview.png?raw=true)
-
-## Download
- - [Demo示例下载][2]
-
-<!--<img width="300" height=“300” src="https://github.com/youlookwhat/WebViewStudy/blob/master/art/download.png"></img>-->
 
 
  
