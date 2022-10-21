@@ -34,17 +34,17 @@
 
  ```java
 allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
 	}
+}
  ```
 2. Add the dependency:
 
  ```java
 dependencies {
-        implementation 'com.github.youlookwhat:ByWebView:1.2.1'
+	implementation 'com.github.youlookwhat:ByWebView:1.2.1'
 }
 
  ```
