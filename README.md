@@ -18,6 +18,7 @@
 
  - DeepLink的基本使用
  - 被作为第三方浏览器打开
+ - 与ToolBar联动，自定义WebView
  - **腾讯x5使用示例**
 
 ## Document
@@ -43,7 +44,7 @@ allprojects {
 
  ```java
 dependencies {
-        implementation 'com.github.youlookwhat:ByWebView:1.2.0'
+        implementation 'com.github.youlookwhat:ByWebView:1.2.1'
 }
 
  ```
@@ -129,7 +130,6 @@ byWebView = ByWebView
 ```
 ```java
 private OnTitleProgressCallback onTitleProgressCallback = new OnTitleProgressCallback() {
-    
     @Override
     public void onReceivedTitle(String title) {
         Log.e("---title", title);
@@ -137,11 +137,28 @@ private OnTitleProgressCallback onTitleProgressCallback = new OnTitleProgressCal
 
     @Override
     public void onProgressChanged(int newProgress) {
-        
+        // 返回的进度
+    }
+
+    @Override
+    public boolean onHandleScreenOrientation(boolean isShow) {
+        // 返回true，视频全屏时，横竖屏自己处理
+        return false;
     }
 };
 
 private OnByWebClientCallback onByWebClientCallback = new OnByWebClientCallback() {
+
+    @Override
+    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        
+    }
+
+    @Override
+    public boolean onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        // 如果自己处理，需要返回true
+        return super.onReceivedSslError(view, handler, error);
+    }
 
     @Override
     public void onPageFinished(WebView view, String url) {
@@ -181,9 +198,7 @@ byWebView = ByWebView
  
 ## Screenshots
  
- <img width="260" height=“374” src="https://github.com/youlookwhat/ByWebView/blob/master/art/view_00.png"></img>
- <img width="260" height=“374” src="https://github.com/youlookwhat/ByWebView/blob/master/art/电话短信邮件测试.png"></img>
- <img width="260" height=“374” src="https://github.com/youlookwhat/ByWebView/blob/master/art/上传图片.png"></img>
+ ![bywebview](https://github.com/youlookwhat/ByWebView/blob/master/art/bywebview.png?raw=true)
 
 ## Download
  - [Demo示例下载][2]

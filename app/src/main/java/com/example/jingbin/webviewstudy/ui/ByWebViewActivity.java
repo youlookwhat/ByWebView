@@ -116,16 +116,17 @@ public class ByWebViewActivity extends AppCompatActivity {
             tvGunTitle.setText(title);
         }
 
-//        // 视频全屏时，横竖屏自己处理
-//        @Override
-//        public boolean onHandleScreenOrientation(boolean isShow) {
-//            if (isShow) {
-//                ByWebViewActivity.this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-//            } else {
-//                ByWebViewActivity.this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//            }
-//            return true;
-//        }
+        /**
+         * 全屏显示时处理横竖屏。
+         * 默认返回false，全屏时为横屏，全屏还原后为竖屏
+         * 如果要手动处理，需要返回true！
+         *
+         * @param isShow 是否显示了全屏视频 true点击了全屏显示，false全屏视频还原
+         */
+        @Override
+        public boolean onHandleScreenOrientation(boolean isShow) {
+            return super.onHandleScreenOrientation(isShow);
+        }
     };
 
     private OnByWebClientCallback onByWebClientCallback = new OnByWebClientCallback() {
