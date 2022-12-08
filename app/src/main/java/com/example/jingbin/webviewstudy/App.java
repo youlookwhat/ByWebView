@@ -8,6 +8,7 @@ import android.webkit.WebView;
 
 import androidx.multidex.MultiDex;
 
+import com.example.jingbin.webviewstudy.utils.WebTools;
 import com.tencent.smtt.export.external.TbsCoreSettings;
 import com.tencent.smtt.sdk.QbSdk;
 
@@ -68,21 +69,7 @@ public class App extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        initWebView();
+        WebTools.handleWebViewDir(base);
         MultiDex.install(this);
-    }
-
-    /**
-     * Android P针对 WebView在不同进程下无法访问非自己进程中的webview目录
-     * fix Using WebView from more than one process at once with the same data directory is not supported
-     */
-    private void initWebView() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            String processName = getProcessName();
-            String packageName = this.getPackageName();
-            if (!packageName.equals(processName)) {
-                WebView.setDataDirectorySuffix(processName);
-            }
-        }
     }
 }
