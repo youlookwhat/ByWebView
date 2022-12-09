@@ -72,6 +72,11 @@ public class ByWebView {
         mWebView.setWebViewClient(mByWebViewClient);
 
         handleJsInterface(builder);
+
+        // 移除有风险的WebView系统隐藏接口
+        mWebView.removeJavascriptInterface("searchBoxJavaBridge_");
+        mWebView.removeJavascriptInterface("accessibility");
+        mWebView.removeJavascriptInterface("accessibilityTraversal");
     }
 
     /**

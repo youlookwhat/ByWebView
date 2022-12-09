@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.jingbin.webviewstudy.tencentx5.X5WebViewActivity;
 import com.example.jingbin.webviewstudy.ui.ByWebViewActivity;
 import com.example.jingbin.webviewstudy.ui.CoordinatorWebActivity;
+import com.example.jingbin.webviewstudy.ui.WVJBWebViewActivity;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 
 import me.jingbin.web.ByWebTools;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.bt_call).setOnClickListener(this);
         findViewById(R.id.bt_java_js).setOnClickListener(this);
         findViewById(R.id.bt_toolbar).setOnClickListener(this);
+        findViewById(R.id.bt_wvjbwebview).setOnClickListener(this);
 
         rbSystem = findViewById(R.id.rb_system);
         etSearch = findViewById(R.id.et_search);
@@ -112,8 +114,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String deepLinkUrl = "file:///android_asset/deeplink.html";
                 loadUrl(deepLinkUrl, getString(R.string.deeplink));
                 break;
-            case R.id.bt_toolbar:// 与ToolBar联动，自定义WebView
+            case R.id.bt_toolbar:// 自定义WebView，与ToolBar联动
                 CoordinatorWebActivity.loadUrl(this, "http://www.baidu.com", "百度一下", 0);
+                break;
+            case R.id.bt_wvjbwebview:// 自定义WebView, WVJBWebView JSBridge
+                WVJBWebViewActivity.loadUrl(this, "http://www.baidu.com", "百度一下", 0);
                 break;
             case R.id.tv_version:
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());

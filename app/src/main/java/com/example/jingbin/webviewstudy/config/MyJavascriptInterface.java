@@ -1,6 +1,6 @@
 package com.example.jingbin.webviewstudy.config;
 
-import android.content.Context;
+import android.app.Activity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
@@ -13,10 +13,10 @@ import com.example.jingbin.webviewstudy.utils.WebTools;
  */
 public class MyJavascriptInterface {
 
-    private Context context;
+    private Activity activity;
 
-    public MyJavascriptInterface(Context context) {
-        this.context = context;
+    public MyJavascriptInterface(Activity context) {
+        this.activity = context;
     }
 
     /**
@@ -27,6 +27,7 @@ public class MyJavascriptInterface {
      */
     @JavascriptInterface
     public void imageClick(String src) {
+        // 在子线程
         Log.e("imageClick", "----点击了图片");
         Log.e("---src", src);
         WebTools.showToast(src);

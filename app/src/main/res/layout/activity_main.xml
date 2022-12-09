@@ -141,6 +141,16 @@
             android:layout_height="1px" />
 
         <TextView
+            android:id="@+id/bt_wvjbwebview"
+            style="@style/textStyle"
+            android:text="@string/string_wvjbwebview" />
+
+        <View
+            style="@style/lineStyle"
+            android:layout_width="match_parent"
+            android:layout_height="1px" />
+
+        <TextView
             android:id="@+id/tv_version"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -19,5 +19,6 @@
     <string name="text_js">Call, SMS, email, js injection</string>
     <string name="js_android">Js intermediates with android native code</string>
     <string name="deeplink">DeepLink test</string>
-    <string name="string_toolbar">setCustomView</string>
+    <string name="string_toolbar">setCustomView, ToolBar</string>
+    <string name="string_wvjbwebview">setCustomView, WVJBWebView</string>
 </resources>

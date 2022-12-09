@@ -2,29 +2,33 @@ package com.example.jingbin.webviewstudy.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Bundle;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.example.jingbin.webviewstudy.MainActivity;
 import com.example.jingbin.webviewstudy.R;
 import com.example.jingbin.webviewstudy.config.MyJavascriptInterface;
 import com.example.jingbin.webviewstudy.utils.StatusBarUtil;
 import com.example.jingbin.webviewstudy.utils.WebTools;
-import com.example.jingbin.webviewstudy.view.NestedScrollWebView;
-import com.google.android.material.appbar.AppBarLayout;
+import com.example.jingbin.webviewstudy.view.WVJBWebView;
+
+import org.json.JSONObject;
 
 import me.jingbin.web.ByWebTools;
 import me.jingbin.web.ByWebView;
@@ -33,23 +37,25 @@ import me.jingbin.web.OnTitleProgressCallback;
 
 /**
  * @author jingbin
- * 与ToolBar联动的WebView,自定义WebView
+ * 自定义WebView，使用 WVJBWebView(https://github.com/wendux/WebViewJavascriptBridge)。
+ * 更方面的调用js方法和js调用原生方法，因为有些最新的h5代码里调用js方法使用自带的WebView不能完成。
+ * <p>
  * link to https://github.com/youlookwhat/ByWebView
  */
-public class CoordinatorWebActivity extends AppCompatActivity {
+public class WVJBWebViewActivity extends AppCompatActivity {
 
     // 网页链接
     private int mState;
     private String mUrl;
     private String mTitle;
-    private WebView webView;
+    private WVJBWebView webView;
     private ByWebView byWebView;
     private TextView tvGunTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_coordinator_web);
+        setContentView(R.layout.activity_by_webview);
         getIntentData();
         initTitle();
         getDataFromBrowser(getIntent());
@@ -64,23 +70,42 @@ public class CoordinatorWebActivity extends AppCompatActivity {
     private void initTitle() {
         StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorPrimary), 0);
         initToolBar();
-        CoordinatorLayout container = findViewById(R.id.coordinatorLayout);
-        CoordinatorLayout.LayoutParams lp = new CoordinatorLayout.LayoutParams(-1, -1);
-        // 设置behavior属性 和 ToolBar属性里设置 layout_scrollFlags="scroll|enterAlways"
-        lp.setBehavior(new AppBarLayout.ScrollingViewBehavior());
-
-        NestedScrollWebView nestedScrollWebView = new NestedScrollWebView(this);
-
+        LinearLayout container = findViewById(R.id.ll_container);
         byWebView = ByWebView
                 .with(this)
-                .setWebParent(container, 1, lp)
-                .setCustomWebView(nestedScrollWebView)// 设置自定义WebView
+                .setWebParent(container, new LinearLayout.LayoutParams(-1, -1))
                 .useWebProgress(ContextCompat.getColor(this, R.color.coloRed))
                 .setOnTitleProgressCallback(onTitleProgressCallback)
                 .setOnByWebClientCallback(onByWebClientCallback)
+                .setCustomWebView(new WVJBWebView(this))
                 .addJavascriptInterface("injectedObject", new MyJavascriptInterface(this))
                 .loadUrl(mUrl);
-        webView = byWebView.getWebView();
+        webView = (WVJBWebView) byWebView.getWebView();
+
+        // 原生调用h5方法，传参
+        webView.callHandler("uploadFileToWeb", "图片链接", new WVJBWebView.WVJBResponseCallback<Object>() {
+            @Override
+            public void onResult(Object data) {
+                Log.e("uploadFileToWeb", data.toString());
+            }
+        });
+        // h5调用原生方法，传参(json)
+        webView.registerHandler("openPage", new WVJBWebView.WVJBHandler<Object, Object>() {
+            @Override
+            public void handler(final Object data, WVJBWebView.WVJBResponseCallback<Object> callback) {
+                webView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject jsonObject = (JSONObject) data;
+                            String json = jsonObject.toString();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void initToolBar() {
@@ -109,9 +134,33 @@ public class CoordinatorWebActivity extends AppCompatActivity {
             Log.e("---title", title);
             tvGunTitle.setText(title);
         }
+
+        /**
+         * 全屏显示时处理横竖屏。
+         * 默认返回false，全屏时为横屏，全屏还原后为竖屏
+         * 如果要手动处理，需要返回true！
+         *
+         * @param isShow 是否显示了全屏视频 true点击了全屏显示，false全屏视频还原
+         */
+        @Override
+        public boolean onHandleScreenOrientation(boolean isShow) {
+            return super.onHandleScreenOrientation(isShow);
+        }
     };
 
     private OnByWebClientCallback onByWebClientCallback = new OnByWebClientCallback() {
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            Log.e("---onPageStarted", url);
+        }
+
+        @Override
+        public boolean onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            // 如果自己处理，需要返回true
+            return super.onReceivedSslError(view, handler, error);
+        }
+
         @Override
         public void onPageFinished(WebView view, String url) {
             // 网页加载完成后的回调
@@ -128,7 +177,7 @@ public class CoordinatorWebActivity extends AppCompatActivity {
         public boolean isOpenThirdApp(String url) {
             // 处理三方链接
             Log.e("---url", url);
-            return ByWebTools.handleThirdApp(CoordinatorWebActivity.this, url);
+            return ByWebTools.handleThirdApp(WVJBWebViewActivity.this, url);
         }
     };
 
@@ -146,14 +195,14 @@ public class CoordinatorWebActivity extends AppCompatActivity {
                 break;
             case R.id.actionbar_share:// 分享到
                 String shareText = webView.getTitle() + webView.getUrl();
-                WebTools.share(CoordinatorWebActivity.this, shareText);
+                WebTools.share(WVJBWebViewActivity.this, shareText);
                 break;
             case R.id.actionbar_cope:// 复制链接
                 WebTools.copy(webView.getUrl());
                 Toast.makeText(this, "复制成功", Toast.LENGTH_LONG).show();
                 break;
             case R.id.actionbar_open:// 打开链接
-                WebTools.openLink(CoordinatorWebActivity.this, webView.getUrl());
+                WebTools.openLink(WVJBWebViewActivity.this, webView.getUrl());
                 break;
             case R.id.actionbar_webview_refresh:// 刷新页面
                 byWebView.reload();
@@ -248,7 +297,7 @@ public class CoordinatorWebActivity extends AppCompatActivity {
                 String text = "Scheme: " + scheme + "\n" + "host: " + host + "\n" + "path: " + path;
                 Log.e("data", text);
                 String url = scheme + "://" + host + path;
-                webView.loadUrl(url);
+                byWebView.loadUrl(url);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -304,7 +353,7 @@ public class CoordinatorWebActivity extends AppCompatActivity {
      * @param state    类型
      */
     public static void loadUrl(Context mContext, String url, String title, int state) {
-        Intent intent = new Intent(mContext, CoordinatorWebActivity.class);
+        Intent intent = new Intent(mContext, WVJBWebViewActivity.class);
         intent.putExtra("url", url);
         intent.putExtra("state", state);
         intent.putExtra("title", title == null ? "加载中..." : title);

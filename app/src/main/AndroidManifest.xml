@@ -20,7 +20,7 @@
 
     <application
         android:name=".App"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -117,6 +117,13 @@
         </activity>
         <activity
             android:name=".ui.CoordinatorWebActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/WebViewTheme"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.WVJBWebViewActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
