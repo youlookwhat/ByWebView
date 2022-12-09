@@ -108,7 +108,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         mProgressBar.setVisibility(View.GONE);
         rl_web_container.addView(webView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
         rl_web_container.addView(mProgressBar);
-        mProgressBar.setColor(ContextCompat.getColor(this, R.color.coloRed));
+        mProgressBar.setColor(ContextCompat.getColor(this, R.color.colorRed));
         mProgressBar.show();
         initToolBar();
     }

@@ -74,7 +74,7 @@ public class WVJBWebViewActivity extends AppCompatActivity {
         byWebView = ByWebView
                 .with(this)
                 .setWebParent(container, new LinearLayout.LayoutParams(-1, -1))
-                .useWebProgress(ContextCompat.getColor(this, R.color.coloRed))
+                .useWebProgress(ContextCompat.getColor(this, R.color.colorRed))
                 .setOnTitleProgressCallback(onTitleProgressCallback)
                 .setOnByWebClientCallback(onByWebClientCallback)
                 .setCustomWebView(new WVJBWebView(this))

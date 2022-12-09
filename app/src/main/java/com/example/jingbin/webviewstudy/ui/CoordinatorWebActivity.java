@@ -75,7 +75,7 @@ public class CoordinatorWebActivity extends AppCompatActivity {
                 .with(this)
                 .setWebParent(container, 1, lp)
                 .setCustomWebView(nestedScrollWebView)// 设置自定义WebView
-                .useWebProgress(ContextCompat.getColor(this, R.color.coloRed))
+                .useWebProgress(ContextCompat.getColor(this, R.color.colorRed))
                 .setOnTitleProgressCallback(onTitleProgressCallback)
                 .setOnByWebClientCallback(onByWebClientCallback)
                 .addJavascriptInterface("injectedObject", new MyJavascriptInterface(this))

@@ -81,7 +81,7 @@ public class ByWebViewActivity extends AppCompatActivity {
         byWebView = ByWebView
                 .with(this)
                 .setWebParent(container, new LinearLayout.LayoutParams(-1, -1))
-                .useWebProgress(ContextCompat.getColor(this, R.color.coloRed))
+                .useWebProgress(ContextCompat.getColor(this, R.color.colorRed))
                 .setOnTitleProgressCallback(onTitleProgressCallback)
                 .setOnByWebClientCallback(onByWebClientCallback)
                 .addJavascriptInterface("injectedObject", new MyJavascriptInterface(this))
