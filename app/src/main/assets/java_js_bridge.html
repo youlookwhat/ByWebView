@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>JSBridge Android与JS交互实例</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+    <meta id="viewport" name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,minimal-ui">
+    <!--Java调用WebView里的js代码-->
+    <script type="text/javascript">
+
+        function javaCallJS() {
+            document.getElementById("content").innerHTML +=
+                 "<br\>java调用了js函数(不通过JSBridge)。然后在此函数里使用 JSBridge方式 调用原生方法 callJavaJSBridge";
+
+            <!--通过JSBridge方式调用java函数-->
+            window.WebViewJavascriptBridge.callHandler("callJavaJSBridge", "{param:我是网页里传过来的数据}", function (responseData) {
+                console.log(responseData)
+
+                document.getElementById("content_back").innerHTML +=
+                 ("<br\>"+responseData);
+            });
+        }
+
+    </script>
+
+</head>
+<body>
+<br/><br/>
+
+<div id="content">Java调用Js代码，内容显示:</div>
+
+<br/>
+<br/>
+<div id="content_back">js调用Java代码后，回调回来的数据:</div>
+</body>
+</html>

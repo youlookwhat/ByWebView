@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 CoordinatorWebActivity.loadUrl(this, "http://www.baidu.com", "百度一下", 0);
                 break;
             case R.id.bt_wvjbwebview:// 自定义WebView, WVJBWebView JSBridge
-                WVJBWebViewActivity.loadUrl(this, "http://www.baidu.com", "百度一下", 0);
+                WVJBWebViewActivity.loadUrl(this, "file:///android_asset/java_js_bridge.html", "", 0);
                 break;
             case R.id.tv_version:
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());

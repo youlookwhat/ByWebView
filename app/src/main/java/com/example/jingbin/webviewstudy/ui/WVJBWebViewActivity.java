@@ -90,15 +90,18 @@ public class WVJBWebViewActivity extends AppCompatActivity {
             }
         });
         // h5调用原生方法，传参(json)
-        webView.registerHandler("openPage", new WVJBWebView.WVJBHandler<Object, Object>() {
+        webView.registerHandler("callJavaJSBridge", new WVJBWebView.WVJBHandler<Object, Object>() {
             @Override
-            public void handler(final Object data, WVJBWebView.WVJBResponseCallback<Object> callback) {
+            public void handler(final Object data, final WVJBWebView.WVJBResponseCallback<Object> callback) {
                 webView.post(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            JSONObject jsonObject = (JSONObject) data;
-                            String json = jsonObject.toString();
+                            String json = (String) data;
+//                            JSONObject jsonObject = (JSONObject) data;
+//                            String json = jsonObject.toString();
+                            Log.e("---", "传参json:" + json);
+                            callback.onResult("我是h5调用原生方法后，回调回来的数据");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -164,13 +167,7 @@ public class WVJBWebViewActivity extends AppCompatActivity {
         @Override
         public void onPageFinished(WebView view, String url) {
             // 网页加载完成后的回调
-            if (mState == 1) {
-                loadImageClickJs();
-                loadTextClickJs();
-                loadWebsiteSourceCodeJs();
-            } else if (mState == 2) {
-                loadCallJs();
-            }
+            loadCallJs();
         }
 
         @Override
@@ -214,50 +211,11 @@ public class WVJBWebViewActivity extends AppCompatActivity {
     }
 
     /**
-     * 前端注入JS：
-     * 这段js函数的功能就是，遍历所有的img节点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
-     */
-    private void loadImageClickJs() {
-        byWebView.getLoadJsHolder().loadJs("javascript:(function(){" +
-                "var objs = document.getElementsByTagName(\"img\");" +
-                "for(var i=0;i<objs.length;i++)" +
-                "{" +
-                "objs[i].onclick=function(){window.injectedObject.imageClick(this.getAttribute(\"src\"));}" +
-                "}" +
-                "})()");
-    }
-
-    /**
-     * 前端注入JS：
-     * 遍历所有的<li>节点,将节点里的属性传递过去(属性自定义,用于页面跳转)
-     */
-    private void loadTextClickJs() {
-        byWebView.getLoadJsHolder().loadJs("javascript:(function(){" +
-                "var objs =document.getElementsByTagName(\"li\");" +
-                "for(var i=0;i<objs.length;i++)" +
-                "{" +
-                "objs[i].onclick=function(){" +
-                "window.injectedObject.textClick(this.getAttribute(\"type\"),this.getAttribute(\"item_pk\"));}" +
-                "}" +
-                "})()");
-    }
-
-    /**
      * 传应用内的数据给html，方便html处理
      */
     private void loadCallJs() {
-        // 无参数调用
-        byWebView.getLoadJsHolder().quickCallJs("javacalljs");
-        // 传递参数调用
-        byWebView.getLoadJsHolder().quickCallJs("javacalljswithargs", "android传入到网页里的数据，有参");
-    }
-
-    /**
-     * get website source code
-     * 获取网页源码
-     */
-    private void loadWebsiteSourceCodeJs() {
-        byWebView.getLoadJsHolder().loadJs("javascript:window.injectedObject.showSource(document.getElementsByTagName('html')[0].innerHTML);");
+        // java调用js方法，没用通过JSBridge，暂不知道html里应该怎么写
+        byWebView.getLoadJsHolder().quickCallJs("javaCallJS");
     }
 
     /**
