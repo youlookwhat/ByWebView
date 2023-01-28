@@ -1,6 +1,9 @@
 package com.example.jingbin.webviewstudy.ui;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,6 +13,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.JsPromptResult;
+import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
@@ -126,6 +131,28 @@ public class ByWebViewActivity extends AppCompatActivity {
         @Override
         public boolean onHandleScreenOrientation(boolean isShow) {
             return super.onHandleScreenOrientation(isShow);
+        }
+
+        /**
+         * 自定义实现 onJsAlert 方法，如果不自定义可不实现此方法
+         * 一定要执行 result.confirm();
+         */
+        @Override
+        public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
+            Dialog alertDialog = new AlertDialog.Builder(view.getContext()).
+                    setTitle("自定义标题").
+                    setMessage(message).
+                    setCancelable(false).
+                    setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            result.confirm();
+                        }
+                    })
+                    .create();
+            alertDialog.show();
+            return true;
         }
     };
 

@@ -16,6 +16,15 @@
                  ("<br\>"+data);
         }
 
+        function myOnJsAlert(){
+            window.alert("你好，我是一个警告框！");
+        }
+        function myOnJsConfirm(){
+            window.confirm("你好，我是一个确认框！");
+        }
+        function myOnJsPrompt(){
+            window.prompt("请输入姓名","张三");
+        }
     </script>
 </head>
 <body>
@@ -25,6 +34,10 @@
     <li><a onClick="window.injectedObject.startFunction()">点击调用java代码</a></li>
     <!--可以将android端传过来的数据，处理后,放在这里再传给android端-->
     <li><a onClick="window.injectedObject.startFunction('我是网页传出来的数据')">点击调用java代码并传递参数</a></li><br/>
+
+    <li><a onClick="myOnJsAlert()">JavaScript alert 警告框</a><br/>
+    <li><a onClick="myOnJsConfirm()">JavaScript confirm 确认框</a><br/>
+    <li><a onClick="myOnJsPrompt()">JavaScript prompt 提示框</a><br/><br/><br/>
 
 <div id="content">Java调用Js代码，内容显示: </div>
 </body>

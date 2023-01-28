@@ -2,20 +2,28 @@ package me.jingbin.web;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.JsPromptResult;
+import android.webkit.JsResult;
 import android.webkit.PermissionRequest;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
@@ -179,6 +187,94 @@ public class ByWebChromeClient extends WebChromeClient {
                 onByWebChromeCallback.onReceivedTitle(title);
             }
         }
+    }
+
+    @Override
+    public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
+        if (onByWebChromeCallback != null && onByWebChromeCallback.onJsAlert(view, url, message, result)) {
+            return true;
+        }
+        Dialog alertDialog = new AlertDialog.Builder(view.getContext()).
+                setMessage(message).
+                setCancelable(false).
+                setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        result.confirm();
+                    }
+                })
+                .create();
+        alertDialog.show();
+        return true;
+    }
+
+    @Override
+    public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
+        if (onByWebChromeCallback != null && onByWebChromeCallback.onJsConfirm(view, url, message, result)) {
+            return true;
+        }
+        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == Dialog.BUTTON_POSITIVE) {
+                    result.confirm();
+                } else {
+                    result.cancel();
+                }
+            }
+        };
+        new AlertDialog.Builder(view.getContext())
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.ok, listener)
+                .setNegativeButton(android.R.string.cancel, listener).show();
+        return true;
+    }
+
+    @Override
+    public boolean onJsPrompt(final WebView view, String url, final String message, final String defaultValue, final JsPromptResult result) {
+        if (onByWebChromeCallback != null && onByWebChromeCallback.onJsPrompt(view, url, message, defaultValue, result)) {
+            return true;
+        }
+        view.post(new Runnable() {
+            @Override
+            public void run() {
+                final EditText editText = new EditText(view.getContext());
+                editText.setText(defaultValue);
+                if (defaultValue != null) {
+                    editText.setSelection(defaultValue.length());
+                }
+                float dpi = view.getContext().getResources().getDisplayMetrics().density;
+                DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == Dialog.BUTTON_POSITIVE) {
+                            result.confirm(editText.getText().toString());
+                        } else {
+                            result.cancel();
+                        }
+                    }
+                };
+                new AlertDialog.Builder(view.getContext())
+                        .setTitle(message)
+                        .setView(editText)
+                        .setCancelable(false)
+                        .setPositiveButton(android.R.string.ok, listener)
+                        .setNegativeButton(android.R.string.cancel, listener)
+                        .show();
+                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                int t = (int) (dpi * 16);
+                layoutParams.setMargins(t, 0, t, 0);
+                layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+                editText.setLayoutParams(layoutParams);
+                int padding = (int) (15 * dpi);
+                editText.setPadding(padding - (int) (5 * dpi), padding, padding, padding);
+            }
+        });
+        return true;
     }
 
     //扩展浏览器上传文件

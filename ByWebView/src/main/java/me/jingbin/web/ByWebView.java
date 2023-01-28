@@ -461,7 +461,7 @@ public class ByWebView {
         }
 
         /**
-         * @param onTitleProgressCallback 返回Title 和 Progress
+         * @param onTitleProgressCallback 返回Title 、 Progress ，横竖屏和弹框
          */
         public Builder setOnTitleProgressCallback(OnTitleProgressCallback onTitleProgressCallback) {
             this.mOnTitleProgressCallback = onTitleProgressCallback;
