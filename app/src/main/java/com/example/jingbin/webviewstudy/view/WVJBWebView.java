@@ -373,8 +373,10 @@ public class WVJBWebView extends WebView {
                 //                @Keep
                 @JavascriptInterface
                 public void notice(String info) {
-                    Message msg = mainThreadHandler.obtainMessage(HANDLE_MESSAGE, info);
-                    mainThreadHandler.sendMessage(msg);
+                    if (mainThreadHandler != null) {
+                        Message msg = mainThreadHandler.obtainMessage(HANDLE_MESSAGE, info);
+                        mainThreadHandler.sendMessage(msg);
+                    }
                 }
 
             }, BRIDGE_NAME);
@@ -400,8 +402,10 @@ public class WVJBWebView extends WebView {
         if (Looper.getMainLooper() == Looper.myLooper()) {
             _evaluateJavascript(script);
         } else {
-            Message msg = mainThreadHandler.obtainMessage(EXEC_SCRIPT, script);
-            mainThreadHandler.sendMessage(msg);
+            if (mainThreadHandler != null) {
+                Message msg = mainThreadHandler.obtainMessage(EXEC_SCRIPT, script);
+                mainThreadHandler.sendMessage(msg);
+            }
         }
     }
 
@@ -414,8 +418,10 @@ public class WVJBWebView extends WebView {
      */
     @Override
     public void loadUrl(String url) {
-        Message msg = mainThreadHandler.obtainMessage(LOAD_URL, url);
-        mainThreadHandler.sendMessage(msg);
+        if (mainThreadHandler != null) {
+            Message msg = mainThreadHandler.obtainMessage(LOAD_URL, url);
+            mainThreadHandler.sendMessage(msg);
+        }
     }
 
 
@@ -428,8 +434,10 @@ public class WVJBWebView extends WebView {
      */
     @Override
     public void loadUrl(String url, Map<String, String> additionalHttpHeaders) {
-        Message msg = mainThreadHandler.obtainMessage(LOAD_URL_WITH_HEADERS, new RequestInfo(url, additionalHttpHeaders));
-        mainThreadHandler.sendMessage(msg);
+        if (mainThreadHandler != null) {
+            Message msg = mainThreadHandler.obtainMessage(LOAD_URL_WITH_HEADERS, new RequestInfo(url, additionalHttpHeaders));
+            mainThreadHandler.sendMessage(msg);
+        }
     }
 
 
@@ -634,8 +642,10 @@ public class WVJBWebView extends WebView {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
                 String prefix = "_wvjbxx";
                 if (message.equals(prefix)) {
-                    Message msg = mainThreadHandler.obtainMessage(HANDLE_MESSAGE, defaultValue);
-                    mainThreadHandler.sendMessage(msg);
+                    if (mainThreadHandler != null) {
+                        Message msg = mainThreadHandler.obtainMessage(HANDLE_MESSAGE, defaultValue);
+                        mainThreadHandler.sendMessage(msg);
+                    }
                 }
                 return true;
             }

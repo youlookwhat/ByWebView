@@ -298,8 +298,9 @@ public class WVJBWebViewActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        byWebView.onDestroy();
         super.onDestroy();
+        webView.clear();
+        byWebView.onDestroy();
     }
 
     /**
