@@ -7,12 +7,101 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.text.TextUtils;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.ValueCallback;
+
+import androidx.annotation.Nullable;
 
 /**
  * @author jingbin
  */
 public class ByWebTools {
+
+    private static ValueCallback<Boolean> getDefaultIgnoreCallback() {
+        return new ValueCallback<Boolean>() {
+            @Override
+            public void onReceiveValue(Boolean ignore) {
+//                LogUtils.i(TAG, "removeExpiredCookies:" + ignore);
+            }
+        };
+    }
+
+    public static void removeAllCookies(@Nullable ValueCallback<Boolean> callback) {
+        if (callback == null) {
+            callback = getDefaultIgnoreCallback();
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            CookieManager.getInstance().removeAllCookie();
+            toSyncCookies();
+            callback.onReceiveValue(!CookieManager.getInstance().hasCookies());
+            return;
+        }
+        CookieManager.getInstance().removeAllCookies(callback);
+        toSyncCookies();
+    }
+
+    /**
+     * 同步cookie
+     *
+     * @param url
+     * @param cookies
+     */
+    public static void syncCookie(String url, String cookies) {
+        CookieManager mCookieManager = CookieManager.getInstance();
+        if (mCookieManager != null) {
+            mCookieManager.setCookie(url, cookies);
+            toSyncCookies();
+        }
+    }
+
+    private static void toSyncCookies() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+                @Override
+                public void run() {
+                    CookieManager.getInstance().flush();
+                }
+            });
+        } else {
+            CookieSyncManager.getInstance().sync();
+        }
+    }
+
+    /**
+     * 同步cookie
+     */
+    private void syncCookie1(String url,String cookie) {
+        if (!TextUtils.isEmpty(url)) {
+            try {
+                final CookieManager cookieManager = CookieManager.getInstance();
+                cookieManager.setAcceptCookie(true);
+                cookieManager.removeSessionCookie();// 移除
+                cookieManager.removeAllCookie();
+                if (!TextUtils.isEmpty(cookie)) {
+                    String[] split = cookie.split(";");
+                    for (int i = 0; i < split.length; i++) {
+                        cookieManager.setCookie(url, split[i]);
+                    }
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            CookieManager.getInstance().flush();
+                        }
+                    });
+                } else {
+                    CookieSyncManager.getInstance().sync();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     /**
      * 处理Android5.0以下手机不能直接打开mp4后缀的链接
