@@ -7,93 +7,56 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.text.TextUtils;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
-import android.webkit.ValueCallback;
-
-import androidx.annotation.Nullable;
+import android.webkit.WebView;
 
 /**
  * @author jingbin
  */
 public class ByWebTools {
 
-    private static ValueCallback<Boolean> getDefaultIgnoreCallback() {
-        return new ValueCallback<Boolean>() {
-            @Override
-            public void onReceiveValue(Boolean ignore) {
-//                LogUtils.i(TAG, "removeExpiredCookies:" + ignore);
-            }
-        };
-    }
-
-    public static void removeAllCookies(@Nullable ValueCallback<Boolean> callback) {
-        if (callback == null) {
-            callback = getDefaultIgnoreCallback();
-        }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            CookieManager.getInstance().removeAllCookie();
-            toSyncCookies();
-            callback.onReceiveValue(!CookieManager.getInstance().hasCookies());
-            return;
-        }
-        CookieManager.getInstance().removeAllCookies(callback);
-        toSyncCookies();
-    }
-
     /**
-     * 同步cookie
+     * 同步cookie，要放在loadUrl之前
      *
-     * @param url
-     * @param cookies
+     * @param emptyKeys 空的键值对，用来清空cookie里的登录信息
      */
-    public static void syncCookie(String url, String cookies) {
-        CookieManager mCookieManager = CookieManager.getInstance();
-        if (mCookieManager != null) {
-            mCookieManager.setCookie(url, cookies);
-            toSyncCookies();
-        }
-    }
-
-    private static void toSyncCookies() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
-                @Override
-                public void run() {
-                    CookieManager.getInstance().flush();
-                }
-            });
-        } else {
-            CookieSyncManager.getInstance().sync();
-        }
-    }
-
-    /**
-     * 同步cookie
-     */
-    private void syncCookie1(String url,String cookie) {
+    public static void syncCookie(WebView webView, String url, String cookies, String... emptyKeys) {
         if (!TextUtils.isEmpty(url)) {
             try {
-                final CookieManager cookieManager = CookieManager.getInstance();
+                CookieManager cookieManager = CookieManager.getInstance();
+                if (cookieManager == null) {
+                    return;
+                }
                 cookieManager.setAcceptCookie(true);
-                cookieManager.removeSessionCookie();// 移除
-                cookieManager.removeAllCookie();
-                if (!TextUtils.isEmpty(cookie)) {
-                    String[] split = cookie.split(";");
-                    for (int i = 0; i < split.length; i++) {
-                        cookieManager.setCookie(url, split[i]);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    cookieManager.setAcceptThirdPartyCookies(webView, true);        //跨域cookie读取
+                }
+                if (!TextUtils.isEmpty(cookies)) {
+                    String[] split = cookies.split(";");
+                    for (String s : split) {
+                        cookieManager.setCookie(url, s);
+                    }
+                    if (emptyKeys != null && emptyKeys.length > 0) {
+                        for (String key : emptyKeys) {
+                            if (!TextUtils.isEmpty(key) && !cookies.contains(key)) {
+                                cookieManager.setCookie(url, key);
+                            }
+                        }
+                    }
+                } else {
+                    if (emptyKeys != null && emptyKeys.length > 0) {
+                        for (String key : emptyKeys) {
+                            if (!TextUtils.isEmpty(key)) {
+                                cookieManager.setCookie(url, key);
+                            }
+                        }
                     }
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            CookieManager.getInstance().flush();
-                        }
-                    });
+                    CookieManager.getInstance().flush();
                 } else {
                     CookieSyncManager.getInstance().sync();
                 }
