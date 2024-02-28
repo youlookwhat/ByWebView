@@ -13,7 +13,7 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         // tencent x5
         ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+            abiFilters 'armeabi-v7a', 'arm64-v8a', "x86"
         }
     }
     buildTypes {
