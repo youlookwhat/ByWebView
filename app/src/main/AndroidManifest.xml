@@ -29,6 +29,7 @@
         tools:ignore="UnusedAttribute">
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,7 +46,9 @@
 
 
         <!--用于DeepLink，html跳到此页面  scheme_Adr: 'will://link/testid',-->
-        <activity android:name=".ui.DeepLinkActivity">
+        <activity
+            android:name=".ui.DeepLinkActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -92,6 +95,7 @@
         <activity
             android:name=".ui.ByWebViewActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="true"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/WebViewTheme"
